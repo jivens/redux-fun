@@ -8,7 +8,9 @@ import Leaderboard from './Leaderboard'
 import AddPoll from './AddPoll'
 import Poll from './Poll'
 import Nav from './Nav'
-import { ApolloConsumer } from "react-apollo";
+import StemList from './StemList'
+import AffixList from './AffixList'
+import { ApolloConsumer } from "react-apollo"
 
 class App extends Component {
   componentDidMount () {
@@ -30,6 +32,8 @@ class App extends Component {
                     <Route path='/leaderboard' component={Leaderboard} />
                     <Route path='/polls/:id' component={Poll} />
                     <Route path='/add' component={AddPoll} />
+                    <Route path='/stems' component={StemList} />
+                    <Route path='/affixes' component={AffixList} />
                   </div>}
             </div>
           </Fragment>

@@ -16,6 +16,16 @@ export default function Nav () {
           </NavLink>
         </li>
         <li>
+          <NavLink to='/stems' activeClassName='active'>
+            Stems
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to='/affixes' activeClassName='active'>
+            Affixes
+          </NavLink>
+        </li>
+        <li>
           <NavLink to='/add' activeClassName='active'>
             Add Poll
           </NavLink>
