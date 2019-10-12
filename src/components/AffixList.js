@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-class StemList extends Component {
+class AffixList extends Component {
 
   constructor(props) {
     super(props)
@@ -11,7 +11,6 @@ class StemList extends Component {
   keysToList(list) {
     const liElements = []
     Object.keys(list).forEach(function (key) {
-      //console.log(list[key]['english'])
       liElements.push(
         <li>
           {list[key]['english']}
@@ -22,29 +21,21 @@ class StemList extends Component {
   }
 
   render() {
-    //console.log('props to StemList', this.props)
-    const { stems } = this.props
-    //console.log(typeof(stems))
-    //console.log('stems', stems)
-    //console.log('first element of stems: ', stems[0])
-    //console.log("keys of stems", Object.keys(stems))
+    const { affixes } = this.props
 
     return (
       <div className='poll-container'>
-        {this.keysToList(stems)}
+        {this.keysToList(affixes)}
       </div>
     )
   }
 }
 
 function mapStateToProps (state) {
-  //console.log('state: ', state)
-  const {stems} = state
-  //console.log(stems)
+  const {affixes} = state
   return {
-    stems
+    affixes
   }
 }
 
-export default connect(mapStateToProps)(StemList)
-
+export default connect(mapStateToProps)(AffixList)
