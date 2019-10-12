@@ -20,6 +20,11 @@ export default function Nav () {
             Add Poll
           </NavLink>
         </li>
+        <li>
+          <NavLink to='/stemlist' activeClassName='active'>
+            Stemlist
+          </NavLink>
+        </li>
       </ul>
     </nav>
   )

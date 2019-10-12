@@ -8,11 +8,12 @@ import Leaderboard from './Leaderboard'
 import AddPoll from './AddPoll'
 import Poll from './Poll'
 import Nav from './Nav'
+import StemList from './StemList'
 import { ApolloConsumer } from "react-apollo";
 
 class App extends Component {
   componentDidMount () {
-    this.props.dispatch(handleInitialData())
+    //this.props.dispatch(handleInitialData())
     this.props.dispatch(handleInitialAppData(this.props.client))
   }
   render() {
@@ -30,6 +31,7 @@ class App extends Component {
                     <Route path='/leaderboard' component={Leaderboard} />
                     <Route path='/polls/:id' component={Poll} />
                     <Route path='/add' component={AddPoll} />
+                    <Route path='/stemlist' component={StemList} />
                   </div>}
             </div>
           </Fragment>
