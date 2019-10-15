@@ -1,35 +1,65 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withApollo, graphql } from 'react-apollo'
+import { flowRight as compose } from 'lodash';
 import ReactTable from 'react-table'
+import { getAffixesQuery, deleteAffixMutation } from '../queries/queries'
+
 
 class AffixList extends Component {
 
   constructor(props) {
     super(props)
-    // this.keysToList = this.keysToList.bind(this)
+    this.keysToList = this.keysToList.bind(this)
     this.hashToArray = this.hashToArray.bind(this)
+    this.onDelete = this.onDelete.bind(this)
   }
 
-  // keysToList(list) {
-  //   const liElements = []
-  //   Object.keys(list).forEach(function (key) {
-  //     liElements.push(
-  //       <li>
-  //         {list[key]['english']}
-  //       </li>
-  //     )
-  //   })
-  //   return <ul>{liElements}</ul>
-  // }
+  async onDelete(id) {
+    console.log("In affix deletion");
+    try {
+      let variables = {}
+      await this.props.deleteAffixMutation({
+        variables: {
+          id: id
+        },
+      //after setting the flag, refetch the affixes from the db
+      refetchQueries: [{ query: getAffixesQuery, variables: variables }]
+      });
+      //then send the user back to the affixlist display
+      this.props.history.push('/affixes');
+    } catch (err) {
+      //console.log(err.graphQLErrors[0].message);
+      console.log("Props: ", this.props)
+      console.log("Err: ", err)
+      this.props.history.push('/affixes');
+    }
+  };
+
+
+  keysToList(list) {
+    const liElements = []
+    Object.keys(list).forEach(function (key) {
+      const {id, salish, nicodemus, english, active} = list[key]
+      liElements.push(
+        <li>
+          <span>{[id, salish, nicodemus, english, active].join(' | ')}</span>
+          <button onClick={() => alert('Remove')}>X</button>
+        </li>
+      )
+    })
+    return <ul>{liElements}</ul>
+  }
+
 
   hashToArray(hash) {
     const arr = []
     Object.keys(hash).forEach(function (key) {
       const newHash = {}
+      newHash['id'] = hash[key]['id']
       newHash['english'] = hash[key]['english']
       newHash['nicodemus'] = hash[key]['nicodemus']
       newHash['active'] = hash[key]['active']
-      newHash['id'] = hash[key]['id']
       newHash['user'] = hash[key]['user']
       arr.push(
         newHash
@@ -57,6 +87,23 @@ class AffixList extends Component {
         Header: 'Username',
         accessor: 'user.username'
       },
+      {
+        Header: 'Active',
+        accessor: 'active'
+      },
+      {
+        Header: 'Edit/Delete',
+        filterable: false,
+        sortable: false,
+        width: 100,
+        Cell: ({row, original}) => (
+          <div>
+            <button onClick={() => this.onDelete(original.id)}>
+                X
+            </button>
+          </div>
+        )
+      }
     ]
 
   const table =
@@ -80,4 +127,7 @@ function mapStateToProps (state) {
   }
 }
 
-export default connect(mapStateToProps)(AffixList)
+export default compose(
+	graphql(getAffixesQuery, { name: 'getAffixesQuery' }),
+	graphql(deleteAffixMutation, { name: 'deleteAffixMutation' })
+)(withApollo(connect(mapStateToProps)(AffixList)))
