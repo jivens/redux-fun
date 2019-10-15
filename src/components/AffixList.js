@@ -6,21 +6,21 @@ class AffixList extends Component {
 
   constructor(props) {
     super(props)
-    this.keysToList = this.keysToList.bind(this)
+    // this.keysToList = this.keysToList.bind(this)
     this.hashToArray = this.hashToArray.bind(this)
   }
 
-  keysToList(list) {
-    const liElements = []
-    Object.keys(list).forEach(function (key) {
-      liElements.push(
-        <li>
-          {list[key]['english']}
-        </li>
-      )
-    })
-    return <ul>{liElements}</ul>
-  }
+  // keysToList(list) {
+  //   const liElements = []
+  //   Object.keys(list).forEach(function (key) {
+  //     liElements.push(
+  //       <li>
+  //         {list[key]['english']}
+  //       </li>
+  //     )
+  //   })
+  //   return <ul>{liElements}</ul>
+  // }
 
   hashToArray(hash) {
     const arr = []
@@ -28,6 +28,9 @@ class AffixList extends Component {
       const newHash = {}
       newHash['english'] = hash[key]['english']
       newHash['nicodemus'] = hash[key]['nicodemus']
+      newHash['active'] = hash[key]['active']
+      newHash['id'] = hash[key]['id']
+      newHash['user'] = hash[key]['user']
       arr.push(
         newHash
       )
@@ -39,6 +42,10 @@ class AffixList extends Component {
     const { affixes } = this.props
     const columns = [
       {
+        Header: 'ID',
+        accessor: 'id'
+      },
+      {
         Header: 'Nicodemus',
         accessor: 'nicodemus'
       },
@@ -46,7 +53,12 @@ class AffixList extends Component {
         Header: 'English',
         accessor: 'english'
       },
+      {
+        Header: 'Username',
+        accessor: 'user.username'
+      },
     ]
+
   const table =
     <ReactTable
       data={this.hashToArray(affixes)}
@@ -56,9 +68,6 @@ class AffixList extends Component {
     return (
       <React.Fragment>
         {table}
-        <div className='poll-container'>
-          {this.keysToList(affixes)}
-        </div>
       </React.Fragment>
     )
   }
