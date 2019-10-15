@@ -4,6 +4,7 @@ import { withApollo, graphql } from 'react-apollo'
 import { flowRight as compose } from 'lodash';
 import ReactTable from 'react-table'
 import { getAffixesQuery, deleteAffixMutation } from '../queries/queries'
+import { handleDeleteAffix } from '../actions/affixes'
 
 
 class AffixList extends Component {
@@ -17,23 +18,7 @@ class AffixList extends Component {
 
   async onDelete(id) {
     console.log("In affix deletion");
-    try {
-      let variables = {}
-      await this.props.deleteAffixMutation({
-        variables: {
-          id: id
-        },
-      //after setting the flag, refetch the affixes from the db
-      refetchQueries: [{ query: getAffixesQuery, variables: variables }]
-      });
-      //then send the user back to the affixlist display
-      this.props.history.push('/affixes');
-    } catch (err) {
-      //console.log(err.graphQLErrors[0].message);
-      console.log("Props: ", this.props)
-      console.log("Err: ", err)
-      this.props.history.push('/affixes');
-    }
+    await this.props.dispatch(handleDeleteAffix(this.props.client, id))
   };
 
 
