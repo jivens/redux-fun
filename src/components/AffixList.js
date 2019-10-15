@@ -11,9 +11,11 @@ class AffixList extends Component {
   keysToList(list) {
     const liElements = []
     Object.keys(list).forEach(function (key) {
+      const {id, salish, nicodemus, english, active} = list[key]
       liElements.push(
         <li>
-          {list[key]['english']}
+          <span>{[id, salish, nicodemus, english, active].join(' | ')}</span>
+          <button onClick={() => alert('Remove')}>X</button>
         </li>
       )
     })
