@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withApollo } from 'react-apollo'
+import ReactTable from 'react-table'
 
 class StemList extends Component {
 
