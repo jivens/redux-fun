@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import 'react-table/react-table.css'
 
 class StemList extends Component {
 
