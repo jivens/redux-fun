@@ -23,6 +23,7 @@ import polls from './reducers/polls'
 import stems from './reducers/stems'
 import affixes from './reducers/affixes'
 import { loadingBarReducer } from 'react-redux-loading'
+import 'react-table/react-table.css'
 //import {  getUserFromToken } from './queries/queries';
 
 const httpLink = createHttpLink({

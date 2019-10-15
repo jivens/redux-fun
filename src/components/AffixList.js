@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import ReactTable from 'react-table'
 
 class AffixList extends Component {
 
   constructor(props) {
     super(props)
     this.keysToList = this.keysToList.bind(this)
+    this.hashToArray = this.hashToArray.bind(this)
   }
 
   keysToList(list) {
@@ -20,13 +22,44 @@ class AffixList extends Component {
     return <ul>{liElements}</ul>
   }
 
+  hashToArray(hash) {
+    const arr = []
+    Object.keys(hash).forEach(function (key) {
+      const newHash = {}
+      newHash['english'] = hash[key]['english']
+      newHash['nicodemus'] = hash[key]['nicodemus']
+      arr.push(
+        newHash
+      )
+    })
+    return arr
+  }
+
   render() {
     const { affixes } = this.props
+    const columns = [
+      {
+        Header: 'Nicodemus',
+        accessor: 'nicodemus'
+      },
+      {
+        Header: 'English',
+        accessor: 'english'
+      },
+    ]
+  const table =
+    <ReactTable
+      data={this.hashToArray(affixes)}
+      columns={columns}
+    />
 
     return (
-      <div className='poll-container'>
-        {this.keysToList(affixes)}
-      </div>
+      <React.Fragment>
+        {table}
+        <div className='poll-container'>
+          {this.keysToList(affixes)}
+        </div>
+      </React.Fragment>
     )
   }
 }
