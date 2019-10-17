@@ -5,7 +5,7 @@ import {
   _savePollAnswer
 } from './_DATA.js'
 import {  getAffixesQuery, getStemsQuery, deleteAffixMutation } from '../queries/queries'
-import { isObject } from './helpers'
+import { isObject, hashToArray } from './helpers'
 
 function flattenPoll (poll) {
   return Object.keys(poll)
@@ -68,7 +68,7 @@ export function getInitialAppData (client) {
     })
   ]).then(([stems, affixes]) => ({
     stems: stems.data.stems_Q,
-    affixes: affixes.data.affixes_Q
+    affixes: hashToArray(affixes.data.affixes_Q)
   }))
 }
 

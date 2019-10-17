@@ -5,14 +5,13 @@ import { flowRight as compose } from 'lodash';
 import ReactTable from 'react-table'
 import { getAffixesQuery, deleteAffixMutation } from '../queries/queries'
 import { handleDeleteAffix } from '../actions/affixes'
+import { hashToArray } from '../utils/helpers'
 
 
 class AffixList extends Component {
 
   constructor(props) {
     super(props)
-    this.keysToList = this.keysToList.bind(this)
-    this.hashToArray = this.hashToArray.bind(this)
     this.onDelete = this.onDelete.bind(this)
   }
 
@@ -21,37 +20,6 @@ class AffixList extends Component {
     await this.props.dispatch(handleDeleteAffix(this.props.client, id))
   };
 
-
-  keysToList(list) {
-    const liElements = []
-    Object.keys(list).forEach(function (key) {
-      const {id, salish, nicodemus, english, active} = list[key]
-      liElements.push(
-        <li>
-          <span>{[id, salish, nicodemus, english, active].join(' | ')}</span>
-          <button onClick={() => alert('Remove')}>X</button>
-        </li>
-      )
-    })
-    return <ul>{liElements}</ul>
-  }
-
-
-  hashToArray(hash) {
-    const arr = []
-    Object.keys(hash).forEach(function (key) {
-      const newHash = {}
-      newHash['id'] = hash[key]['id']
-      newHash['english'] = hash[key]['english']
-      newHash['nicodemus'] = hash[key]['nicodemus']
-      newHash['active'] = hash[key]['active']
-      newHash['user'] = hash[key]['user']
-      arr.push(
-        newHash
-      )
-    })
-    return arr
-  }
 
   render() {
     const { affixes } = this.props
@@ -93,7 +61,7 @@ class AffixList extends Component {
 
   const table =
     <ReactTable
-      data={this.hashToArray(affixes)}
+      data={hashToArray(affixes)}
       columns={columns}
     />
 
