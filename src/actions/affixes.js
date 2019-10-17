@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-export const RECEIVE_AFFIXES = 'RECEIVE_AFFIXES'
-
-export function receiveAffixes (affixes) {
-  return {
-    type: RECEIVE_AFFIXES,
-    affixes,
-  }
-}
-=======
 import { deleteAffix } from '../utils/api'
 import { showLoading, hideLoading } from 'react-redux-loading'
 
@@ -38,4 +28,3 @@ export function handleDeleteAffix (client, id) {
     .then(() => dispatch(hideLoading()))
   }
 }
->>>>>>> master
