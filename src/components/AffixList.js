@@ -61,7 +61,7 @@ class AffixList extends Component {
 
   const table =
     <ReactTable
-      data={hashToArray(affixes)}
+      data={affixes.data}
       columns={columns}
     />
 

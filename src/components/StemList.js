@@ -18,7 +18,7 @@ class StemList extends Component {
   async onDelete(id) {
     console.log("In stem deletion");
     await this.props.dispatch(handleDeleteStem(this.props.client, id))
-  };  
+  };
 
   render() {
     const { stems } = this.props
@@ -57,10 +57,10 @@ class StemList extends Component {
         )
       }
     ]
-   
+
     const table =
     <ReactTable
-      data={hashToArray(stems)}
+      data={stems.data}
       columns={columns}
     />
 
