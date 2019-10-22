@@ -8,15 +8,15 @@ export default function affixes (state = {}, action) {
         ...action.affixes,
       }
     case DELETE_AFFIX :
-      let newHash = state
-      // Object.keys(state).forEach(function (key) {
-      //   if (key != action.affix.id-1) {
-      //     newHash[key] = state[key]
-      //   }
-      // })
-      newHash[action.affix.id-1] = action.affix
+      let newData = state.data.filter(function (affix) {
+        if (affix.id !== action.affix.id) {
+          return affix
+        }
+      })
+      newData.push(action.affix)
       return {
-        ...newHash
+        ...state,
+        data: newData
       }
     default :
       return state
