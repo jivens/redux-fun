@@ -2,7 +2,7 @@ import { getInitialData, getInitialAppData } from '../utils/api'
 import { receiveUsers } from '../actions/users'
 import { receivePolls } from '../actions/polls'
 import { receiveStems } from '../actions/stems'
-import { receiveAffixes } from '../actions/affixes'
+import { receiveAffixes, handleAffixPageChange, handleAffixPageSizeChange } from '../actions/affixes'
 import { setAuthedUser } from '../actions/authedUser'
 import { showLoading, hideLoading } from 'react-redux-loading'
 
@@ -27,6 +27,8 @@ export function handleInitialAppData (client) {
     return getInitialAppData(client)
       .then(({ stems, affixes }) => {
         dispatch(receiveStems(stems))
+        dispatch(handleAffixPageChange(0))
+        dispatch(handleAffixPageSizeChange(10, 0))
         dispatch(receiveAffixes(affixes))
         dispatch(setAuthedUser(AUTHED_ID))
         dispatch(hideLoading())
