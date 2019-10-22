@@ -63,6 +63,7 @@ class AffixList extends Component {
     <ReactTable
       data={hashToArray(affixes)}
       columns={columns}
+      filterable
     />
 
     return (
