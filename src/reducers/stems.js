@@ -8,10 +8,15 @@ export default function stems (state = {}, action) {
         ...action.stems,
       }
     case DELETE_STEM :
-      let newHash = state
-      newHash[action.stem.id-1] = action.stem
+      let newData = state.data.filter(function (stem) {
+        if (stem.id !== action.stem.id) {
+          return stem
+        }
+      })
+      newData.push(action.stem)
       return {
-        ...newHash
+        ...state,
+        data: newData
       }
     default :
       return state
