@@ -4,6 +4,8 @@ import { showLoading, hideLoading } from 'react-redux-loading'
 export const RECEIVE_AFFIXES = 'RECEIVE_AFFIXES'
 export const DELETE_AFFIX = 'DELETE_AFFIX'
 export const ADD_AFFIX = 'ADD_AFFIX'
+export const SET_AFFIX_PAGE_SIZE = 'SET_AFFIX_PAGE_SIZE'
+export const SET_AFFIX_PAGE = 'SET_AFFIX_PAGE'
 
 function addAffix (affix) {
   return {
@@ -17,6 +19,35 @@ function removeAffix (affix) {
   return {
     type: DELETE_AFFIX,
     affix,
+  }
+}
+
+function setAffixPage(page) {
+  return {
+    type: SET_AFFIX_PAGE,
+    page,
+  }
+}
+
+export function handleAffixPageChange(page) {
+  return (dispatch, getState) => {
+    const { authedUser } = getState()
+    dispatch(setAffixPage(page))
+  }
+}
+
+function setAffixPageSize(pageSize, page) {
+  return {
+    type: SET_AFFIX_PAGE_SIZE,
+    pageSize,
+    page
+  }
+}
+
+export function handleAffixPageSizeChange(pageSize, page) {
+  return (dispatch, getState) => {
+    const { authedUser } = getState()
+    dispatch(setAffixPageSize(pageSize, page))
   }
 }
 

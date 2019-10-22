@@ -68,10 +68,18 @@ export function getInitialAppData (client) {
     })
   ]).then(([stems, affixes]) => ({
     stems: {
-      data: stems.data.stems_Q
+      data: stems.data.stems_Q,
+      tableData: {
+        page: 2,
+        pageSize: 10
+      }
     },
     affixes: {
-      data: affixes.data.affixes_Q
+      data: affixes.data.affixes_Q,
+      tableData: {
+        page: 2,
+        pageSize: 10
+      }
     }
   }))
 }
