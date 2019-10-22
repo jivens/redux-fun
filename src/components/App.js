@@ -10,6 +10,7 @@ import Poll from './Poll'
 import Nav from './Nav'
 import StemList from './StemList'
 import AffixList from './AffixList'
+import AddAffix from './AddAffix'
 import { ApolloConsumer } from "react-apollo"
 
 class App extends Component {
@@ -33,6 +34,7 @@ class App extends Component {
                     <Route path='/add' component={AddPoll} />
                     <Route path='/stems' component={StemList} />
                     <Route path='/affixes' component={AffixList} />
+                    <Route path='/addaffix' component={AddAffix} />
                   </div>}
             </div>
           </Fragment>

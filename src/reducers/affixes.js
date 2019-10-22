@@ -1,4 +1,4 @@
-import { RECEIVE_AFFIXES, DELETE_AFFIX } from '../actions/affixes'
+import { RECEIVE_AFFIXES, DELETE_AFFIX, ADD_AFFIX } from '../actions/affixes'
 
 export default function affixes (state = {}, action) {
   switch (action.type) {
@@ -6,6 +6,13 @@ export default function affixes (state = {}, action) {
       return {
         ...state,
         ...action.affixes,
+      }
+    case ADD_AFFIX :
+      let affixData = state.data
+      affixData.push(action.affix)
+      return {
+        ...state,
+        data: affixData
       }
     case DELETE_AFFIX :
       let newData = state.data.filter(function (affix) {

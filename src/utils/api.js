@@ -4,7 +4,7 @@ import {
   _savePoll,
   _savePollAnswer
 } from './_DATA.js'
-import {  getAffixesQuery, getStemsQuery, deleteAffixMutation, deleteStemMutation } from '../queries/queries'
+import {  getAffixesQuery, getStemsQuery, deleteAffixMutation, deleteStemMutation, addAffixMutation } from '../queries/queries'
 import { isObject, hashToArray } from './helpers'
 
 function flattenPoll (poll) {
@@ -91,6 +91,23 @@ export function deleteStem(client, id){
     variables: { id: id }
   })
 }
+
+export function saveAffix(client, affix){
+  let variables = {}
+  return client.mutate({
+    mutation: addAffixMutation,
+    variables: {
+      type: affix.type,
+      salish: affix.salish,
+      nicodemus: affix.nicodemus,
+      english: affix.english,
+      link: affix.link,
+      page: affix.page,
+      editnote: affix.editnote,
+    }
+  })
+}
+
 
 export function savePoll (poll) {
   return _savePoll(poll)
