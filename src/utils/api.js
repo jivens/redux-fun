@@ -78,7 +78,16 @@ export function getInitialAppData (client) {
       data: affixes.data.affixes_Q,
       tableData: {
         page: 2,
-        pageSize: 10
+        pageSize: 10,
+        sorted: [{
+          id: 'type',
+          desc: false
+        },{
+          id: 'nicodemus',
+          desc: false
+        }],
+        filtered: [],
+        resized: [],
       }
     }
   }))

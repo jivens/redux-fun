@@ -6,6 +6,9 @@ export const DELETE_AFFIX = 'DELETE_AFFIX'
 export const ADD_AFFIX = 'ADD_AFFIX'
 export const SET_AFFIX_PAGE_SIZE = 'SET_AFFIX_PAGE_SIZE'
 export const SET_AFFIX_PAGE = 'SET_AFFIX_PAGE'
+export const SET_AFFIX_SORTED = 'SET_AFFIX_SORTED'
+export const SET_AFFIX_FILTERED = 'SET_AFFIX_FILTERED'
+export const SET_AFFIX_RESIZED = 'SET_AFFIX_RESIZED'
 
 function addAffix (affix) {
   return {
@@ -44,10 +47,58 @@ function setAffixPageSize(pageSize, page) {
   }
 }
 
+function setAffixSorted(newSorted, column, shiftKey) {
+  return {
+    type: SET_AFFIX_SORTED,
+    newSorted,
+    column,
+    shiftKey
+  }
+}
+
+function setAffixFiltered(filtered, column) {
+  return {
+    type: SET_AFFIX_FILTERED,
+    filtered,
+    column
+  }
+}
+
+function setAffixResized(resized, event) {
+  return {
+    type: SET_AFFIX_RESIZED,
+    resized,
+    event
+  }
+}
+
 export function handleAffixPageSizeChange(pageSize, page) {
   return (dispatch, getState) => {
     const { authedUser } = getState()
     dispatch(setAffixPageSize(pageSize, page))
+  }
+}
+
+export function handleAffixSortedChange(newSorted, column, shiftKey) {
+  return (dispatch, getState) => {
+    const { authedUser } = getState()
+    dispatch(setAffixSorted(newSorted, column, shiftKey))
+  }
+}
+
+// When a filter is set or changed, current page = page 1 (0)
+export function handleAffixFilteredChange(filtered, column) {
+  return (dispatch, getState) => {
+    const { authedUser } = getState()
+    dispatch(setAffixFiltered(filtered, column))
+    dispatch(setAffixPage(0))
+  }
+}
+
+export function handleAffixResizedChange(resized, event) {
+  return (dispatch, getState) => {
+    const { authedUser } = getState()
+    dispatch(setAffixResized(resized, event))
   }
 }
 

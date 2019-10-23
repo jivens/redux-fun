@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withApollo, graphql } from 'react-apollo'
-import { flowRight as compose } from 'lodash';
+import { flowRight as compose } from 'lodash'
 import ReactTable from 'react-table'
+import matchSorter from 'match-sorter'
 import { getAffixesQuery, deleteAffixMutation } from '../queries/queries'
-import { handleDeleteAffix, handleAffixPageChange, handleAffixPageSizeChange } from '../actions/affixes'
+import { handleDeleteAffix, handleAffixPageChange,
+  handleAffixPageSizeChange, handleAffixSortedChange,
+  handleAffixFilteredChange, handleAffixResizedChange } from '../actions/affixes'
 import { hashToArray } from '../utils/helpers'
-
 
 class AffixList extends Component {
 
@@ -15,6 +17,9 @@ class AffixList extends Component {
     this.onDelete = this.onDelete.bind(this)
     this.onPageChange = this.onPageChange.bind(this)
     this.onPageSizeChange = this.onPageSizeChange.bind(this)
+    this.onSortedChange = this.onSortedChange.bind(this)
+    this.onFilteredChange = this.onFilteredChange.bind(this)
+    this.onResizedChange = this.onResizedChange.bind(this)
   }
 
   async onDelete(id) {
@@ -30,6 +35,18 @@ class AffixList extends Component {
     await this.props.dispatch(handleAffixPageSizeChange(pageSize, page))
   }
 
+  async onSortedChange(newSorted, column, shiftKey) {
+    await this.props.dispatch(handleAffixSortedChange(newSorted, column, shiftKey))
+  }
+
+  async onFilteredChange(filtered, column) {
+    await this.props.dispatch(handleAffixFilteredChange(filtered, column))
+  }
+
+  async onResizedChange(newResized, event) {
+    await this.props.dispatch(handleAffixResizedChange(newResized, event))
+  }
+
   render() {
     const { affixes } = this.props
     const columns = [
@@ -38,20 +55,36 @@ class AffixList extends Component {
         accessor: 'id'
       },
       {
+        Header: 'Type',
+        accessor: 'type'
+      },
+      {
         Header: 'Nicodemus',
-        accessor: 'nicodemus'
+        accessor: 'nicodemus',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["nicodemus"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
       },
       {
         Header: 'English',
-        accessor: 'english'
+        accessor: 'english',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["english"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
       },
       {
         Header: 'Username',
-        accessor: 'user.username'
+        accessor: 'user.username',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["user.username"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
       },
       {
         Header: 'Active',
-        accessor: 'active'
+        accessor: 'active',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["active"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
       },
       {
         Header: 'Edit/Delete',
@@ -73,8 +106,15 @@ class AffixList extends Component {
       data={affixes.data}
       page={affixes.tableData.page}
       pageSize={affixes.tableData.pageSize}
+      filtered={affixes.tableData.filtered}
+      sorted={affixes.tableData.sorted}
+      resized={affixes.tableData.resized}
+      filterable
       onPageChange={page => this.onPageChange(page)}
       onPageSizeChange={(pageSize,page) => this.onPageSizeChange(pageSize,page)}
+      onSortedChange={(newSorted,column,shiftKey) => this.onSortedChange(newSorted,column,shiftKey)}
+      onResizedChange={(newResized, event) => this.onResizedChange(newResized, event)}
+      onFilteredChange={(filtered, column) => this.onFilteredChange(filtered,column)}
       columns={columns}
     />
 

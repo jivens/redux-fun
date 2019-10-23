@@ -1,4 +1,6 @@
-import { RECEIVE_AFFIXES, DELETE_AFFIX, SET_AFFIX_PAGE_SIZE, SET_AFFIX_PAGE, ADD_AFFIX } from '../actions/affixes'
+import { RECEIVE_AFFIXES, DELETE_AFFIX, ADD_AFFIX,
+  SET_AFFIX_PAGE_SIZE, SET_AFFIX_PAGE,
+  SET_AFFIX_FILTERED, SET_AFFIX_SORTED, SET_AFFIX_RESIZED } from '../actions/affixes'
 
 export default function affixes (state = {}, action) {
   switch (action.type) {
@@ -40,6 +42,30 @@ export default function affixes (state = {}, action) {
         tableData: {
           ...state.tableData,
           page: action.page
+        }
+      }
+    case SET_AFFIX_SORTED :
+      return {
+        ...state,
+        tableData: {
+          ...state.tableData,
+          sorted: action.newSorted
+        }
+      }
+    case SET_AFFIX_FILTERED :
+      return {
+        ...state,
+        tableData: {
+          ...state.tableData,
+          filtered: action.filtered
+        }
+      }
+    case SET_AFFIX_RESIZED :
+      return {
+        ...state,
+        tableData: {
+          ...state.tableData,
+          resized: action.resized
         }
       }
     default :
