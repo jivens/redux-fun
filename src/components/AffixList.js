@@ -15,6 +15,7 @@ class AffixList extends Component {
   constructor(props) {
     super(props)
     this.onDelete = this.onDelete.bind(this)
+    this.onEdit = this.onEdit.bind(this)
     this.onPageChange = this.onPageChange.bind(this)
     this.onPageSizeChange = this.onPageSizeChange.bind(this)
     this.onSortedChange = this.onSortedChange.bind(this)
@@ -23,8 +24,11 @@ class AffixList extends Component {
   }
 
   async onDelete(id) {
-    console.log("In affix deletion");
     await this.props.dispatch(handleDeleteAffix(this.props.client, id))
+  }
+
+  async onEdit(id) {
+    this.props.history.push(`/editaffix/${id}`)
   }
 
   async onPageChange(page) {
@@ -93,6 +97,9 @@ class AffixList extends Component {
         width: 100,
         Cell: ({row, original}) => (
           <div>
+            <button onClick={() => this.onEdit(original.id)}>
+                E
+            </button>
             <button onClick={() => this.onDelete(original.id)}>
                 X
             </button>

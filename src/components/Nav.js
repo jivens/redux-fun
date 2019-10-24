@@ -31,6 +31,11 @@ export default function Nav () {
           </NavLink>
         </li>
         <li>
+          <NavLink to='/editaffix/:id' activeClassName='active'>
+            Edit Affix
+          </NavLink>
+        </li>
+        <li>
           <NavLink to='/add' activeClassName='active'>
             Add Poll
           </NavLink>
