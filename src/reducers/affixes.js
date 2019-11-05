@@ -1,4 +1,4 @@
-import { RECEIVE_AFFIXES, DELETE_AFFIX, ADD_AFFIX,
+import { RECEIVE_AFFIXES, DELETE_AFFIX, ADD_AFFIX, EDIT_AFFIX,
   SET_AFFIX_PAGE_SIZE, SET_AFFIX_PAGE,
   SET_AFFIX_FILTERED, SET_AFFIX_SORTED, SET_AFFIX_RESIZED } from '../actions/affixes'
 
@@ -15,6 +15,20 @@ export default function affixes (state = {}, action) {
       return {
         ...state,
         data: affixData
+      }
+    case EDIT_AFFIX :
+      let editData = state.data.filter(function (affix) {
+        if (affix.id !== action.affix.originalAffix.id) {
+          return affix
+        }
+      })
+      let originalAffix = action.affix.originalAffix
+      originalAffix.active = 'N'
+      editData.push(action.affix.newAffix)
+      editData.push(originalAffix)
+      return {
+        ...state,
+        data: editData
       }
     case DELETE_AFFIX :
       let newData = state.data.filter(function (affix) {
