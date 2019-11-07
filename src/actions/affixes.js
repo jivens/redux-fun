@@ -145,7 +145,9 @@ export function handleEditAffix (client, affix) {
     .then((affixData) => {
       let newAffixData = {}
       newAffixData['newAffix'] = affixData.data.updateAffix_M
-      newAffixData['originalAffix'] = affix
+      newAffixData['originalAffix'] = affix.originalAffix
+      //console.log("handleEditAffix, new Affix: ", newAffixData['newAffix'])
+      //console.log("handleEditAffix, old Affix: ", newAffixData['originalAffix'])
       return dispatch(updateAffix(newAffixData))// redux store change
     })
     .then(() => dispatch(hideLoading()))

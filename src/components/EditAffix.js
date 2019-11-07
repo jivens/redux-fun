@@ -18,7 +18,19 @@ class EditAffix extends Component {
       page: this.props.affix.page,
       editnote: this.props.affix.editnote,
       prevId: this.props.affix.prevId,
-      user: this.props.affix.user
+      user: this.props.affix.user,
+      originalAffix: {
+        id: this.props.affix.id,
+        type: this.props.affix.type,
+        salish: this.props.affix.salish,
+        nicodemus: this.props.affix.nicodemus,
+        english: this.props.affix.english,
+        link: this.props.affix.link,
+        page: this.props.affix.page,
+        editnote: this.props.affix.editnote,
+        prevId: this.props.affix.prevId,
+        user: this.props.affix.user,
+      }
     }
   }
 
