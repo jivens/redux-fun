@@ -4,7 +4,7 @@ import {
   _savePoll,
   _savePollAnswer
 } from './_DATA.js'
-import {  getAffixesQuery, getStemsQuery, deleteAffixMutation, deleteStemMutation, addAffixMutation , updateAffixMutation} from '../queries/queries'
+import {  getAffixesQuery, getStemsQuery, deleteAffixMutation, deleteStemMutation, addAffixMutation , updateAffixMutation, addStemMutation, updateStemMutation} from '../queries/queries'
 import { isObject, hashToArray } from './helpers'
 
 function flattenPoll (poll) {
@@ -125,12 +125,30 @@ export function saveAffix(client, affix){
   })
 }
 
+export function saveStem(client, stem){
+  let variables = {}
+  return client.mutate({
+    mutation: addStemMutation,
+    variables: {
+      category: stem.category,
+      reichard: stem.reichard,
+      doak: stem.doak,
+      salish: stem.salish,
+      nicodemus: stem.nicodemus,
+      english: stem.english,
+      note: stem.note,
+      editnote: stem.editnote,
+    }
+  })
+}
+
+
 export function editAffix(client, affix){
 
   return client.mutate({
     mutation: updateAffixMutation,
     variables: {
-      id: affix.id, 
+      id: affix.id,
       type: affix.type,
       salish: affix.salish,
       nicodemus: affix.nicodemus,
@@ -142,6 +160,23 @@ export function editAffix(client, affix){
   })
 }
 
+export function editStem(client, stem){
+
+  return client.mutate({
+    mutation: updateStemMutation,
+    variables: {
+      id: stem.id,
+      category: stem.category,
+      reichard: stem.reichard,
+      doak: stem.doak,
+      salish: stem.salish,
+      nicodemus: stem.nicodemus,
+      english: stem.english,
+      note: stem.note,
+      editnote: stem.editnote,
+    }
+  })
+}
 
 export function savePoll (poll) {
   return _savePoll(poll)

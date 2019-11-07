@@ -12,6 +12,9 @@ import StemList from './StemList'
 import AffixList from './AffixList'
 import AddAffix from './AddAffix'
 import EditAffix from './EditAffix'
+import AddStem from './AddStem'
+import EditStem from './EditStem'
+
 import { ApolloConsumer } from "react-apollo"
 
 class App extends Component {
@@ -36,7 +39,9 @@ class App extends Component {
                     <Route path='/stems' component={StemList} />
                     <Route path='/affixes' component={AffixList} />
                     <Route path='/addaffix' component={AddAffix} />
+                    <Route path='/addstem' component={AddStem} />
                     <Route path='/editaffix/:id' component={EditAffix} />
+                    <Route path='/editstem/:id' component={EditStem} />
                   </div>}
             </div>
           </Fragment>
