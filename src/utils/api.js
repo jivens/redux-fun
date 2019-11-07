@@ -4,7 +4,7 @@ import {
   _savePoll,
   _savePollAnswer
 } from './_DATA.js'
-import { getAffixesQuery, getStemsQuery, deleteAffixMutation, deleteStemMutation, addAffixMutation, updateAffixMutation } from '../queries/queries'
+import {  getAffixesQuery, getStemsQuery, deleteAffixMutation, deleteStemMutation, addAffixMutation , updateAffixMutation} from '../queries/queries'
 import { isObject, hashToArray } from './helpers'
 
 function flattenPoll (poll) {
@@ -126,6 +126,7 @@ export function saveAffix(client, affix){
 }
 
 export function editAffix(client, affix){
+
   return client.mutate({
     mutation: updateAffixMutation,
     variables: {
@@ -140,6 +141,7 @@ export function editAffix(client, affix){
     }
   })
 }
+
 
 export function savePoll (poll) {
   return _savePoll(poll)

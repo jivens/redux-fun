@@ -6,8 +6,8 @@ import { updateAffixMutation } from '../queries/queries'
 import { handleEditAffix } from '../actions/affixes'
 
 class EditAffix extends Component {
-  constructor(props, context) {
-    super(props, context);
+  constructor(props, context){
+    super(props, context)
     this.state = {
       id: this.props.affix.id,
       type: this.props.affix.type,
@@ -16,11 +16,24 @@ class EditAffix extends Component {
       english: this.props.affix.english,
       link: this.props.affix.link,
       page: this.props.affix.page,
-      editnote: this.props.affix.endnote,
+      editnote: this.props.affix.editnote,
       prevId: this.props.affix.prevId,
-      user: this.props.affix.user
+      user: this.props.affix.user,
+      originalAffix: {
+        id: this.props.affix.id,
+        type: this.props.affix.type,
+        salish: this.props.affix.salish,
+        nicodemus: this.props.affix.nicodemus,
+        english: this.props.affix.english,
+        link: this.props.affix.link,
+        page: this.props.affix.page,
+        editnote: this.props.affix.editnote,
+        prevId: this.props.affix.prevId,
+        user: this.props.affix.user,
+      }
     }
   }
+
 
   handleInputChange = (e) => {
     const { value, name } = e.target
@@ -47,7 +60,6 @@ class EditAffix extends Component {
   }
   render() {
     const { id, type, salish, nicodemus, english, link, page, editnote } = this.state
-
     return (
       <form className='edit-form' onSubmit={this.handleSubmit}>
         <h3 style={{marginBottom: 5}}>Update Affix</h3>

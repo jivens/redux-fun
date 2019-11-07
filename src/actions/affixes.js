@@ -11,14 +11,6 @@ export const SET_AFFIX_SORTED = 'SET_AFFIX_SORTED'
 export const SET_AFFIX_FILTERED = 'SET_AFFIX_FILTERED'
 export const SET_AFFIX_RESIZED = 'SET_AFFIX_RESIZED'
 
-
-function updateAffix (affix) {
-  return {
-    type: EDIT_AFFIX,
-    affix,
-  }
-}
-
 function addAffix (affix) {
   return {
     type: ADD_AFFIX,
@@ -30,6 +22,13 @@ function removeAffix (affix) {
   affix.active = 'N'
   return {
     type: DELETE_AFFIX,
+    affix,
+  }
+}
+
+function updateAffix (affix) {
+  return {
+    type: EDIT_AFFIX,
     affix,
   }
 }
@@ -142,12 +141,14 @@ export function handleEditAffix (client, affix) {
   return (dispatch, getState) => {
     const { authedUser } = getState()
     dispatch(showLoading())
-    return editAffix(client, affix) // backend change
+    return editAffix(client, affix) //backend change on the database, "editAffix"
     .then((affixData) => {
       let newAffixData = {}
       newAffixData['newAffix'] = affixData.data.updateAffix_M
-      newAffixData['originalAffix'] = affix
-      return dispatch(updateAffix(newAffixData)) //redux store change
+      newAffixData['originalAffix'] = affix.originalAffix
+      //console.log("handleEditAffix, new Affix: ", newAffixData['newAffix'])
+      //console.log("handleEditAffix, old Affix: ", newAffixData['originalAffix'])
+      return dispatch(updateAffix(newAffixData))// redux store change
     })
     .then(() => dispatch(hideLoading()))
   }
