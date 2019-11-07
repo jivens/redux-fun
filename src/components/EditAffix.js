@@ -2,18 +2,24 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withApollo, graphql } from 'react-apollo'
 import { flowRight as compose } from 'lodash';
-import { addAffixMutation } from '../queries/queries'
-import { handleAddAffix } from '../actions/affixes'
+import { updateAffixMutation } from '../queries/queries'
+import { handleEditAffix } from '../actions/affixes'
 
 class EditAffix extends Component {
-  state = {
-    type: '',
-    salish: '',
-    nicodemus: '',
-    english: '',
-    link: '',
-    page: '',
-    editnote: ''
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      id: this.props.affix.id,
+      type: this.props.affix.type,
+      salish: this.props.affix.salish,
+      nicodemus: this.props.affix.nicodemus,
+      english: this.props.affix.english,
+      link: this.props.affix.link,
+      page: this.props.affix.page,
+      editnote: this.props.affix.endnote,
+      prevId: this.props.affix.prevId,
+      user: this.props.affix.user
+    }
   }
 
   handleInputChange = (e) => {
@@ -24,7 +30,7 @@ class EditAffix extends Component {
     }))
   }
   isDisabled = () => {
-    const { type, salish, nicodemus, english, link, page, editnote } = this.props.affix
+    const { type, salish, nicodemus, english, link, page, editnote } = this.state
 
     return type === ''
       || salish === ''
@@ -37,14 +43,14 @@ class EditAffix extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
     this.props.history.push('/affixes')
-    this.props.dispatch(handleAddAffix(this.props.client, this.state))
+    this.props.dispatch(handleEditAffix(this.props.client, this.state))
   }
   render() {
-    const { type, salish, nicodemus, english, link, page, editnote } = this.props.affix
+    const { id, type, salish, nicodemus, english, link, page, editnote } = this.state
 
     return (
-      <form className='add-form' onSubmit={this.handleSubmit}>
-        <h3 style={{marginBottom: 5}}>New Affix</h3>
+      <form className='edit-form' onSubmit={this.handleSubmit}>
+        <h3 style={{marginBottom: 5}}>Update Affix</h3>
         <label className='label' htmlFor='a'>Type</label>
         <input
           value={type}
@@ -123,6 +129,9 @@ function mapStateToProps ({ affixes }, { match }) {
   console.log("affixes data: ", affixes.data)
   let foundAffix = affixes.data.filter(function (affix) {
     if (affix.id == id) {
+      if (affix.editnote == null) {
+        affix.editnote = ''
+      }
       return affix
     }
   })
@@ -136,5 +145,5 @@ function mapStateToProps ({ affixes }, { match }) {
 }
 
 export default compose(
-  graphql(addAffixMutation, { name: 'addAffixMutation' })
+  graphql(updateAffixMutation, { name: 'updateAffixMutation' })
 )(withApollo(connect(mapStateToProps)(EditAffix)))

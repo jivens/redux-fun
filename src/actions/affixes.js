@@ -1,14 +1,23 @@
-import { deleteAffix, saveAffix } from '../utils/api'
+import { deleteAffix, saveAffix, editAffix } from '../utils/api'
 import { showLoading, hideLoading } from 'react-redux-loading'
 
 export const RECEIVE_AFFIXES = 'RECEIVE_AFFIXES'
 export const DELETE_AFFIX = 'DELETE_AFFIX'
 export const ADD_AFFIX = 'ADD_AFFIX'
+export const EDIT_AFFIX = 'EDIT_AFFIX'
 export const SET_AFFIX_PAGE_SIZE = 'SET_AFFIX_PAGE_SIZE'
 export const SET_AFFIX_PAGE = 'SET_AFFIX_PAGE'
 export const SET_AFFIX_SORTED = 'SET_AFFIX_SORTED'
 export const SET_AFFIX_FILTERED = 'SET_AFFIX_FILTERED'
 export const SET_AFFIX_RESIZED = 'SET_AFFIX_RESIZED'
+
+
+function updateAffix (affix) {
+  return {
+    type: EDIT_AFFIX,
+    affix,
+  }
+}
 
 function addAffix (affix) {
   return {
@@ -125,6 +134,21 @@ export function handleAddAffix (client, affix) {
     dispatch(showLoading())
     return saveAffix(client, affix)
     .then((affixData) => dispatch(addAffix(affixData.data.addAffix_M)))
+    .then(() => dispatch(hideLoading()))
+  }
+}
+
+export function handleEditAffix (client, affix) {
+  return (dispatch, getState) => {
+    const { authedUser } = getState()
+    dispatch(showLoading())
+    return editAffix(client, affix) // backend change
+    .then((affixData) => {
+      let newAffixData = {}
+      newAffixData['newAffix'] = affixData.data.updateAffix_M
+      newAffixData['originalAffix'] = affix
+      return dispatch(updateAffix(newAffixData)) //redux store change
+    })
     .then(() => dispatch(hideLoading()))
   }
 }

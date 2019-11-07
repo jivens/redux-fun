@@ -1,6 +1,6 @@
 import { RECEIVE_AFFIXES, DELETE_AFFIX, ADD_AFFIX,
   SET_AFFIX_PAGE_SIZE, SET_AFFIX_PAGE,
-  SET_AFFIX_FILTERED, SET_AFFIX_SORTED, SET_AFFIX_RESIZED } from '../actions/affixes'
+  SET_AFFIX_FILTERED, SET_AFFIX_SORTED, SET_AFFIX_RESIZED, EDIT_AFFIX } from '../actions/affixes'
 
 export default function affixes (state = {}, action) {
   switch (action.type) {
@@ -11,10 +11,24 @@ export default function affixes (state = {}, action) {
       }
     case ADD_AFFIX :
       let affixData = state.data
-      affixData.push(action.affix)
+      affixData.push(action.newAffix)
       return {
         ...state,
         data: affixData
+      }
+    case EDIT_AFFIX :
+      let editData = state.data.filter(function (affix) {
+        if (affix.id !== action.affix.originalAffix.id) {
+          return affix
+        }
+      })
+      let originalAffix = action.affix.originalAffix
+      originalAffix.active = 'N'
+      editData.push(action.affix.newAffix)
+      editData.push(originalAffix)
+      return {
+        ...state,
+        data: editData
       }
     case DELETE_AFFIX :
       let newData = state.data.filter(function (affix) {
