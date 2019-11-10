@@ -4,7 +4,7 @@ import {
   _savePoll,
   _savePollAnswer
 } from './_DATA.js'
-import {  getAffixesQuery, getStemsQuery, deleteAffixMutation, deleteStemMutation, addAffixMutation , updateAffixMutation} from '../queries/queries'
+import { getUsersQuery, getUserToken, getAffixesQuery, getStemsQuery, deleteAffixMutation, deleteStemMutation, addAffixMutation , updateAffixMutation, addStemMutation, updateStemMutation, addUserMutation} from '../queries/queries'
 import { isObject, hashToArray } from './helpers'
 
 function flattenPoll (poll) {
@@ -65,7 +65,11 @@ export function getInitialAppData (client) {
     client.query({
       query: getAffixesQuery,
       variables: {}
-    })
+    }),
+    // client.query({
+    //   query: getUsersQuery,
+    //   variables: {}
+    // }),
   ]).then(([stems, affixes]) => ({
     stems: {
       data: stems.data.stems_Q,
@@ -89,7 +93,10 @@ export function getInitialAppData (client) {
         filtered: [],
         resized: [],
       }
-    }
+    },
+    // users: {
+    //   data: users.data.users_Q
+    // }
   }))
 }
 
@@ -109,6 +116,31 @@ export function deleteStem(client, id){
   })
 }
 
+export function loginUser(client, user){
+  return client.query({
+    query: getUserToken,
+    variables: {
+      email: user.email,
+      password: user.password
+    }
+  })
+}
+
+export function saveUser(client, user){
+  let variables = {}
+  return client.mutate({
+    mutation: addUserMutation,
+    variables: {
+      first: user.first,
+      last: user.last,
+      username: user.username,
+      email: user.email,
+      password: user.password,
+      roles: user.roles,
+    }
+  })
+}
+
 export function saveAffix(client, affix){
   let variables = {}
   return client.mutate({
@@ -124,6 +156,24 @@ export function saveAffix(client, affix){
     }
   })
 }
+
+export function saveStem(client, stem){
+  let variables = {}
+  return client.mutate({
+    mutation: addStemMutation,
+    variables: {
+      category: stem.category,
+      reichard: stem.reichard,
+      doak: stem.doak,
+      salish: stem.salish,
+      nicodemus: stem.nicodemus,
+      english: stem.english,
+      note: stem.note,
+      editnote: stem.editnote,
+    }
+  })
+}
+
 
 export function editAffix(client, affix){
 
@@ -142,6 +192,23 @@ export function editAffix(client, affix){
   })
 }
 
+export function editStem(client, stem){
+
+  return client.mutate({
+    mutation: updateStemMutation,
+    variables: {
+      id: stem.id,
+      category: stem.category,
+      reichard: stem.reichard,
+      doak: stem.doak,
+      salish: stem.salish,
+      nicodemus: stem.nicodemus,
+      english: stem.english,
+      note: stem.note,
+      editnote: stem.editnote,
+    }
+  })
+}
 
 export function savePoll (poll) {
   return _savePoll(poll)

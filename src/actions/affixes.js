@@ -82,14 +82,14 @@ function setAffixResized(resized, event) {
 
 export function handleAffixPageSizeChange(pageSize, page) {
   return (dispatch, getState) => {
-    const { authedUser } = getState()
+    //const { authedUser } = getState()
     dispatch(setAffixPageSize(pageSize, page))
   }
 }
 
 export function handleAffixSortedChange(newSorted, column, shiftKey) {
   return (dispatch, getState) => {
-    const { authedUser } = getState()
+    //const { authedUser } = getState()
     dispatch(setAffixSorted(newSorted, column, shiftKey))
   }
 }
@@ -97,7 +97,7 @@ export function handleAffixSortedChange(newSorted, column, shiftKey) {
 // When a filter is set or changed, current page = page 1 (0)
 export function handleAffixFilteredChange(filtered, column) {
   return (dispatch, getState) => {
-    const { authedUser } = getState()
+    //const { authedUser } = getState()
     dispatch(setAffixFiltered(filtered, column))
     dispatch(setAffixPage(0))
   }
@@ -105,7 +105,7 @@ export function handleAffixFilteredChange(filtered, column) {
 
 export function handleAffixResizedChange(resized, event) {
   return (dispatch, getState) => {
-    const { authedUser } = getState()
+    //const { authedUser } = getState()
     dispatch(setAffixResized(resized, event))
   }
 }

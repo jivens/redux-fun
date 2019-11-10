@@ -1,6 +1,6 @@
 import { RECEIVE_AFFIXES, DELETE_AFFIX, ADD_AFFIX, EDIT_AFFIX,
   SET_AFFIX_PAGE_SIZE, SET_AFFIX_PAGE,
-  SET_AFFIX_FILTERED, SET_AFFIX_SORTED, SET_AFFIX_RESIZED, EDIT_AFFIX } from '../actions/affixes'
+  SET_AFFIX_FILTERED, SET_AFFIX_SORTED, SET_AFFIX_RESIZED } from '../actions/affixes'
 
 export default function affixes (state = {}, action) {
   switch (action.type) {
@@ -11,7 +11,7 @@ export default function affixes (state = {}, action) {
       }
     case ADD_AFFIX :
       let affixData = state.data
-      affixData.push(action.newAffix)
+      affixData.push(action.affix)
       return {
         ...state,
         data: affixData
