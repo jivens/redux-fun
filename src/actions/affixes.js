@@ -42,7 +42,6 @@ function setAffixPage(page) {
 
 export function handleAffixPageChange(page) {
   return (dispatch, getState) => {
-    const { authedUser } = getState()
     dispatch(setAffixPage(page))
   }
 }
@@ -82,14 +81,12 @@ function setAffixResized(resized, event) {
 
 export function handleAffixPageSizeChange(pageSize, page) {
   return (dispatch, getState) => {
-    //const { authedUser } = getState()
     dispatch(setAffixPageSize(pageSize, page))
   }
 }
 
 export function handleAffixSortedChange(newSorted, column, shiftKey) {
   return (dispatch, getState) => {
-    //const { authedUser } = getState()
     dispatch(setAffixSorted(newSorted, column, shiftKey))
   }
 }
@@ -97,7 +94,6 @@ export function handleAffixSortedChange(newSorted, column, shiftKey) {
 // When a filter is set or changed, current page = page 1 (0)
 export function handleAffixFilteredChange(filtered, column) {
   return (dispatch, getState) => {
-    //const { authedUser } = getState()
     dispatch(setAffixFiltered(filtered, column))
     dispatch(setAffixPage(0))
   }
@@ -105,7 +101,6 @@ export function handleAffixFilteredChange(filtered, column) {
 
 export function handleAffixResizedChange(resized, event) {
   return (dispatch, getState) => {
-    //const { authedUser } = getState()
     dispatch(setAffixResized(resized, event))
   }
 }
@@ -119,7 +114,6 @@ export function receiveAffixes (affixes) {
 
 export function handleDeleteAffix (client, id) {
   return (dispatch, getState) => {
-    const { authedUser } = getState()
     dispatch(showLoading())
     return deleteAffix(client, id)
     .then((affixData) => dispatch(removeAffix(affixData.data.deleteAffix_M)))
@@ -129,7 +123,6 @@ export function handleDeleteAffix (client, id) {
 
 export function handleAddAffix (client, affix) {
   return (dispatch, getState) => {
-    const { authedUser } = getState()
     dispatch(showLoading())
     return saveAffix(client, affix)
     .then((affixData) => dispatch(addAffix(affixData.data.addAffix_M)))
@@ -139,7 +132,6 @@ export function handleAddAffix (client, affix) {
 
 export function handleEditAffix (client, affix) {
   return (dispatch, getState) => {
-    const { authedUser } = getState()
     dispatch(showLoading())
     return editAffix(client, affix) //backend change on the database, "editAffix"
     .then((affixData) => {
