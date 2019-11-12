@@ -22,6 +22,7 @@ class App extends Component {
     //this.props.dispatch(handleInitialData())
     this.props.dispatch(handleInitialAppData(this.props.client))
   }
+
   render() {
     return (
 
