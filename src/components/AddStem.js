@@ -25,10 +25,11 @@ class AddStem extends Component {
     }))
   }
   isDisabled = () => {
-    const { category, reichard, salish, doak, nicodemus, english, note, editnote } = this.state
+    const { category, reichard, doak, salish, nicodemus, english, note, editnote } = this.state
 
     return category === ''
       || reichard === ''
+      || doak === ''
       || salish === ''
       || doak === ''
       || nicodemus === ''
@@ -134,6 +135,8 @@ function mapStateToProps (state) {
     stems
   }
 }
+
 export default compose(
   graphql(addStemMutation, { name: 'addStemMutation' })
 )(withApollo(connect(mapStateToProps)(AddStem)))
+
