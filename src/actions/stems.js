@@ -142,3 +142,4 @@ export function handleEditStem (client, stem) {
     })
     .then(() => dispatch(hideLoading()))
   }
+}
