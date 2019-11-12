@@ -1,60 +1,5 @@
-import {
-  _getUsers,
-  _getPolls,
-  _savePoll,
-  _savePollAnswer
-} from './_DATA.js'
-import {  getAffixesQuery, getStemsQuery, deleteAffixMutation, deleteStemMutation, addAffixMutation , updateAffixMutation, addStemMutation, updateStemMutation} from '../queries/queries'
+import { getUsersQuery, getUserToken, getAffixesQuery, getStemsQuery, deleteAffixMutation, deleteStemMutation, addAffixMutation , updateAffixMutation, addStemMutation, updateStemMutation, addUserMutation} from '../queries/queries'
 import { isObject, hashToArray } from './helpers'
-
-function flattenPoll (poll) {
-  return Object.keys(poll)
-    .reduce((flattenedPoll, key) => {
-      const val = poll[key]
-
-      if (isObject(val)) {
-        flattenedPoll[key + 'Text'] = val.text
-        flattenedPoll[key + 'Votes'] = val.votes
-        return flattenedPoll
-      }
-
-      flattenedPoll[key] = val
-      return flattenedPoll
-    }, {})
-}
-
-function formatPolls (polls) {
-  const pollIds = Object.keys(polls)
-
-  return pollIds.reduce((formattedPolls, id) => {
-    formattedPolls[id] = flattenPoll(polls[id])
-    return formattedPolls
-  }, {})
-}
-
-function formatUsers (users) {
-  return Object.keys(users)
-    .reduce((formattedUsers, id) => {
-      const user = users[id]
-
-      formattedUsers[id] = {
-        ...user,
-        answers: Object.keys(user.answers)
-      }
-
-      return formattedUsers
-    }, {})
-}
-
-export function getInitialData () {
-  return Promise.all([
-    _getUsers(),
-    _getPolls(),
-  ]).then(([users, polls]) => ({
-    users: formatUsers(users),
-    polls: formatPolls(polls),
-  }))
-}
 
 export function getInitialAppData (client) {
   return Promise.all([
@@ -65,7 +10,11 @@ export function getInitialAppData (client) {
     client.query({
       query: getAffixesQuery,
       variables: {}
-    })
+    }),
+    // client.query({
+    //   query: getUsersQuery,
+    //   variables: {}
+    // }),
   ]).then(([stems, affixes]) => ({
     stems: {
       data: stems.data.stems_Q,
@@ -89,7 +38,10 @@ export function getInitialAppData (client) {
         filtered: [],
         resized: [],
       }
-    }
+    },
+    // users: {
+    //   data: users.data.users_Q
+    // }
   }))
 }
 
@@ -106,6 +58,31 @@ export function deleteStem(client, id){
   return client.mutate({
     mutation: deleteStemMutation,
     variables: { id: id }
+  })
+}
+
+export function loginUser(client, user){
+  return client.query({
+    query: getUserToken,
+    variables: {
+      email: user.email,
+      password: user.password
+    }
+  })
+}
+
+export function saveUser(client, user){
+  let variables = {}
+  return client.mutate({
+    mutation: addUserMutation,
+    variables: {
+      first: user.first,
+      last: user.last,
+      username: user.username,
+      email: user.email,
+      password: user.password,
+      roles: user.roles,
+    }
   })
 }
 
@@ -178,11 +155,3 @@ export function editStem(client, stem){
   })
 }
 
-export function savePoll (poll) {
-  return _savePoll(poll)
-    .then((p) => flattenPoll(p))
-}
-
-export function savePollAnswer (args) {
-  return _savePollAnswer(args)
-}

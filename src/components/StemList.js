@@ -53,6 +53,30 @@ class StemList extends Component {
     await this.props.dispatch(handleStemResizedChange(newResized, event))
   }
 
+  async onEdit(id) {
+    this.props.history.push(`/editstem/${id}`)
+  }
+  async onPageChange(page) {
+    await this.props.dispatch(handleStemPageChange(page))
+  }
+
+  async onPageSizeChange(pageSize, page) {
+    await this.props.dispatch(handleStemPageSizeChange(pageSize, page))
+  }
+
+  async onSortedChange(newSorted, column, shiftKey) {
+    await this.props.dispatch(handleStemSortedChange(newSorted, column, shiftKey))
+  }
+
+  async onFilteredChange(filtered, column) {
+    await this.props.dispatch(handleStemFilteredChange(filtered, column))
+  }
+
+  async onResizedChange(newResized, event) {
+    await this.props.dispatch(handleStemResizedChange(newResized, event))
+  }
+
+
   render() {
     const { stems } = this.props
     const columns = [
@@ -100,6 +124,13 @@ class StemList extends Component {
         filterAll: true,
       },
       {
+        Header: 'Note',
+        accessor: 'note',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["note"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
+      },
+      {
         Header: 'Username',
         accessor: 'user.username',
         filterMethod: (filter, rows) =>
@@ -132,21 +163,21 @@ class StemList extends Component {
     ]
 
     const table =
-      <ReactTable
-        data={stems.data}
-        page={stems.tableData.page}
-        pageSize={stems.tableData.pageSize}
-        filtered={stems.tableData.filtered}
-        sorted={stems.tableData.sorted}
-        resized={stems.tableData.resized}
-        filterable
-        onPageChange={page => this.onPageChange(page)}
-        onPageSizeChange={(pageSize,page) => this.onPageSizeChange(pageSize,page)}
-        onSortedChange={(newSorted,column,shiftKey) => this.onSortedChange(newSorted,column,shiftKey)}
-        onResizedChange={(newResized, event) => this.onResizedChange(newResized, event)}
-        onFilteredChange={(filtered, column) => this.onFilteredChange(filtered,column)}
-        columns={columns}
-      />
+    <ReactTable
+      data={stems.data}
+      columns={columns}
+      page={stems.tableData.page}
+      pageSize={stems.tableData.pageSize}
+      filtered={stems.tableData.filtered}
+      sorted={stems.tableData.sorted}
+      resized={stems.tableData.resized}
+      filterable
+      onPageChange={page => this.onPageChange(page)}
+      onPageSizeChange={(pageSize,page) => this.onPageSizeChange(pageSize,page)}
+      onSortedChange={(newSorted,column,shiftKey) => this.onSortedChange(newSorted,column,shiftKey)}
+      onResizedChange={(newResized, event) => this.onResizedChange(newResized, event)}
+      onFilteredChange={(filtered, column) => this.onFilteredChange(filtered,column)}
+    />
 
     return (
       <React.Fragment>

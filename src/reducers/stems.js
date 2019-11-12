@@ -1,6 +1,6 @@
 import { RECEIVE_STEMS, DELETE_STEM, ADD_STEM, EDIT_STEM,
   SET_STEM_PAGE_SIZE, SET_STEM_PAGE,
-  SET_STEM_FILTERED, SET_STEM_SORTED, SET_STEM_RESIZED } from '../actions/stems'
+  SET_STEM_FILTERED, SET_STEM_SORTED, SET_STEM_RESIZED} from '../actions/stems'
 
 export default function stems (state = {}, action) {
   switch (action.type) {

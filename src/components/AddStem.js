@@ -9,8 +9,8 @@ class AddStem extends Component {
   state = {
     category: '',
     reichard: '',
-    doak: '',
     salish: '',
+    doak: '',
     nicodemus: '',
     english: '',
     note: '',
@@ -25,6 +25,7 @@ class AddStem extends Component {
     }))
   }
   isDisabled = () => {
+
     const { category, reichard, doak, salish, nicodemus, english, note, editnote } = this.state
 
     return category === ''
@@ -36,17 +37,17 @@ class AddStem extends Component {
       || note === ''
       || editnote === ''
   }
+
   handleSubmit = (e) => {
     e.preventDefault()
     this.props.history.push('/stems')
     this.props.dispatch(handleAddStem(this.props.client, this.state))
   }
   render() {
-    const { category, reichard, doak, salish, nicodemus, english, note, editnote } = this.state
-
+    const { id, category, reichard, salish, doak, nicodemus, english, note, editnote } = this.state
     return (
       <form className='add-form' onSubmit={this.handleSubmit}>
-        <h3 style={{marginBottom: 5}}>New Stem</h3>
+        <h3 style={{marginBottom: 5}}>Add Stem</h3>
         <label className='label' htmlFor='category'>Category</label>
         <input
           value={category}
@@ -65,15 +66,6 @@ class AddStem extends Component {
           id='reichard'
           type='text'
         />
-        <label className='label' htmlFor='doak'>Doak</label>
-        <input
-          value={doak}
-          onChange={this.handleInputChange}
-          name='doak'
-          className='input'
-          id='doak'
-          type='text'
-        />
         <label className='label' htmlFor='salish'>Salish</label>
         <input
           value={salish}
@@ -81,6 +73,15 @@ class AddStem extends Component {
           name='salish'
           className='input'
           id='salish'
+          type='text'
+        />
+        <label className='label' htmlFor='doak'>Doak</label>
+        <input
+          value={doak}
+          onChange={this.handleInputChange}
+          name='doak'
+          className='input'
+          id='doak'
           type='text'
         />
         <label className='label' htmlFor='nicodemus'>Nicodemus</label>
@@ -111,7 +112,6 @@ class AddStem extends Component {
           id='note'
           type='text'
         />
-
         <label className='label' htmlFor='editnote'>Edit Note</label>
         <input
           value={editnote}
@@ -135,6 +135,8 @@ function mapStateToProps (state) {
     stems
   }
 }
+
 export default compose(
-  graphql(addStemMutation, { name: 'addStenMutation' })
+  graphql(addStemMutation, { name: 'addStemMutation' })
 )(withApollo(connect(mapStateToProps)(AddStem)))
+

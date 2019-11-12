@@ -11,13 +11,18 @@ export default function Nav () {
           </NavLink>
         </li>
         <li>
-          <NavLink to='/leaderboard' activeClassName='active'>
-            Leaderboard
+          <NavLink to='/register' activeClassName='active'>
+            Register
           </NavLink>
         </li>
         <li>
           <NavLink to='/stems' activeClassName='active'>
             Stems
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to='/addstem' activeClassName='active'>
+            Add Stem
           </NavLink>
         </li>
         <li>
@@ -28,26 +33,6 @@ export default function Nav () {
         <li>
           <NavLink to='/addaffix' activeClassName='active'>
             Add Affix
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to='/addstem' activeClassName='active'>
-            Add Stem
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to='/editaffix/:id' activeClassName='active'>
-            Edit Affix
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to='/add' activeClassName='active'>
-            Add Poll
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to='/stemlist' activeClassName='active'>
-            Stemlist
           </NavLink>
         </li>
       </ul>

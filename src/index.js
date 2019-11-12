@@ -17,9 +17,7 @@ import { ApolloProvider } from 'react-apollo';
 import logger from './middleware/logger'
 import thunk from 'redux-thunk'
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
-import authedUser from './reducers/authedUser'
 import users from './reducers/users'
-import polls from './reducers/polls'
 import stems from './reducers/stems'
 import affixes from './reducers/affixes'
 import { loadingBarReducer } from 'react-redux-loading'
@@ -71,9 +69,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 const store = createStore(
   combineReducers({
-    authedUser,
     users,
-    polls,
     stems,
     affixes,
     loadingBar: loadingBarReducer,

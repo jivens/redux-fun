@@ -34,11 +34,6 @@ class EditAffix extends Component {
     }
   }
 
-  // componentWillReceiveProps(nextProps){
-  //   if (this.props.id != nextProps.id){
-  //     this.setState
-  //   }
-  // }
 
   handleInputChange = (e) => {
     const { value, name } = e.target
@@ -64,12 +59,11 @@ class EditAffix extends Component {
     this.props.dispatch(handleEditAffix(this.props.client, this.state))
   }
   render() {
-    const { type, salish, nicodemus, english, link, page, editnote } = this.state
-
+    const { id, type, salish, nicodemus, english, link, page, editnote } = this.state
     return (
-      <form className='add-form' onSubmit={this.handleSubmit}>
-        <h3 style={{marginBottom: 5}}>New Affix</h3>
-        <label className='label' htmlFor='type'>Type</label>
+      <form className='edit-form' onSubmit={this.handleSubmit}>
+        <h3 style={{marginBottom: 5}}>Update Affix</h3>
+        <label className='label' htmlFor='a'>Type</label>
         <input
           value={type}
           onChange={this.handleInputChange}

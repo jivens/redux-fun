@@ -30,18 +30,11 @@ class EditStem extends Component {
         english: this.props.stem.english,
         note: this.props.stem.note,
         editnote: this.props.stem.editnote,
-        editnote: this.props.stem.editnote,
         prevId: this.props.stem.prevId,
         user: this.props.stem.user,
       }
     }
   }
-
-  // componentWillReceiveProps(nextProps){
-  //   if (this.props.id != nextProps.id){
-  //     this.setState
-  //   }
-  // }
 
   handleInputChange = (e) => {
     const { value, name } = e.target
@@ -50,8 +43,9 @@ class EditStem extends Component {
       [name]: value
     }))
   }
+  
   isDisabled = () => {
-    const { category, reichard, doak, salish, nicodemus, english, note, editnote } = this.state
+    const { category, salish, nicodemus, reichard, doak, english, note, editnote } = this.state
 
     return category === ''
       || reichard === ''
@@ -68,16 +62,15 @@ class EditStem extends Component {
     this.props.dispatch(handleEditStem(this.props.client, this.state))
   }
   render() {
-    const { category, reichard, doak, salish, nicodemus, english, note, editnote } = this.state
-
+    const { id, category, reichard, doak, salish, nicodemus, english, note, editnote } = this.state
     return (
-      <form className='add-form' onSubmit={this.handleSubmit}>
-        <h3 style={{marginBottom: 5}}>New Stem</h3>
+      <form className='edit-form' onSubmit={this.handleSubmit}>
+        <h3 style={{marginBottom: 5}}>Update Stem</h3>
         <label className='label' htmlFor='category'>Category</label>
         <input
           value={category}
           onChange={this.handleInputChange}
-          name='type'
+          name='category'
           className='input'
           id='category'
           type='text'
@@ -91,15 +84,6 @@ class EditStem extends Component {
           id='reichard'
           type='text'
         />
-        <label className='label' htmlFor='doak'>Doak</label>
-        <input
-          value={doak}
-          onChange={this.handleInputChange}
-          name='doak'
-          className='input'
-          id='doak'
-          type='text'
-        />
         <label className='label' htmlFor='salish'>Salish</label>
         <input
           value={salish}
@@ -107,6 +91,15 @@ class EditStem extends Component {
           name='salish'
           className='input'
           id='salish'
+          type='text'
+        />
+        <label className='label' htmlFor='doak'>Doak</label>
+        <input
+          value={doak}
+          onChange={this.handleInputChange}
+          name='doak'
+          className='input'
+          id='doak'
           type='text'
         />
         <label className='label' htmlFor='nicodemus'>Nicodemus</label>
@@ -137,7 +130,6 @@ class EditStem extends Component {
           id='note'
           type='text'
         />
-
         <label className='label' htmlFor='editnote'>Edit Note</label>
         <input
           value={editnote}
@@ -157,8 +149,6 @@ class EditStem extends Component {
 
 function mapStateToProps ({ stems }, { match }) {
   const { id } = match.params
-  console.log("id: ", id)
-  console.log("stems data: ", stems.data)
   let foundStem = stems.data.filter(function (stem) {
     if (stem.id == id) {
       if (stem.editnote == null) {
