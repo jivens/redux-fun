@@ -147,7 +147,6 @@ class NavBar extends Component {
   render() {
     const { children, rightItems } = this.props;
     const { visible } = this.state;
-    console.log('these are the NavBar children ', children)
 
     return (
       <div>
