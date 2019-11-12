@@ -2,13 +2,13 @@ import React, { Component, Fragment } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { handleInitialData, handleInitialAppData } from '../actions/shared'
-//import Dashboard from './Dashboard'
 import LoadingBar from 'react-redux-loading'
 //import UserList from './UserList'
 import Register from './Register'
-import AddPoll from './AddPoll'
-import Poll from './Poll'
-import Nav from './Nav'
+import { Grid } from 'semantic-ui-react';
+import MainMenu from './MainMenu';
+import NavBar from './NavBar';
+import Nav from './Nav';
 import StemList from './StemList'
 import AffixList from './AffixList'
 import AddAffix from './AddAffix'
@@ -21,6 +21,22 @@ class App extends Component {
   componentDidMount () {
     //this.props.dispatch(handleInitialData())
     this.props.dispatch(handleInitialAppData(this.props.client))
+    this.rightMenuItems = this.rightMenuItems.bind(this)
+  }
+
+  rightMenuItems = () => {
+    const rightItems = [
+      { to: "/search", icon: 'search', content:"Search", key: 'rsearch'},
+      { to: "/register", icon: 'user outline', content:"Log In/Sign Up", key: 'rreg'},
+      { to: "/users", icon: 'user', content:"User Profile", key: 'ruser'}
+    ]
+    // if (loggedIn()){
+    //   rightItems.push({ to: "/users", icon: 'user', content:"User Profile", key: 'ruser'})
+    // }
+    // else {
+    //   rightItems.push({ to: "/register", icon: 'user outline', content:"Log In/Sign Up", key: 'rreg'})
+    // }
+    return rightItems
   }
 
   render() {
@@ -30,13 +46,12 @@ class App extends Component {
           <Fragment>
             <LoadingBar />
             <div className='container'>
-              <Nav />
+              <NavBar rightItems={this.rightMenuItems()}>
+              <MainMenu />
               {this.props.loading === true
                 ? null
                 : <div>
                     <Route path='/register' component={Register} />
-                    <Route path='/polls/:id' component={Poll} />
-                    <Route path='/add' component={AddPoll} />
                     <Route path='/stems' component={StemList} />
                     <Route path='/addstem' component={AddStem} />
                     <Route path='/editstem/:id' component={EditStem} />
@@ -44,6 +59,8 @@ class App extends Component {
                     <Route path='/addaffix' component={AddAffix} />
                     <Route path='/editaffix/:id' component={EditAffix} />
                   </div>}
+                </NavBar>
+                <Footer />
             </div>
           </Fragment>
         </Router>
@@ -52,9 +69,21 @@ class App extends Component {
   }
 }
 
-function mapStateToProps ({ authedUser }) {
+function mapStateToProps ({ stems }) {
   return {
-    loading: authedUser === null
+    loading: stems === null
+  }
+}
+
+class Footer extends Component {
+  render() {
+    return (
+      <div className='ui bottom centered'>
+        <p></p>
+        <p>coeur d'alene online language resource center copyright 2009</p>
+        <p>project supported by the national science foundation awards BCS-1160627 and BCS-1160394 and the national endowment for the humanities award PD-261031-18.</p>
+      </div>
+    );
   }
 }
 

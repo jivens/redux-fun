@@ -36,7 +36,6 @@ class EditStem extends Component {
     }
   }
 
-
   handleInputChange = (e) => {
     const { value, name } = e.target
 
@@ -44,6 +43,7 @@ class EditStem extends Component {
       [name]: value
     }))
   }
+  
   isDisabled = () => {
     const { category, salish, nicodemus, reichard, doak, english, note, editnote } = this.state
 

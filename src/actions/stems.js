@@ -42,7 +42,6 @@ function setStemPage(page) {
 
 export function handleStemPageChange(page) {
   return (dispatch, getState) => {
-    const { authedUser } = getState()
     dispatch(setStemPage(page))
   }
 }
@@ -82,14 +81,12 @@ function setStemResized(resized, event) {
 
 export function handleStemPageSizeChange(pageSize, page) {
   return (dispatch, getState) => {
-    const { authedUser } = getState()
     dispatch(setStemPageSize(pageSize, page))
   }
 }
 
 export function handleStemSortedChange(newSorted, column, shiftKey) {
   return (dispatch, getState) => {
-    const { authedUser } = getState()
     dispatch(setStemSorted(newSorted, column, shiftKey))
   }
 }
@@ -97,7 +94,6 @@ export function handleStemSortedChange(newSorted, column, shiftKey) {
 // When a filter is set or changed, current page = page 1 (0)
 export function handleStemFilteredChange(filtered, column) {
   return (dispatch, getState) => {
-    const { authedUser } = getState()
     dispatch(setStemFiltered(filtered, column))
     dispatch(setStemPage(0))
   }
@@ -105,7 +101,6 @@ export function handleStemFilteredChange(filtered, column) {
 
 export function handleStemResizedChange(resized, event) {
   return (dispatch, getState) => {
-    const { authedUser } = getState()
     dispatch(setStemResized(resized, event))
   }
 }
@@ -119,7 +114,6 @@ export function receiveStems (stems) {
 
 export function handleDeleteStem (client, id) {
   return (dispatch, getState) => {
-    const { authedUser } = getState()
     dispatch(showLoading())
     return deleteStem(client, id)
     .then((stemData) => dispatch(removeStem(stemData.data.deleteStem_M)))
@@ -129,7 +123,6 @@ export function handleDeleteStem (client, id) {
 
 export function handleAddStem (client, stem) {
   return (dispatch, getState) => {
-    const { authedUser } = getState()
     dispatch(showLoading())
     return saveStem(client, stem)
     .then((stemData) => dispatch(addStem(stemData.data.addStem_M)))
@@ -139,7 +132,6 @@ export function handleAddStem (client, stem) {
 
 export function handleEditStem (client, stem) {
   return (dispatch, getState) => {
-    const { authedUser } = getState()
     dispatch(showLoading())
     return editStem(client, stem) //backend change on the database, "editStem"
     .then((stemData) => {
