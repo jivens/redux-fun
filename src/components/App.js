@@ -39,7 +39,9 @@ class App extends Component {
                     <Route path='/editstem/:id' component={EditStem} />
                     <Route path='/affixes' component={AffixList} />
                     <Route path='/addaffix' component={AddAffix} />
+                    <Route path='/addstem' component={AddStem} />
                     <Route path='/editaffix/:id' component={EditAffix} />
+                    <Route path='/editstem/:id' component={EditStem} />
                   </div>}
             </div>
           </Fragment>

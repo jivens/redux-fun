@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withApollo, graphql } from 'react-apollo'
-import { flowRight as compose } from 'lodash';
+import { flowRight as compose } from 'lodash'
 import ReactTable from 'react-table'
 import matchSorter from 'match-sorter'
 import { getStemsQuery, deleteStemMutation } from '../queries/queries'
@@ -27,7 +27,31 @@ class StemList extends Component {
   async onDelete(id) {
     console.log("In stem deletion");
     await this.props.dispatch(handleDeleteStem(this.props.client, id))
-  };
+  }
+
+  async onEdit(id) {
+    this.props.history.push(`/editstem/${id}`)
+  }
+
+  async onPageChange(page) {
+    await this.props.dispatch(handleStemPageChange(page))
+  }
+
+  async onPageSizeChange(pageSize, page) {
+    await this.props.dispatch(handleStemPageSizeChange(pageSize, page))
+  }
+
+  async onSortedChange(newSorted, column, shiftKey) {
+    await this.props.dispatch(handleStemSortedChange(newSorted, column, shiftKey))
+  }
+
+  async onFilteredChange(filtered, column) {
+    await this.props.dispatch(handleStemFilteredChange(filtered, column))
+  }
+
+  async onResizedChange(newResized, event) {
+    await this.props.dispatch(handleStemResizedChange(newResized, event))
+  }
 
   async onEdit(id) {
     this.props.history.push(`/editstem/${id}`)
@@ -63,6 +87,27 @@ class StemList extends Component {
       {
         Header: 'Category',
         accessor: 'category'
+      },
+      {
+        Header: 'Reichard',
+        accessor: 'reichard',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["reichard"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
+      },
+      {
+        Header: 'Doak',
+        accessor: 'doak',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["doak"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
+      },
+      {
+        Header: 'Salish',
+        accessor: 'salish',
+        filterMethod: (filter, rows) =>
+          matchSorter(rows, filter.value, { keys: ["salish"], threshold: matchSorter.rankings.CONTAINS }),
+        filterAll: true,
       },
       {
         Header: 'Nicodemus',
