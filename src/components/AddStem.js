@@ -25,14 +25,15 @@ class AddStem extends Component {
     }))
   }
   isDisabled = () => {
-    const { type, salish, nicodemus, english, link, page, editnote } = this.state
+    const { category, reichard, salish, doak, nicodemus, english, note, editnote } = this.state
 
-    return type === ''
+    return category === ''
+      || reichard === ''
       || salish === ''
+      || doak === ''
       || nicodemus === ''
       || english === ''
-      || link === ''
-      || page === ''
+      || note === ''
       || editnote === ''
   }
 

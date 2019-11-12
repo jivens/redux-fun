@@ -21,7 +21,24 @@ class App extends Component {
   componentDidMount () {
     //this.props.dispatch(handleInitialData())
     this.props.dispatch(handleInitialAppData(this.props.client))
+    this.rightMenuItems = this.rightMenuItems.bind(this)
   }
+
+  rightMenuItems = () => {
+    const rightItems = [
+      { to: "/search", icon: 'search', content:"Search", key: 'rsearch'},
+      { to: "/register", icon: 'user outline', content:"Log In/Sign Up", key: 'rreg'},
+      { to: "/users", icon: 'user', content:"User Profile", key: 'ruser'}
+    ]
+    // if (loggedIn()){
+    //   rightItems.push({ to: "/users", icon: 'user', content:"User Profile", key: 'ruser'})
+    // }
+    // else {
+    //   rightItems.push({ to: "/register", icon: 'user outline', content:"Log In/Sign Up", key: 'rreg'})
+    // }
+    return rightItems
+  }
+
   render() {
     return (
 
@@ -29,7 +46,8 @@ class App extends Component {
           <Fragment>
             <LoadingBar />
             <div className='container'>
-              <Nav />
+              <NavBar rightItems={this.rightMenuItems()}>
+              <MainMenu />
               {this.props.loading === true
                 ? null
                 : <div>
@@ -41,6 +59,8 @@ class App extends Component {
                     <Route path='/addaffix' component={AddAffix} />
                     <Route path='/editaffix/:id' component={EditAffix} />
                   </div>}
+                </NavBar>
+                <Footer />
             </div>
           </Fragment>
         </Router>
