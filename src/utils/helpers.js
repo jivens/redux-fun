@@ -1,3 +1,7 @@
+export function isLoggedIn () {
+  localStorage.getItem('TOKEN') ? true : false
+}
+
 export function isObject (item) {
   return Object.prototype.toString.call(item) === '[object Object]'
 }
