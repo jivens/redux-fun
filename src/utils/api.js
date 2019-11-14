@@ -10,7 +10,7 @@ export function getInitialAppData (client) {
     client.query({
       query: getRootsQuery,
       variables: {}
-    }),  
+    }),
     client.query({
       query: getAffixesQuery,
       variables: {}
@@ -222,4 +222,3 @@ export function editStem(client, stem){
     }
   })
 }
-
