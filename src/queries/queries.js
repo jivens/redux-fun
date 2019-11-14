@@ -474,14 +474,20 @@ const updateUserAdminMutation = gql`
   }
 `;
 const addRootMutation = gql`
-  mutation($root: String!, $number: Int, $salish: String, $nicodemus: String!, $english: String!, $editnote: String) {
-    addRoot_M(root: $root, number: $number, salish: $salish, nicodemus: $nicodemus, english: $english, editnote: $editnote) {
+  mutation($id: ID!, $root: String!, $number: Int, $sense: String, $salish: String, $nicodemus: String!, $symbol:String, $english: String!, $grammar: String, $crossref: String, $variant: String, $cognate:String, $editnote: String) {
+    addRoot_M(id: $id, root: $root, number: $number, sense:$sense ,salish: $salish, nicodemus: $nicodemus, symbol: $symbol, english: $english, grammar: $grammar, crossref: $crossref, variant: $variant, cognate: $cognate, editnote: $editnote) {
       id
       root
       number
+      sense
       salish
       nicodemus
+      symbol
       english
+      grammar
+      crossref
+      variant
+      cognate
       editnote
       active
       prevId
@@ -492,15 +498,22 @@ const addRootMutation = gql`
   }
 `;
 
+
 const updateRootMutation = gql`
-  mutation($id: ID!, $root: String!, $number: Int, $salish: String, $nicodemus: String!, $english: String!, $editnote: String) {
-    updateRoot_M(id: $id, root: $root, number: $number, salish: $salish, nicodemus: $nicodemus, english: $english, editnote: $editnote) {
+  mutation($id: ID!, $root: String!, $number: Int, $sense: String, $salish: String, $nicodemus: String!, $symbol:String, $english: String!, $grammar: String, $crossref: String, $variant: String, $cognate:String, $editnote: String) {
+    updateRoot_M(id: $id, root: $root, number: $number, sense:$sense ,salish: $salish, nicodemus: $nicodemus, symbol: $symbol, english: $english, grammar: $grammar, crossref: $crossref, variant: $variant, cognate: $cognate, editnote: $editnote) {
       id
       root
       number
+      sense
       salish
       nicodemus
+      symbol
       english
+      grammar
+      crossref
+      variant
+      cognate
       editnote
       active
       prevId
@@ -517,9 +530,14 @@ const deleteRootMutation = gql`
       id
       root
       number
+      sense
       salish
       nicodemus
       english
+      grammar
+      crossref
+      variant
+      cognate
       editnote
       active
       prevId
