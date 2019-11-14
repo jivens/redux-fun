@@ -107,7 +107,7 @@ export function handleRootResizedChange(resized, event) {
 
 export function receiveRoots (roots) {
   return {
-    type: RECEIVE_ROOTES,
+    type: RECEIVE_ROOTS,
     roots,
   }
 }

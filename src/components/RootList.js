@@ -53,6 +53,7 @@ class RootList extends Component {
 
   render() {
     const { roots } = this.props
+    console.log('Roots=', roots)
     const columns = [
       {
         Header: 'ID',
