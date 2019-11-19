@@ -18,14 +18,14 @@ export default function roots (state = {}, action) {
       }
     case EDIT_ROOT :
       let editData = state.data.filter(function (root) {
-        if (root.id !== action.root.originalAffix.id) {
+        if (root.id !== action.root.originalRoot.id) {
           return root
         }
       })
-      let originalAffix = action.root.originalAffix
-      originalAffix.active = 'N'
-      editData.push(action.root.newAffix)
-      editData.push(originalAffix)
+      let originalRoot = action.root.originalRoot
+      originalRoot.active = 'N'
+      editData.push(action.root.newRoot)
+      editData.push(originalRoot)
       return {
         ...state,
         data: editData
