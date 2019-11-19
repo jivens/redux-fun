@@ -18,6 +18,7 @@ import logger from './middleware/logger'
 import thunk from 'redux-thunk'
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
 import users from './reducers/users'
+import roots from './reducers/roots'
 import stems from './reducers/stems'
 import affixes from './reducers/affixes'
 import { loadingBarReducer } from 'react-redux-loading'
@@ -71,6 +72,7 @@ const store = createStore(
   combineReducers({
     users,
     stems,
+    roots,
     affixes,
     loadingBar: loadingBarReducer,
   }),

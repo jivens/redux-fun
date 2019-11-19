@@ -10,9 +10,12 @@ import MainMenu from './MainMenu';
 import NavBar from './NavBar';
 import Nav from './Nav';
 import StemList from './StemList'
+import RootList from './RootList'
 import AffixList from './AffixList'
 import AddAffix from './AddAffix'
+import AddRoot from './AddRoot'
 import EditAffix from './EditAffix'
+import EditRoot from './EditRoot'
 import AddStem from './AddStem'
 import EditStem from './EditStem'
 import { ApolloConsumer } from "react-apollo"
@@ -55,8 +58,11 @@ class App extends Component {
                     <Route path='/stems' component={StemList} />
                     <Route path='/addstem' component={AddStem} />
                     <Route path='/editstem/:id' component={EditStem} />
+                    <Route path='/editroot/:id' component={EditRoot} />
+                    <Route path='/roots' component={RootList} />
                     <Route path='/affixes' component={AffixList} />
                     <Route path='/addaffix' component={AddAffix} />
+                    <Route path='/addroot' component={AddRoot} />
                     <Route path='/editaffix/:id' component={EditAffix} />
                   </div>}
                 </NavBar>
@@ -69,9 +75,9 @@ class App extends Component {
   }
 }
 
-function mapStateToProps ({ stems }) {
+function mapStateToProps ({ stems, roots, affixes }) {
   return {
-    loading: stems === null
+    loading: stems === null || roots === null || affixes === null
   }
 }
 
