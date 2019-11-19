@@ -56,7 +56,7 @@ class RootList extends Component {
     console.log('Roots=', roots)
     const columns = [
       {
-        Header: 'Id',
+        Header: 'ID',
         accessor: 'id'
       },
       {
@@ -168,7 +168,7 @@ class RootList extends Component {
   const table =
     <ReactTable
       data={roots.data}
-      page={roots.tableData.page}
+      // page={roots.tableData.page}
       pageSize={roots.tableData.pageSize}
       filtered={roots.tableData.filtered}
       sorted={roots.tableData.sorted}
