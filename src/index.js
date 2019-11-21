@@ -16,6 +16,7 @@ import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
 import { loadState, saveState } from './utils/localStorage'
 import throttle from 'lodash/throttle'
 import users from './reducers/users'
+import roots from './reducers/roots'
 import stems from './reducers/stems'
 import affixes from './reducers/affixes'
 import navbar from './reducers/navbar'
@@ -72,6 +73,7 @@ const store = createStore(
     persistedState,
     users,
     stems,
+    roots,
     affixes,
     loadingBar: loadingBarReducer,
   }),

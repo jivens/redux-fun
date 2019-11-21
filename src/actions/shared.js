@@ -3,6 +3,7 @@ import { getInitialAppData } from '../utils/api'
 import { receiveNavBar } from '../actions/navbar'
 import { receiveStems, handleStemPageChange, handleStemPageSizeChange } from '../actions/stems'
 import { receiveAffixes, handleAffixPageChange, handleAffixPageSizeChange } from '../actions/affixes'
+import { receiveRoots, handleRootPageChange, handleRootPageSizeChange } from '../actions/roots'
 import { showLoading, hideLoading } from 'react-redux-loading'
 
 export function handleInitialAppData (client) {

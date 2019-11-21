@@ -1,10 +1,14 @@
-import { getUsersQuery, getUserToken, getAffixesQuery, getStemsQuery, deleteAffixMutation, deleteStemMutation, addAffixMutation , updateAffixMutation, addStemMutation, updateStemMutation, addUserMutation } from '../queries/queries'
+import { getUsersQuery, getUserToken, getAffixesQuery, getRootsQuery, getStemsQuery, deleteAffixMutation, deleteRootMutation, deleteStemMutation, addAffixMutation , updateAffixMutation, addRootMutation, updateRootMutation, addStemMutation, updateStemMutation, addUserMutation} from '../queries/queries'
 import { isObject, hashToArray } from './helpers'
 
 export function getInitialAppData (client) {
   return Promise.all([
     client.query({
       query: getStemsQuery,
+      variables: {}
+    }),
+    client.query({
+      query: getRootsQuery,
       variables: {}
     }),
     client.query({
@@ -15,7 +19,7 @@ export function getInitialAppData (client) {
     //   query: getUsersQuery,
     //   variables: {}
     // }),
-  ]).then(([stems, affixes]) => ({
+  ]).then(([stems, roots, affixes]) => ({
     stems: {
       data: stems.data.stems_Q,
       tabledata: {
@@ -31,6 +35,22 @@ export function getInitialAppData (client) {
         filtered: [],
         resized: [],
       }
+    },
+    roots: {
+      data: roots.data.roots_Q,
+      tableData: {
+        page: 2,
+        pageSize: 10,
+        sorted: [{
+          id: 'root',
+          desc: false
+        },{
+          id: 'sense',
+          desc: false
+        }],
+        filtered: [],
+        resized: []
+      },
     },
     affixes: {
       data: affixes.data.affixes_Q,
@@ -64,6 +84,14 @@ export function deleteAffix(client, id){
   let variables = {}
   return client.mutate({
     mutation: deleteAffixMutation,
+    variables: { id: id }
+  })
+}
+
+export function deleteRoot(client, id){
+  let variables = {}
+  return client.mutate({
+    mutation: deleteRootMutation,
     variables: { id: id }
   })
 }
@@ -117,6 +145,27 @@ export function saveAffix(client, affix){
   })
 }
 
+export function saveRoot(client, root){
+  let variables = {}
+  return client.mutate({
+    mutation: addRootMutation,
+    variables: {
+      root: root.root,
+      number: root.number,
+      sense: root.sense,
+      salish: root.salish,
+      nicodemus: root.nicodemus,
+      symbol: root.symbol,
+      english: root.english,
+      grammar: root.grammar,
+      crossref: root.crossref,
+      variant: root.variant,
+      cognate: root.cognate,
+      editnote: root.editnote,
+    }
+  })
+}
+
 export function saveStem(client, stem){
   let variables = {}
   return client.mutate({
@@ -136,7 +185,6 @@ export function saveStem(client, stem){
 
 
 export function editAffix(client, affix){
-
   return client.mutate({
     mutation: updateAffixMutation,
     variables: {
@@ -152,8 +200,28 @@ export function editAffix(client, affix){
   })
 }
 
-export function editStem(client, stem){
+export function editRoot(client, root){
+  return client.mutate({
+    mutation: updateRootMutation,
+    variables: {
+      id: root.id,
+      root: root.root,
+      number: root.number,
+      sense: root.sense,
+      salish: root.salish,
+      nicodemus: root.nicodemus,
+      symbol: root.symbol,
+      english: root.english,
+      grammar: root.grammar,
+      crossref: root.crossref,
+      variant: root.variant,
+      cognate: root.cognate,
+      editnote: root.editnote,
+    }
+  })
+}
 
+export function editStem(client, stem){
   return client.mutate({
     mutation: updateStemMutation,
     variables: {
@@ -169,4 +237,3 @@ export function editStem(client, stem){
     }
   })
 }
-
