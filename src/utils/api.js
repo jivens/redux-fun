@@ -1,4 +1,4 @@
-import { getUsersQuery, getUserToken, getAffixesQuery, getStemsQuery, deleteAffixMutation, deleteStemMutation, addAffixMutation , updateAffixMutation, addStemMutation, updateStemMutation, addUserMutation} from '../queries/queries'
+import { getUsersQuery, getUserToken, getAffixesQuery, getStemsQuery, deleteAffixMutation, deleteStemMutation, addAffixMutation , updateAffixMutation, addStemMutation, updateStemMutation, addUserMutation } from '../queries/queries'
 import { isObject, hashToArray } from './helpers'
 
 export function getInitialAppData (client) {
@@ -18,15 +18,24 @@ export function getInitialAppData (client) {
   ]).then(([stems, affixes]) => ({
     stems: {
       data: stems.data.stems_Q,
-      tableData: {
-        page: 2,
-        pageSize: 10
+      tabledata: {
+        page: 0,
+        pageSize: 10,
+        sorted: [{
+          id: 'category',
+          desc: false
+        },{
+          id: 'nicodemus',
+          desc: false
+        }],
+        filtered: [],
+        resized: [],
       }
     },
     affixes: {
       data: affixes.data.affixes_Q,
       tableData: {
-        page: 2,
+        page: 0,
         pageSize: 10,
         sorted: [{
           id: 'type',
@@ -39,6 +48,12 @@ export function getInitialAppData (client) {
         resized: [],
       }
     },
+    // navbar: {
+    //   rightItems: [
+    //     { to: "/search", icon: 'search', content:"Search", key: 'rsearch'},
+    //     { to: "/register", icon: 'user outline', content:"Log In/Sign Up", key: 'rreg'}
+    //   ]
+    // }
     // users: {
     //   data: users.data.users_Q
     // }

@@ -5,12 +5,11 @@ import { handleInitialData, handleInitialAppData } from '../actions/shared'
 import LoadingBar from 'react-redux-loading'
 import { isLoggedIn } from '../utils/helpers'
 import { Grid } from 'semantic-ui-react'
-//import UserList from './UserList'
-import Register from './Register'
-import Users from './Users'
-import MainMenu from './MainMenu'
+//import UserList from './users/UserList'
+import Register from './users/Register'
+import Users from './users/Users'
+import Banner from './Banner'
 import NavBar from './NavBar'
-import Nav from './Nav'
 import StemList from './StemList'
 import AffixList from './AffixList'
 import AddAffix from './AddAffix'
@@ -28,31 +27,18 @@ class App extends Component {
   componentDidMount () {
     //this.props.dispatch(handleInitialData())
     this.props.dispatch(handleInitialAppData(this.props.client))
-    this.rightMenuItems = this.rightMenuItems.bind(this)
   }
 
-  rightMenuItems = () => {
-    const rightItems = [
-      { to: "/search", icon: 'search', content:"Search", key: 'rsearch'},
-    ]
-    if (loggedIn()){
-      rightItems.push({ to: "/users", icon: 'user', content:"User Profile", key: 'ruser'})
-    }
-    else {
-      rightItems.push({ to: "/register", icon: 'user outline', content:"Log In/Sign Up", key: 'rreg'})
-    }
-    return rightItems
-  }
 
   render() {
     return (
 
         <Router>
           <Fragment>
-            <LoadingBar />
             <div className='container'>
-              <NavBar rightItems={this.rightMenuItems()}>
-              <MainMenu />
+              <NavBar>
+              <Banner />
+              <LoadingBar />
               {this.props.loading === true
                 ? null
                 : <div>
@@ -84,8 +70,7 @@ function mapStateToProps ({ stems }) {
 class Footer extends Component {
   render() {
     return (
-      <div className='ui bottom centered'>
-        <p></p>
+      <div className='centered'>
         <p>coeur d'alene online language resource center copyright 2009</p>
         <p>project supported by the national science foundation awards BCS-1160627 and BCS-1160394 and the national endowment for the humanities award PD-261031-18.</p>
       </div>

@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withApollo, graphql } from 'react-apollo'
 import { flowRight as compose } from 'lodash'
-import { addUserMutation, getUserToken } from '../queries/queries'
+import { addUserMutation, getUserToken } from '../../queries/queries'
 import { Button, Grid, Header, Message, Segment, Input } from 'semantic-ui-react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import { handleLoginUser, handleSaveUser } from '../actions/users'
-import { hashToArray, isLoggedIn } from '../utils/helpers'
+import { handleLoginUser, handleSaveUser } from '../../actions/users'
+import { hashToArray, isLoggedIn } from '../../utils/helpers'
 import { withRouter } from 'react-router-dom';
 
 

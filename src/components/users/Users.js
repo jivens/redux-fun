@@ -4,8 +4,8 @@ import { flowRight as compose } from 'lodash'
 import { Grid, Header, Segment, Button, Message, Input } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import { withApollo, graphql } from 'react-apollo';
-import { getUserToken, getUserFromToken } from '../queries/queries';
-import { hashToArray, isLoggedIn } from '../utils/helpers'
+import { getUserToken, getUserFromToken } from '../../queries/queries';
+import { hashToArray, isLoggedIn } from '../../utils/helpers'
 
 class Users extends Component {
   constructor(props) {

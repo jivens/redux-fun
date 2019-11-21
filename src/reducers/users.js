@@ -1,4 +1,4 @@
-import { LOGIN_USER, ADD_USER, RECEIVE_USERS } from '../actions/users'
+import { LOGIN_USER, ADD_USER, RECEIVE_USERS, LOGOUT_USER } from '../actions/users'
 
 export default function users (state = {}, action) {
   switch (action.type) {
@@ -10,6 +10,9 @@ export default function users (state = {}, action) {
       } else {
         console.log('bad login')
       }
+      return state
+    case LOGOUT_USER :
+      localStorage.removeItem('TOKEN')
       return state
     case ADD_USER :
       //let userData = state.data -- we'll need to add this when we handle admin users
