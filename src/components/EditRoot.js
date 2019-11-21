@@ -76,7 +76,7 @@ class EditRoot extends Component {
     const { root, number, sense, salish, nicodemus, symbol, english, grammar, crossref, variant, cognate, editnote } = this.state
     return (
       <form className='add-form' onSubmit={this.handleSubmit}>
-        <h3 style={{marginBottom: 5}}>Add Root</h3>
+        <h3 style={{marginBottom: 5}}>Edit Root</h3>
         <label className='label' htmlFor='root'>Root</label>
         <input
           value={root}

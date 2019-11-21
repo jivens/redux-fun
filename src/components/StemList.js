@@ -9,6 +9,7 @@ import { handleDeleteStem, handleStemPageChange,
   handleStemPageSizeChange, handleStemSortedChange,
   handleStemFilteredChange, handleStemResizedChange } from '../actions/stems'
 import { hashToArray } from '../utils/helpers'
+import { loadState }  from '../utils/localStorage'
 
 
 class StemList extends Component {
@@ -22,6 +23,13 @@ class StemList extends Component {
     this.onSortedChange = this.onSortedChange.bind(this)
     this.onFilteredChange = this.onFilteredChange.bind(this)
     this.onResizedChange = this.onResizedChange.bind(this)
+    const serializedState = loadState()
+    console.log('here is my goddamned stems.tabledata state from constructor ', serializedState.stems.tabledata)
+    this.state = {stems: serializedState.stems}
+  }
+
+  componentDidMount() {
+
   }
 
   async onDelete(id) {
@@ -35,6 +43,9 @@ class StemList extends Component {
 
   async onPageChange(page) {
     await this.props.dispatch(handleStemPageChange(page))
+    let currentState = this.state
+    currentState.stems.tabledata.page = page
+    this.setState(currentState)
   }
 
   async onPageSizeChange(pageSize, page) {
@@ -56,29 +67,11 @@ class StemList extends Component {
   async onEdit(id) {
     this.props.history.push(`/editstem/${id}`)
   }
-  async onPageChange(page) {
-    await this.props.dispatch(handleStemPageChange(page))
-  }
-
-  async onPageSizeChange(pageSize, page) {
-    await this.props.dispatch(handleStemPageSizeChange(pageSize, page))
-  }
-
-  async onSortedChange(newSorted, column, shiftKey) {
-    await this.props.dispatch(handleStemSortedChange(newSorted, column, shiftKey))
-  }
-
-  async onFilteredChange(filtered, column) {
-    await this.props.dispatch(handleStemFilteredChange(filtered, column))
-  }
-
-  async onResizedChange(newResized, event) {
-    await this.props.dispatch(handleStemResizedChange(newResized, event))
-  }
-
 
   render() {
-    const { stems } = this.props
+    const { stems } = this.state
+    console.log('this is the f**king loadState stems ', stems)
+
     const columns = [
       {
         Header: 'ID',
@@ -162,33 +155,30 @@ class StemList extends Component {
       }
     ]
 
-    const table =
-    <ReactTable
-      data={stems.data}
-      columns={columns}
-      page={stems.tableData.page}
-      pageSize={stems.tableData.pageSize}
-      filtered={stems.tableData.filtered}
-      sorted={stems.tableData.sorted}
-      resized={stems.tableData.resized}
-      filterable
-      onPageChange={page => this.onPageChange(page)}
-      onPageSizeChange={(pageSize,page) => this.onPageSizeChange(pageSize,page)}
-      onSortedChange={(newSorted,column,shiftKey) => this.onSortedChange(newSorted,column,shiftKey)}
-      onResizedChange={(newResized, event) => this.onResizedChange(newResized, event)}
-      onFilteredChange={(filtered, column) => this.onFilteredChange(filtered,column)}
-    />
-
     return (
-      <React.Fragment>
-        {table}
-      </React.Fragment>
+      <ReactTable
+        data={stems.data}
+        columns={columns}
+        page={stems.tabledata.page}
+        //pageSize={stems.tableData.pageSize}
+        //filtered={stems.tableData.filtered}
+        //sorted={stems.tableData.sorted}
+        //resized={stems.tableData.resized}
+        filterable
+        onPageChange={page => this.onPageChange(page)}
+        onPageSizeChange={(pageSize,page) => this.onPageSizeChange(pageSize,page)}
+        onSortedChange={(newSorted,column,shiftKey) => this.onSortedChange(newSorted,column,shiftKey)}
+        onResizedChange={(newResized, event) => this.onResizedChange(newResized, event)}
+        onFilteredChange={(filtered, column) => this.onFilteredChange(filtered,column)}
+      />
     )
   }
 }
 
 function mapStateToProps (state) {
-  const {stems} = state
+  const serializedState = loadState()
+  console.log('here is my goddam stems.tabledata state ', serializedState.stems.tabledata)
+  const {stems} = serializedState
   return {
     stems
   }
