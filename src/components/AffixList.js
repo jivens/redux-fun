@@ -9,6 +9,7 @@ import { handleDeleteAffix, handleAffixPageChange,
   handleAffixPageSizeChange, handleAffixSortedChange,
   handleAffixFilteredChange, handleAffixResizedChange } from '../actions/affixes'
 import { hashToArray } from '../utils/helpers'
+import { loadState }  from '../utils/localStorage'
 
 class AffixList extends Component {
 
@@ -21,6 +22,8 @@ class AffixList extends Component {
     this.onSortedChange = this.onSortedChange.bind(this)
     this.onFilteredChange = this.onFilteredChange.bind(this)
     this.onResizedChange = this.onResizedChange.bind(this)
+    const serializedState = loadState()
+    this.state = {affixes: serializedState.affixes}
   }
 
   async onDelete(id) {
@@ -52,7 +55,7 @@ class AffixList extends Component {
   }
 
   render() {
-    const { affixes } = this.props
+    const { affixes } = this.state
     const columns = [
       {
         Header: 'ID',
@@ -134,7 +137,8 @@ class AffixList extends Component {
 }
 
 function mapStateToProps (state) {
-  const {affixes} = state
+  const serializedState = loadState()
+  const {affixes} = serializedState
   return {
     affixes
   }
