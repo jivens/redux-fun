@@ -23,7 +23,7 @@ class StemList extends Component {
     this.onFilteredChange = this.onFilteredChange.bind(this)
     this.onResizedChange = this.onResizedChange.bind(this)
     const serializedState = loadState()
-    console.log('here is my goddamned stems.tableData state from constructor ', serializedState.stems.tableData)
+    console.log('here is my stems.tableData state from constructor ', serializedState.stems.tableData)
     this.state = {stems: serializedState.stems}
   }
 
@@ -45,18 +45,31 @@ class StemList extends Component {
 
   async onPageSizeChange(pageSize, page) {
     await this.props.dispatch(handleStemPageSizeChange(pageSize, page))
+    let currentState = this.state
+    currentState.stems.tableData.page = page
+    currentState.stems.tableData.pageSize = pageSize
+    this.setState(currentState)
   }
 
   async onSortedChange(newSorted, column, shiftKey) {
     await this.props.dispatch(handleStemSortedChange(newSorted, column, shiftKey))
+    let currentState = this.state
+    currentState.stems.tableData.sorted = newSorted
+    this.setState(currentState)
   }
 
   async onFilteredChange(filtered, column) {
     await this.props.dispatch(handleStemFilteredChange(filtered, column))
+    let currentState = this.state
+    currentState.stems.tableData.filtered = filtered
+    this.setState(currentState)
   }
 
   async onResizedChange(newResized, event) {
     await this.props.dispatch(handleStemResizedChange(newResized, event))
+    let currentState = this.state
+    currentState.stems.tableData.resized = newResized
+    this.setState(currentState)
   }
 
   async onEdit(id) {
@@ -65,7 +78,7 @@ class StemList extends Component {
 
   render() {
     const { stems } = this.state
-    console.log('this is the f**king loadState stems ', stems)
+    console.log('this is the loadState stems ', stems)
 
     const columns = [
       {
@@ -175,7 +188,7 @@ class StemList extends Component {
 
 function mapStateToProps (state) {
   const serializedState = loadState()
-  console.log('here is my goddam stems.tableData state ', serializedState.stems.tableData)
+  console.log('here is my stems.tableData state ', serializedState.stems.tableData)
   const {stems} = serializedState
   return {
     stems
