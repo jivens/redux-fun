@@ -22,7 +22,7 @@ export function getInitialAppData (client) {
   ]).then(([stems, roots, affixes]) => ({
     stems: {
       data: stems.data.stems_Q,
-      tabledata: {
+      tableData: {
         page: 0,
         pageSize: 10,
         sorted: [{

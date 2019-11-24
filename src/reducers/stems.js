@@ -44,8 +44,8 @@ export default function stems (state = {}, action) {
     case SET_STEM_PAGE_SIZE :
       return {
         ...state,
-        tabledata: {
-          ...state.tabledata,
+        tableData: {
+          ...state.tableData,
           pageSize: action.pageSize,
           page: action.page
         }
@@ -53,32 +53,32 @@ export default function stems (state = {}, action) {
     case SET_STEM_PAGE :
       return {
         ...state,
-        tabledata: {
-          ...state.tabledata,
+        tableData: {
+          ...state.tableData,
           page: action.page
         }
       }
     case SET_STEM_SORTED :
       return {
         ...state,
-        tabledata: {
-          ...state.tabledata,
+        tableData: {
+          ...state.tableData,
           sorted: action.newSorted
         }
       }
     case SET_STEM_FILTERED :
       return {
         ...state,
-        tabledata: {
-          ...state.tabledata,
+        tableData: {
+          ...state.tableData,
           filtered: action.filtered
         }
       }
     case SET_STEM_RESIZED :
       return {
         ...state,
-        tabledata: {
-          ...state.tabledata,
+        tableData: {
+          ...state.tableData,
           resized: action.resized
         }
       }
