@@ -10,13 +10,14 @@ export function handleInitialAppData (client) {
   return (dispatch) => {
     dispatch(showLoading())
     return getInitialAppData(client)
-      .then(({ stems, affixes }) => {
+      .then(({ stems, roots, affixes }) => {
         dispatch(receiveStems(stems))
-        //dispatch(handleStemPageChange(0))
-       //dispatch(handleStemPageSizeChange(10, 0))
-       //dispatch(handleAffixPageChange(0))
-       //dispatch(handleAffixPageSizeChange(10, 0))
+        dispatch(receiveRoots(roots))
         dispatch(receiveAffixes(affixes))
+        //dispatch(handleStemPageChange(0))
+        //dispatch(handleStemPageSizeChange(10, 0))
+        //dispatch(handleAffixPageChange(0))
+        //dispatch(handleAffixPageSizeChange(10, 0))
         //dispatch(receiveNavBar(navbar))
         //dispatch(receiveUsers(users))
         dispatch(hideLoading())
