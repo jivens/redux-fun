@@ -45,18 +45,24 @@ class StemList extends Component {
 
   async onPageSizeChange(pageSize, page) {
     await this.props.dispatch(handleStemPageSizeChange(pageSize, page))
+    let currentState = this.state
+    currentState.stems.tableData.pageSize = pageSize
+    currentState.stems.tableData.page = page
   }
 
   async onSortedChange(newSorted, column, shiftKey) {
     await this.props.dispatch(handleStemSortedChange(newSorted, column, shiftKey))
+    let currentState = this.state
   }
 
   async onFilteredChange(filtered, column) {
     await this.props.dispatch(handleStemFilteredChange(filtered, column))
+    let currentState = this.state
   }
 
   async onResizedChange(newResized, event) {
     await this.props.dispatch(handleStemResizedChange(newResized, event))
+    let currentState = this.state
   }
 
   async onEdit(id) {
@@ -153,17 +159,17 @@ class StemList extends Component {
       <ReactTable
       data={stems.data}
       columns={columns}
-      page={stems.tableData.page}
-      pageSize={stems.tableData.pageSize}
-      filtered={stems.tableData.filtered}
-      sorted={stems.tableData.sorted}
-      resized={stems.tableData.resized}
+      //page={stems.tableData.page}
+      //pageSize={stems.tableData.pageSize}
+      //filtered={stems.tableData.filtered}
+      //sorted={stems.tableData.sorted}
+      //resized={stems.tableData.resized}
       filterable
-      onPageChange={page => this.onPageChange(page)}
-      onPageSizeChange={(pageSize,page) => this.onPageSizeChange(pageSize,page)}
-      onSortedChange={(newSorted,column,shiftKey) => this.onSortedChange(newSorted,column,shiftKey)}
-      onResizedChange={(newResized, event) => this.onResizedChange(newResized, event)}
-      onFilteredChange={(filtered, column) => this.onFilteredChange(filtered,column)}
+      //onPageChange={page => this.onPageChange(page)}
+      //onPageSizeChange={(pageSize,page) => this.onPageSizeChange(pageSize,page)}
+      //onSortedChange={(newSorted,column,shiftKey) => this.onSortedChange(newSorted,column,shiftKey)}
+      //onResizedChange={(newResized, event) => this.onResizedChange(newResized, event)}
+      //onFilteredChange={(filtered, column) => this.onFilteredChange(filtered,column)}
     />
     return (
       <React.Fragment>
