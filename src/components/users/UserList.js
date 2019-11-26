@@ -4,8 +4,8 @@ import { withApollo, graphql } from 'react-apollo'
 import { flowRight as compose } from 'lodash'
 import ReactTable from 'react-table'
 import matchSorter from 'match-sorter'
-import { getUsersQuery } from '../queries/queries'
-import { hashToArray } from '../utils/helpers'
+import { getUsersQuery } from '.../queries/queries'
+import { hashToArray } from '.../utils/helpers'
 
 class UserList extends Component {
 

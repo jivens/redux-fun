@@ -2,11 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 import App from './components/App'
-//import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-//import reducer from './reducers'
-//import middleware from './middleware'
-//import client from './apollo-client'
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { setContext } from 'apollo-link-context';
@@ -17,10 +13,13 @@ import { ApolloProvider } from 'react-apollo';
 import logger from './middleware/logger'
 import thunk from 'redux-thunk'
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
+import { loadState, saveState } from './utils/localStorage'
+import throttle from 'lodash/throttle'
 import users from './reducers/users'
 import roots from './reducers/roots'
 import stems from './reducers/stems'
 import affixes from './reducers/affixes'
+import navbar from './reducers/navbar'
 import { loadingBarReducer } from 'react-redux-loading'
 import 'react-table/react-table.css'
 //import {  getUserFromToken } from './queries/queries';
@@ -64,12 +63,14 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 })
 
-//const store = createStore(reducer, middleware)
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
+const persistedState = loadState()
+console.log('my persisted state =', persistedState)
 const store = createStore(
   combineReducers({
+    persistedState,
     users,
     stems,
     roots,
@@ -81,6 +82,14 @@ const store = createStore(
     applyMiddleware(thunk, logger),
   )
 )
+
+store.subscribe(() => {
+  saveState(store.getState())
+})
+
+// store.subscribe(throttle(() => {
+//   saveState(store.getState());
+// }, 3000));
 
 ReactDOM.render(
   <ApolloProvider client={client}>

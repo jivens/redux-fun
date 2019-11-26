@@ -9,6 +9,7 @@ import { handleDeleteAffix, handleAffixPageChange,
   handleAffixPageSizeChange, handleAffixSortedChange,
   handleAffixFilteredChange, handleAffixResizedChange } from '../actions/affixes'
 import { hashToArray } from '../utils/helpers'
+import { loadState }  from '../utils/localStorage'
 
 class AffixList extends Component {
 
@@ -21,6 +22,8 @@ class AffixList extends Component {
     this.onSortedChange = this.onSortedChange.bind(this)
     this.onFilteredChange = this.onFilteredChange.bind(this)
     this.onResizedChange = this.onResizedChange.bind(this)
+    const serializedState = loadState()
+    this.state = {affixes: serializedState.affixes}
   }
 
   async onDelete(id) {
@@ -33,26 +36,42 @@ class AffixList extends Component {
 
   async onPageChange(page) {
     await this.props.dispatch(handleAffixPageChange(page))
+    let currentState = this.state
+    currentState.affixes.tableData.page = page
+    this.setState(currentState)
   }
 
   async onPageSizeChange(pageSize, page) {
     await this.props.dispatch(handleAffixPageSizeChange(pageSize, page))
+    let currentState = this.state
+    currentState.affixes.tableData.page = page
+    currentState.affixes.tableData.pageSize = pageSize
+    this.setState(currentState)
   }
 
   async onSortedChange(newSorted, column, shiftKey) {
     await this.props.dispatch(handleAffixSortedChange(newSorted, column, shiftKey))
+    let currentState = this.state
+    currentState.affixes.tableData.sorted = newSorted
+    this.setState(currentState)
   }
 
   async onFilteredChange(filtered, column) {
     await this.props.dispatch(handleAffixFilteredChange(filtered, column))
+    let currentState = this.state
+    currentState.affixes.tableData.filtered = filtered
+    this.setState(currentState)
   }
 
   async onResizedChange(newResized, event) {
     await this.props.dispatch(handleAffixResizedChange(newResized, event))
+    let currentState = this.state
+    currentState.affixes.tableData.resized = newResized
+    this.setState(currentState)
   }
 
   render() {
-    const { affixes } = this.props
+    const { affixes } = this.state
     const columns = [
       {
         Header: 'ID',
@@ -134,7 +153,8 @@ class AffixList extends Component {
 }
 
 function mapStateToProps (state) {
-  const {affixes} = state
+  const serializedState = loadState()
+  const {affixes} = serializedState
   return {
     affixes
   }

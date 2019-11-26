@@ -1,6 +1,8 @@
 import _ from "lodash";
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { NavLink, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { withApollo } from 'react-apollo'
 import {
   Container,
   Icon,
@@ -10,6 +12,11 @@ import {
   Popup
 } from "semantic-ui-react";
 import 'semantic-ui-css/semantic.min.css';
+
+const rightItems = ([
+    { to: "/search", icon: 'search', content:"Search", key: 'rsearch'},
+    { to: "/register", icon: 'user outline', content:"Log In/Sign Up", key: 'rreg'}
+  ])
 
 const NavBarMobile = ({
   children,
@@ -30,43 +37,43 @@ const NavBarMobile = ({
       visible={visible}
       width='thin'
     >
-    <Menu.Item as={Link} to="/" name="Home" size='mini' key="minihome">
+    <Menu.Item as={NavLink} to="/" name="Home" size='mini' key="minihome">
      <Icon name="home" />
       Home
     </Menu.Item>
-    <Menu.Item as={Link} to="/roots" name="Roots" size='mini' key="miniroots">
+    <Menu.Item as={NavLink} to="/roots" name="Roots" size='mini' key="miniroots">
     <Icon name="leaf" />
        Roots
     </Menu.Item>
-    <Menu.Item as={Link} to="/stems" name="Stems" key="ministems">
+    <Menu.Item as={NavLink} to="/stems" name="Stems" key="ministems">
     <Icon name="code branch" />
        Stems
     </Menu.Item>
-    <Menu.Item as={Link} to="/affixes" name="Affixes" key="miniaffixes">
+    <Menu.Item as={NavLink} to="/affixes" name="Affixes" key="miniaffixes">
     <Icon name="sort alphabet down" />
        Affixes
     </Menu.Item>
-    <Menu.Item as={Link} to="/texts" name="Texts" key="minitexts">
+    <Menu.Item as={NavLink} to="/texts" name="Texts" key="minitexts">
     <Icon name="comment" />
        Texts
     </Menu.Item>
-    <Menu.Item as={Link} to="/audio" name="Audio" key="miniaudio">
+    <Menu.Item as={NavLink} to="/audio" name="Audio" key="miniaudio">
     <Icon name="file audio" />
        Audio
     </Menu.Item>
-    <Menu.Item as={Link} to="/spelling" name="Spelling" key="minispelling">
+    <Menu.Item as={NavLink} to="/spelling" name="Spelling" key="minispelling">
      <Icon name="font" />
        Spelling
     </Menu.Item>
-    <Menu.Item as={Link} to="/bibliography" name="Bibliography" key="minibib">
+    <Menu.Item as={NavLink} to="/bibliography" name="Bibliography" key="minibib">
     <Icon name="book" />
        Bibliography
     </Menu.Item>
-    <Menu.Item as={Link} to="/contactus" name="Contact" key="minicontact">
+    <Menu.Item as={NavLink} to="/contactus" name="Contact" key="minicontact">
     <Icon name="mail" />
        Contact
     </Menu.Item>
-    <Menu.Item as={Link} to="/elicitations" name="Elicitations" key="minielic">
+    <Menu.Item as={NavLink} to="/elicitations" name="Elicitations" key="minielic">
     <Icon name="talk" />
        Elicitations
     </Menu.Item>
@@ -81,7 +88,7 @@ const NavBarMobile = ({
             <Icon name="sidebar" />
           </Menu.Item>
           <Menu.Menu position="right">
-            {_.map(rightItems, item  => <Popup content={ item.content } trigger={<Menu.Item as={Link} to={item.to} key={item.key} icon={item.icon} /> } /> )}
+            {_.map(rightItems, item  => <Popup content={ item.content } trigger={<Menu.Item as={NavLink} to={item.to} key={item.key} icon={item.icon} /> } /> )}
           </Menu.Menu>
         </Menu>
         {children}
@@ -91,38 +98,38 @@ const NavBarMobile = ({
 
 const NavBarDesktop = ({ rightItems }) => (
   <Menu fixed="top" inverted>
-    <Menu.Item as={Link} to="/" name="home" key="mhome">
+    <Menu.Item as={NavLink} to="/" name="home" key="mhome">
        <Icon name="home" />
     </Menu.Item>
-    <Menu.Item as={Link} to="/roots" name="Roots" key="mroots">
+    <Menu.Item as={NavLink} to="/roots" name="Roots" key="mroots">
        Roots
     </Menu.Item>
-    <Menu.Item as={Link} to="/stems" name="Stems" key="mstems">
+    <Menu.Item as={NavLink} to="/stems" name="Stems" key="mstems">
        Stems
     </Menu.Item>
-     <Menu.Item as={Link} to="/affixes" name="Affixes" key="maffixes">
+     <Menu.Item as={NavLink} to="/affixes" name="Affixes" key="maffixes">
        Affixes
     </Menu.Item>
-    <Menu.Item as={Link} to="/texts" name="Texts" key="mtexts">
+    <Menu.Item as={NavLink} to="/texts" name="Texts" key="mtexts">
        Texts
     </Menu.Item>
-    <Menu.Item as={Link} to="/audio" name="Audio" key="maudio">
+    <Menu.Item as={NavLink} to="/audio" name="Audio" key="maudio">
        Audio
     </Menu.Item>
-    <Menu.Item as={Link} to="/spelling" name="Spelling" key="mspelling">
+    <Menu.Item as={NavLink} to="/spelling" name="Spelling" key="mspelling">
        Spelling
     </Menu.Item>
-    <Menu.Item as={Link} to="/bibliography" name="Bibliography" key="mbib">
+    <Menu.Item as={NavLink} to="/bibliography" name="Bibliography" key="mbib">
        Bibliography
     </Menu.Item>
-    <Menu.Item as={Link} to="/contactus" name="Contact" key="mcontact">
+    <Menu.Item as={NavLink} to="/contactus" name="Contact" key="mcontact">
        Contact
     </Menu.Item>
-    <Menu.Item as={Link} to="/elicitations" name="Elicitations" key="melicit">
+    <Menu.Item as={NavLink} to="/elicitations" name="Elicitations" key="melicit">
        Elicitations
     </Menu.Item>
     <Menu.Menu position="right">
-      {_.map(rightItems, item  => <Popup content={ item.content } trigger={<Menu.Item as={Link} to={item.to} key={item.key} icon={item.icon} /> } /> )}
+      {_.map(rightItems, item  => <Popup content={ item.content } trigger={<Menu.Item as={NavLink} to={item.to} key={item.key} icon={item.icon} /> } /> )}
     </Menu.Menu>
   </Menu>
 );
@@ -145,17 +152,16 @@ class NavBar extends Component {
   handleToggle = () => this.setState({ visible: !this.state.visible });
 
   render() {
-    const { children, rightItems } = this.props;
+    const { children} = this.props;
     const { visible } = this.state;
 
     return (
       <div>
         <Responsive {...Responsive.onlyMobile}>
           <NavBarMobile
-            //leftItems={leftItems}
             onPusherClick={this.handlePusher}
             onToggle={this.handleToggle}
-            rightItems={rightItems}
+            //rightItems={this.props.navbar.rightItems}
             visible={visible}
           >
             <NavBarChildren>{children}</NavBarChildren>
@@ -170,4 +176,11 @@ class NavBar extends Component {
   }
 }
 
-export default NavBar;
+// function mapStateToProps (state) {
+//   const {navbar} = state
+//   console.log('the navbar is ', navbar)
+//   return {
+//     navbar
+//   }
+// }
+export default ( withApollo (NavBar))

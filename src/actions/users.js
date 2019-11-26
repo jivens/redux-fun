@@ -1,11 +1,12 @@
-import { loginUser, addUser } from '../utils/api'
+import { loginUser, saveUser } from '../utils/api'
 import { showLoading, hideLoading } from 'react-redux-loading'
 
 //export const RECEIVE_USERS = 'RECEIVE_USERS'
 export const ADD_USER = 'ADD_USER'
 export const LOGIN_USER = 'LOGIN_USER'
+export const LOGOUT_USER = 'LOGOUT_USER'
 
-function saveUser (user) {
+function addUser (user) {
   return {
     type: ADD_USER,
     user,
@@ -16,6 +17,12 @@ function loggedIn (user) {
   return {
     type: LOGIN_USER,
     user,
+  }
+}
+
+function loggedOut (user) {
+  return {
+    type: LOGOUT_USER
   }
 }
 
@@ -31,6 +38,23 @@ export function handleLoginUser (client, user) {
     dispatch(showLoading())
     return loginUser(client, user)
     .then((userData) => dispatch(loggedIn(userData.data.loginUser_Q)))
+    .then(() => dispatch(hideLoading()))
+  }
+}
+
+export function handleLogoutUser () {
+  return (dispatch, getState) => {
+    dispatch(showLoading())
+    return dispatch(loggedOut())
+    .then(() => dispatch(hideLoading()))
+  }
+}
+
+export function handleSaveUser (client, user) {
+  return (dispatch, getState) => {
+    dispatch(showLoading())
+    return saveUser(client, user)
+    .then((userData) => dispatch(addUser(userData.data.addUser_M)))
     .then(() => dispatch(hideLoading()))
   }
 }

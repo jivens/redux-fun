@@ -9,6 +9,7 @@ import { handleDeleteRoot, handleRootPageChange,
   handleRootPageSizeChange, handleRootSortedChange,
   handleRootFilteredChange, handleRootResizedChange } from '../actions/roots'
 import { hashToArray } from '../utils/helpers'
+import { loadState }  from '../utils/localStorage'
 
 class RootList extends Component {
 
@@ -21,6 +22,8 @@ class RootList extends Component {
     this.onSortedChange = this.onSortedChange.bind(this)
     this.onFilteredChange = this.onFilteredChange.bind(this)
     this.onResizedChange = this.onResizedChange.bind(this)
+    const serializedState = loadState()
+    this.state = {roots: serializedState.roots}
   }
 
   async onDelete(id) {
@@ -33,26 +36,42 @@ class RootList extends Component {
 
   async onPageChange(page) {
     await this.props.dispatch(handleRootPageChange(page))
+    let currentState = this.state
+    currentState.roots.tableData.page = page
+    this.setState(currentState)
   }
 
   async onPageSizeChange(pageSize, page) {
     await this.props.dispatch(handleRootPageSizeChange(pageSize, page))
+    let currentState = this.state
+    currentState.roots.tableData.page = page
+    currentState.roots.tableData.pageSize = pageSize
+    this.setState(currentState)
   }
 
   async onSortedChange(newSorted, column, shiftKey) {
     await this.props.dispatch(handleRootSortedChange(newSorted, column, shiftKey))
+    let currentState = this.state
+    currentState.roots.tableData.sorted = newSorted
+    this.setState(currentState)
   }
 
   async onFilteredChange(filtered, column) {
     await this.props.dispatch(handleRootFilteredChange(filtered, column))
+    let currentState = this.state
+    currentState.roots.tableData.filtered = filtered
+    this.setState(currentState)
   }
 
   async onResizedChange(newResized, event) {
     await this.props.dispatch(handleRootResizedChange(newResized, event))
+    let currentState = this.state
+    currentState.roots.tableData.resized = newResized
+    this.setState(currentState)
   }
 
   render() {
-    const { roots } = this.props
+    const { roots } = this.state
     console.log('Roots=', roots)
     const columns = [
       {
@@ -168,7 +187,7 @@ class RootList extends Component {
   const table =
     <ReactTable
       data={roots.data}
-      // page={roots.tableData.page}
+      page={roots.tableData.page}
       pageSize={roots.tableData.pageSize}
       filtered={roots.tableData.filtered}
       sorted={roots.tableData.sorted}
@@ -191,7 +210,8 @@ class RootList extends Component {
 }
 
 function mapStateToProps (state) {
-  const {roots} = state
+  const serializedState = loadState()
+  const {roots} = serializedState
   return {
     roots
   }
