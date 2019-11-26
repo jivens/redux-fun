@@ -49,6 +49,7 @@ class StemList extends Component {
     currentState.stems.tableData.page = page
     currentState.stems.tableData.pageSize = pageSize
     this.setState(currentState)
+
   }
 
   async onSortedChange(newSorted, column, shiftKey) {

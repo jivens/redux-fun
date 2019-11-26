@@ -1,4 +1,4 @@
-import { LOGIN_USER, ADD_USER, RECEIVE_USERS, LOGOUT_USER } from '../actions/users'
+import { LOGIN_USER, ADD_USER, RECEIVE_USERS, LOGOUT_USER, USER_INFO } from '../actions/users'
 
 export default function users (state = {}, action) {
   switch (action.type) {
@@ -11,6 +11,13 @@ export default function users (state = {}, action) {
         console.log('bad login')
       }
       return state
+    case USER_INFO :
+      //set up user info that navbar can read
+      console.log('action.user is: ', action.user)
+      return {
+        ...state,
+        currentUser: action.user
+      }
     case LOGOUT_USER :
       localStorage.removeItem('TOKEN')
       return state

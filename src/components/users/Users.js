@@ -43,7 +43,7 @@ class Users extends Component {
       }
       console.log(user)
       console.log(this.state)
-      console.log(this.props.getUserState())
+    //console.log(this.props.getUserState())
     } catch(error) {
       console.log(error)
     }
