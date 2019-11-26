@@ -1,4 +1,4 @@
-import { getUsersQuery, getUserToken, getAffixesQuery, getRootsQuery, getStemsQuery, deleteAffixMutation, deleteRootMutation, deleteStemMutation, addAffixMutation , updateAffixMutation, addRootMutation, updateRootMutation, addStemMutation, updateStemMutation, addUserMutation} from '../queries/queries'
+import { getUsersQuery, getUserToken, getUserFromToken, getAffixesQuery, getRootsQuery, getStemsQuery, deleteAffixMutation, deleteRootMutation, deleteStemMutation, addAffixMutation , updateAffixMutation, addRootMutation, updateRootMutation, addStemMutation, updateStemMutation, addUserMutation} from '../queries/queries'
 import { isObject, hashToArray } from './helpers'
 
 export function getInitialAppData (client) {
@@ -126,6 +126,14 @@ export function saveUser(client, user){
       password: user.password,
       roles: user.roles,
     }
+  })
+}
+
+export function getUserInfo(client, user){
+  let variables = {}
+  return client.query({
+    query: getUserFromToken,
+    variables: {}
   })
 }
 
