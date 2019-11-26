@@ -36,22 +36,38 @@ class RootList extends Component {
 
   async onPageChange(page) {
     await this.props.dispatch(handleRootPageChange(page))
+    let currentState = this.state
+    currentState.roots.tableData.page = page
+    this.setState(currentState)
   }
 
   async onPageSizeChange(pageSize, page) {
     await this.props.dispatch(handleRootPageSizeChange(pageSize, page))
+    let currentState = this.state
+    currentState.roots.tableData.page = page
+    currentState.roots.tableData.pageSize = pageSize
+    this.setState(currentState)
   }
 
   async onSortedChange(newSorted, column, shiftKey) {
     await this.props.dispatch(handleRootSortedChange(newSorted, column, shiftKey))
+    let currentState = this.state
+    currentState.roots.tableData.sorted = newSorted
+    this.setState(currentState)
   }
 
   async onFilteredChange(filtered, column) {
     await this.props.dispatch(handleRootFilteredChange(filtered, column))
+    let currentState = this.state
+    currentState.roots.tableData.filtered = filtered
+    this.setState(currentState)
   }
 
   async onResizedChange(newResized, event) {
     await this.props.dispatch(handleRootResizedChange(newResized, event))
+    let currentState = this.state
+    currentState.roots.tableData.resized = newResized
+    this.setState(currentState)
   }
 
   render() {

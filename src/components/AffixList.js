@@ -36,22 +36,38 @@ class AffixList extends Component {
 
   async onPageChange(page) {
     await this.props.dispatch(handleAffixPageChange(page))
+    let currentState = this.state
+    currentState.affixes.tableData.page = page
+    this.setState(currentState)
   }
 
   async onPageSizeChange(pageSize, page) {
     await this.props.dispatch(handleAffixPageSizeChange(pageSize, page))
+    let currentState = this.state
+    currentState.affixes.tableData.page = page
+    currentState.affixes.tableData.pageSize = pageSize
+    this.setState(currentState)
   }
 
   async onSortedChange(newSorted, column, shiftKey) {
     await this.props.dispatch(handleAffixSortedChange(newSorted, column, shiftKey))
+    let currentState = this.state
+    currentState.affixes.tableData.sorted = newSorted
+    this.setState(currentState)
   }
 
   async onFilteredChange(filtered, column) {
     await this.props.dispatch(handleAffixFilteredChange(filtered, column))
+    let currentState = this.state
+    currentState.affixes.tableData.filtered = filtered
+    this.setState(currentState)
   }
 
   async onResizedChange(newResized, event) {
     await this.props.dispatch(handleAffixResizedChange(newResized, event))
+    let currentState = this.state
+    currentState.affixes.tableData.resized = newResized
+    this.setState(currentState)
   }
 
   render() {
