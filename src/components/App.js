@@ -44,10 +44,8 @@ class App extends Component {
 
   render() {
     return (
-
         <Router>
           <Fragment>
-            <LoadingBar />
             <div className='container'>
               <NavBar rightItems={this.rightMenuItems()}>
               <MainMenu />
@@ -66,11 +64,11 @@ class App extends Component {
                     <Route path='/editaffix/:id' component={EditAffix} />
                   </div>}
                 </NavBar>
+                <LoadingBar />
                 <Footer />
             </div>
           </Fragment>
         </Router>
-
     )
   }
 }
