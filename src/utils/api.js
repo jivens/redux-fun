@@ -1,4 +1,4 @@
-import { getUsersQuery, getUserToken, getUserFromToken, getAffixesQuery, getRootsQuery, getStemsQuery, deleteAffixMutation, deleteRootMutation, deleteStemMutation, addAffixMutation , updateAffixMutation, addRootMutation, updateRootMutation, addStemMutation, updateStemMutation, addUserMutation} from '../queries/queries'
+import { getUsersQuery, getUserToken, getUserFromToken, getAffixesQuery, getRootsQuery, getStemsQuery, getBibliographyQuery, getBibliographiesQuery, deleteAffixMutation, deleteRootMutation, deleteStemMutation, deleteBibliographyMutation, addAffixMutation, updateAffixMutation, addRootMutation, addBibliographyMutation, updateRootMutation, addStemMutation, updateStemMutation, addUserMutation, updateBibliographyMutation} from '../queries/queries'
 import { isObject, hashToArray } from './helpers'
 
 export function getInitialAppData (client) {
@@ -12,14 +12,19 @@ export function getInitialAppData (client) {
       variables: {}
     }),
     client.query({
+      query: getBibliographiesQuery,
+      variables: {}
+    }),
+    client.query({
       query: getAffixesQuery,
       variables: {}
     }),
+    
     // client.query({
     //   query: getUsersQuery,
     //   variables: {}
     // }),
-  ]).then(([stems, roots, affixes]) => ({
+  ]).then(([stems, roots, bibliographies, affixes]) => ({
     stems: {
       data: stems.data.stems_Q,
       tableData: {
@@ -34,7 +39,7 @@ export function getInitialAppData (client) {
         }],
         filtered: [],
         resized: [],
-      }
+      },
     },
     roots: {
       data: roots.data.roots_Q,
@@ -52,6 +57,22 @@ export function getInitialAppData (client) {
         resized: []
       },
     },
+    bibliographies: {
+      data: bibliographies.data.bibliographies_Q,
+      tableData: {
+        page: 0,
+        pageSize: 10,
+        sorted: [{
+          id: 'title',
+          desc: false
+        },{
+          id: 'year',
+          desc: false
+        }],
+        filtered: [],
+        resized: [],
+      },
+    },
     affixes: {
       data: affixes.data.affixes_Q,
       tableData: {
@@ -66,7 +87,7 @@ export function getInitialAppData (client) {
         }],
         filtered: [],
         resized: [],
-      }
+      },
     },
     // navbar: {
     //   rightItems: [
@@ -84,6 +105,14 @@ export function deleteAffix(client, id){
   let variables = {}
   return client.mutate({
     mutation: deleteAffixMutation,
+    variables: { id: id }
+  })
+}
+
+export function deleteBibliography(client, id){
+  let variables = {}
+  return client.mutate({
+    mutation: deleteBibliographyMutation,
     variables: { id: id }
   })
 }
@@ -153,6 +182,21 @@ export function saveAffix(client, affix){
   })
 }
 
+export function saveBibliography(client, bibliography){
+  let variables = {}
+  return client.mutate({
+    mutation: addBibliographyMutation,
+    variables: {
+      author: bibliography.author,
+      year: bibliography.year,
+      title: bibliography.title,
+      reference: bibliography.reference,
+      link: bibliography.link,
+      linktext: bibliography.linktext,
+    }
+  })
+}
+
 export function saveRoot(client, root){
   let variables = {}
   return client.mutate({
@@ -204,6 +248,21 @@ export function editAffix(client, affix){
       link: affix.link,
       page: affix.page,
       editnote: affix.editnote,
+    }
+  })
+}
+
+export function editBibliography(client, bibliography){
+  return client.mutate({
+    mutation: updateBibliographyMutation,
+    variables: {
+      id: bibliography.id,
+      author: bibliography.author,
+      year: bibliography.year,
+      title: bibliography.title,
+      reference: bibliography.reference,
+      link: bibliography.link,
+      linktext: bibliography.linktext,
     }
   })
 }
