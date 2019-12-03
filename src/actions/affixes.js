@@ -1,5 +1,6 @@
 import { deleteAffix, saveAffix, editAffix } from '../utils/api'
 import { showLoading, hideLoading } from 'react-redux-loading'
+import { receiveErrors } from '../actions/errors'
 
 export const RECEIVE_AFFIXES = 'RECEIVE_AFFIXES'
 export const DELETE_AFFIX = 'DELETE_AFFIX'
@@ -144,7 +145,11 @@ export function handleEditAffix (client, affix, errorCallback) {
     })
     .then(() => dispatch(hideLoading()))
     .catch((error) => {
-      errorCallback(error)
+      console.error("ERROR =>", error.graphQLErrors.map(x => x.message))
+      const errors = {
+        errorsText: error.graphQLErrors.map(x => x.message)
+      }
+      dispatch(receiveErrors(errors))
       dispatch(hideLoading())
     })
   }

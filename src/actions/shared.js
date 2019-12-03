@@ -4,6 +4,7 @@ import { receiveNavBar } from '../actions/navbar'
 import { receiveStems, handleStemPageChange, handleStemPageSizeChange } from '../actions/stems'
 import { receiveAffixes, handleAffixPageChange, handleAffixPageSizeChange } from '../actions/affixes'
 import { receiveRoots, handleRootPageChange, handleRootPageSizeChange } from '../actions/roots'
+import { receiveErrors } from '../actions/errors'
 import { showLoading, hideLoading } from 'react-redux-loading'
 
 export function handleInitialAppData (client) {
@@ -14,7 +15,7 @@ export function handleInitialAppData (client) {
         dispatch(receiveStems(stems))
         dispatch(receiveRoots(roots))
         dispatch(receiveAffixes(affixes))
-        //TODO: dispatch(receiveErrors(errors))
+        dispatch(receiveErrors(errors))
         //dispatch(handleStemPageChange(0))
         //dispatch(handleStemPageSizeChange(10, 0))
         //dispatch(handleAffixPageChange(0))

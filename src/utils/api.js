@@ -67,9 +67,6 @@ export function getInitialAppData (client) {
         filtered: [],
         resized: [],
       }
-    },
-    errors: {
-      errorsText: 'Fake error one, Fake error two'
     }
     // navbar: {
     //   rightItems: [

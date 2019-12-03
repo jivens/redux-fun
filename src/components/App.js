@@ -42,7 +42,13 @@ class App extends Component {
               <NavBar>
               <Banner />
               <LoadingBar />
-              {this.props.errors && this.props.errors.errorsText && <div>Error: {this.props.errors.errorsText}</div>}
+              {this.props.errors && this.props.errors.errorsText &&
+                <div>Error:
+                  <ol>{this.props.errors.errorsText.map(err => (
+                    <li key={err}>{err}</li>
+                    ))}
+                  </ol>
+                </div>}
               {this.props.loading === true
                 ? null
                 : <div>
