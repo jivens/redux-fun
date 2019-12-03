@@ -10,10 +10,11 @@ export function handleInitialAppData (client) {
   return (dispatch) => {
     dispatch(showLoading())
     return getInitialAppData(client)
-      .then(({ stems, roots, affixes }) => {
+      .then(({ stems, roots, affixes, errors }) => {
         dispatch(receiveStems(stems))
         dispatch(receiveRoots(roots))
         dispatch(receiveAffixes(affixes))
+        //TODO: dispatch(receiveErrors(errors))
         //dispatch(handleStemPageChange(0))
         //dispatch(handleStemPageSizeChange(10, 0))
         //dispatch(handleAffixPageChange(0))

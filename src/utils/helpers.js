@@ -11,7 +11,8 @@ export function getPercentage (count, total) {
 }
 
 export function errorCallback (error) {
-  console.log(error)
+  console.error("ERROR =>", error.graphQLErrors.map(x => x.message))
+  // Write a thing to dispatch an error action to add errors to the store
 }
 
 export function hashToArray(hash) {

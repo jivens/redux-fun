@@ -68,6 +68,9 @@ export function getInitialAppData (client) {
         resized: [],
       }
     },
+    errors: {
+      errorsText: 'Fake error one, Fake error two'
+    }
     // navbar: {
     //   rightItems: [
     //     { to: "/search", icon: 'search', content:"Search", key: 'rsearch'},
