@@ -10,6 +10,10 @@ export function getPercentage (count, total) {
   return total === 0 ? 0 : parseInt(count / total * 100, 10)
 }
 
+export function errorCallback (error) {
+  console.log(error)
+}
+
 export function hashToArray(hash) {
   const arr = []
   Object.keys(hash).forEach(function (key) {

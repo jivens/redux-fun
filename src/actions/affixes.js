@@ -130,7 +130,7 @@ export function handleAddAffix (client, affix) {
   }
 }
 
-export function handleEditAffix (client, affix) {
+export function handleEditAffix (client, affix, errorCallback) {
   return (dispatch, getState) => {
     dispatch(showLoading())
     return editAffix(client, affix) //backend change on the database, "editAffix"
@@ -143,5 +143,9 @@ export function handleEditAffix (client, affix) {
       return dispatch(updateAffix(newAffixData))// redux store change
     })
     .then(() => dispatch(hideLoading()))
+    .catch((error) => {
+      errorCallback(error)
+      dispatch(hideLoading())
+    })
   }
 }
