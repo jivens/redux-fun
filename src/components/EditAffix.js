@@ -4,6 +4,7 @@ import { withApollo, graphql } from 'react-apollo'
 import { flowRight as compose } from 'lodash';
 import { updateAffixMutation } from '../queries/queries'
 import { handleEditAffix } from '../actions/affixes'
+import { errorCallback } from '../utils/helpers'
 
 class EditAffix extends Component {
   constructor(props, context){
@@ -56,7 +57,7 @@ class EditAffix extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
     this.props.history.push('/affixes')
-    this.props.dispatch(handleEditAffix(this.props.client, this.state))
+    this.props.dispatch(handleEditAffix(this.props.client, this.state, errorCallback))
   }
   render() {
     const { id, type, salish, nicodemus, english, link, page, editnote } = this.state

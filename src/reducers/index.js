@@ -3,6 +3,7 @@ import users from './users'
 import affixes from './affixes'
 import roots from './roots'
 import stems from './stems'
+import errors from './errors'
 //import navbar from './navbar'
 import { loadingBarReducer } from 'react-redux-loading'
 
@@ -12,5 +13,6 @@ export default combineReducers({
   affixes,
   //navbar,
   users,
+  errors,
   loadingBar: loadingBarReducer
 })

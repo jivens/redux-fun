@@ -20,6 +20,7 @@ import roots from './reducers/roots'
 import stems from './reducers/stems'
 import affixes from './reducers/affixes'
 import navbar from './reducers/navbar'
+import errors from './reducers/errors'
 import { loadingBarReducer } from 'react-redux-loading'
 import 'react-table/react-table.css'
 //import {  getUserFromToken } from './queries/queries';
@@ -75,6 +76,7 @@ const store = createStore(
     stems,
     roots,
     affixes,
+    errors,
     loadingBar: loadingBarReducer,
   }),
   {},

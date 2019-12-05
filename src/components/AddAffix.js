@@ -45,7 +45,7 @@ class AddAffix extends Component {
     return (
       <form className='add-form' onSubmit={this.handleSubmit}>
         <h3 style={{marginBottom: 5}}>New Affix</h3>
-        <label className='label' htmlFor='a'>Type</label>
+        <label className='label' htmlFor='type'>Type</label>
         <input
           value={type}
           onChange={this.handleInputChange}

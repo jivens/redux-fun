@@ -1,3 +1,5 @@
+import { receiveErrors } from '../actions/errors'
+
 export function isLoggedIn () {
   localStorage.getItem('TOKEN') ? true : false
 }
@@ -8,6 +10,16 @@ export function isObject (item) {
 
 export function getPercentage (count, total) {
   return total === 0 ? 0 : parseInt(count / total * 100, 10)
+}
+
+export function errorCallback (dispatch, getState, error) {
+  return (dispatch, getState) => {
+    console.error("ERROR =>", error.graphQLErrors.map(x => x.message))
+    const errors = {
+      errorsText: error.graphQLErrors.map(x => x.message)
+    }
+    dispatch(receiveErrors(errors))
+  }
 }
 
 export function hashToArray(hash) {

@@ -87,8 +87,8 @@ export function getInitialAppData (client) {
         }],
         filtered: [],
         resized: [],
-      },
-    },
+      }
+    }
     // navbar: {
     //   rightItems: [
     //     { to: "/search", icon: 'search', content:"Search", key: 'rsearch'},

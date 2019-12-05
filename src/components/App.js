@@ -41,6 +41,13 @@ class App extends Component {
               <NavBar>
               <Banner />
               <LoadingBar />
+              {this.props.errors && this.props.errors.errorsText &&
+                <div>Error:
+                  <ol>{this.props.errors.errorsText.map(err => (
+                    <li key={err}>{err}</li>
+                    ))}
+                  </ol>
+                </div>}
               {this.props.loading === true
                 ? null
                 : <div>
@@ -66,9 +73,10 @@ class App extends Component {
   }
 }
 
-function mapStateToProps ({ stems, roots, affixes }) {
+function mapStateToProps ({ stems, roots, affixes, errors }) {
   return {
-    loading: stems === null || roots === null || affixes === null
+    loading: stems === null || roots === null || affixes === null,
+    errors: errors
   }
 }
 
