@@ -6,6 +6,7 @@ export const ADD_USER = 'ADD_USER'
 export const LOGIN_USER = 'LOGIN_USER'
 export const LOGOUT_USER = 'LOGOUT_USER'
 export const USER_INFO = 'USER_INFO'
+export const CURRENT_USER = 'CURRENT_USER'
 
 function addUser (user) {
   return {

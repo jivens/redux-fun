@@ -114,6 +114,14 @@ export function loginUser(client, user){
   })
 }
 
+export function getUserInfo(client, user){
+  let variables = {}
+  return client.query({
+    query: getUserFromToken,
+    variables: {}
+  })
+}
+
 export function saveUser(client, user){
   let variables = {}
   return client.mutate({
@@ -126,14 +134,6 @@ export function saveUser(client, user){
       password: user.password,
       roles: user.roles,
     }
-  })
-}
-
-export function getUserInfo(client, user){
-  let variables = {}
-  return client.query({
-    query: getUserFromToken,
-    variables: {}
   })
 }
 

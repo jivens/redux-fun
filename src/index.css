@@ -74,12 +74,12 @@
   height: 90%;
 }
 
-/*.keyboardContainer {
+.keyboardContainer {
   max-width: 250px;
   margin: 0 auto;
   margin-top: 20px;
   text-align: center;
-}*/
+}
 
 .button {
   font-family: monospace;
@@ -114,11 +114,11 @@
   text-align: 'right';
 }
 
-/**
-* ----------------------------------------------
+/*----------------------------------------------
 * COLRC styles, adapted from https://www.npmjs.com/package/react-accessible-accordion
 * ----------------------------------------------
-**/
+*/
+
 .ul-left-aligned {
   text-align: left;
 }
@@ -232,9 +232,6 @@
     transition: transform 0.25s ease, -webkit-transform 0.25s ease;
 }
 
-/* -------------------------------------------------- */
-/* ---------------- Animation part ------------------ */
-/* -------------------------------------------------- */
 
 @keyframes fadein {
     0% {
@@ -291,9 +288,7 @@
     animation-name: move-up;
     animation-duration: 1.5s;
 }
-/**** From styles navbar.css ****/
-/******     Sidebar     ******/
-/****
+
 .ui.icon.menu .item {
     line-height: 20px;
     padding-right: 10px;
@@ -324,22 +319,23 @@ ul {
   margin: 10;
 
 }
-/*.ui.grid .column {
+
+.ui.grid .column {
     margin-left: -10px;
     margin-top: -15px;
     margin-right: -25px;
     padding: 0;
 
-}*/
+}
 
-/* .ui.grid .row {
+.ui.grid .row {
   margin-left: -25px;
   margin-right: -25px;
   overflow: hidden;
   clear: both;
-}*/
+}
 
-/**** from Colrc index.css ****/
+
 
 body {
   margin: 0;
