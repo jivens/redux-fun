@@ -7,8 +7,6 @@ import { Button, Grid, Header, Message, Segment, Input } from 'semantic-ui-react
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { handleLoginUser, handleSaveUser } from '../../actions/users'
-import { hashToArray, isLoggedIn } from '../../utils/helpers'
-import { withRouter } from 'react-router-dom';
 
 
 class Register extends Component {

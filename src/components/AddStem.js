@@ -44,7 +44,7 @@ class AddStem extends Component {
     this.props.dispatch(handleAddStem(this.props.client, this.state))
   }
   render() {
-    const { id, category, reichard, salish, doak, nicodemus, english, note, editnote } = this.state
+    const { category, reichard, salish, doak, nicodemus, english, note, editnote } = this.state
     return (
       <form className='add-form' onSubmit={this.handleSubmit}>
         <h3 style={{marginBottom: 5}}>Add Stem</h3>

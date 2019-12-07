@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { flowRight as compose } from 'lodash'
-import { Grid, Header, Segment, Button, Message, Input } from 'semantic-ui-react';
-import { withRouter } from 'react-router-dom';
+import { Grid, Header, Segment, Button, Message } from 'semantic-ui-react';
 import { withApollo, graphql } from 'react-apollo';
 import { getUserToken, getUserFromToken } from '../../queries/queries';
-import { hashToArray, isLoggedIn } from '../../utils/helpers'
+import { handleLogoutUser, handleSaveUser } from '../../actions/users'
+import { isLoggedIn } from '../../utils/helpers'
+
+//TODO:  connect this form to LOGOUT_USER action and update reducer
 
 class Users extends Component {
   constructor(props) {
@@ -101,8 +103,14 @@ render() {
   }
 }
 
+function mapStateToProps (state) {
+  const {user} = state
+  return {
+    user
+  }
+}
 export default compose(
   withApollo,
   graphql(getUserToken, { name: "getUserToken"}),
   graphql(getUserFromToken, { name: "getUserFromToken"})
-)(withRouter(Users));
+)(withApollo(connect(mapStateToProps)(Users)))

@@ -8,7 +8,6 @@ import { getStemsQuery, deleteStemMutation } from '../queries/queries'
 import { handleDeleteStem, handleStemPageChange,
   handleStemPageSizeChange, handleStemSortedChange,
   handleStemFilteredChange, handleStemResizedChange } from '../actions/stems'
-import { hashToArray } from '../utils/helpers'
 import { loadState }  from '../utils/localStorage'
 
 class StemList extends Component {

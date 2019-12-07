@@ -8,7 +8,6 @@ import { getRootsQuery, deleteRootMutation } from '../queries/queries'
 import { handleDeleteRoot, handleRootPageChange,
   handleRootPageSizeChange, handleRootSortedChange,
   handleRootFilteredChange, handleRootResizedChange } from '../actions/roots'
-import { hashToArray } from '../utils/helpers'
 import { loadState }  from '../utils/localStorage'
 
 class RootList extends Component {

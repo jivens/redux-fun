@@ -60,7 +60,7 @@ class EditAffix extends Component {
     this.props.dispatch(handleEditAffix(this.props.client, this.state, errorCallback))
   }
   render() {
-    const { id, type, salish, nicodemus, english, link, page, editnote } = this.state
+    const { type, salish, nicodemus, english, link, page, editnote } = this.state
     return (
       <form className='edit-form' onSubmit={this.handleSubmit}>
         <h3 style={{marginBottom: 5}}>Update Affix</h3>

@@ -1,5 +1,4 @@
-import { getUsersQuery, getUserToken, getUserFromToken, getAffixesQuery, getRootsQuery, getStemsQuery, deleteAffixMutation, deleteRootMutation, deleteStemMutation, addAffixMutation , updateAffixMutation, addRootMutation, updateRootMutation, addStemMutation, updateStemMutation, addUserMutation} from '../queries/queries'
-import { isObject, hashToArray } from './helpers'
+import { getUserToken, getUserFromToken, getAffixesQuery, getRootsQuery, getStemsQuery, deleteAffixMutation, deleteRootMutation, deleteStemMutation, addAffixMutation , updateAffixMutation, addRootMutation, updateRootMutation, addStemMutation, updateStemMutation, addUserMutation} from '../queries/queries'
 
 export function getInitialAppData (client) {
   return Promise.all([

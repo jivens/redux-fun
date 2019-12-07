@@ -1,11 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { handleInitialData, handleInitialAppData } from '../actions/shared'
+import { handleInitialAppData } from '../actions/shared'
 import LoadingBar from 'react-redux-loading'
-import { isLoggedIn } from '../utils/helpers'
-import { Grid } from 'semantic-ui-react'
-//import UserList from './users/UserList'
 import Register from './users/Register'
 import Users from './users/Users'
 import Banner from './Banner'
@@ -19,12 +16,16 @@ import EditAffix from './EditAffix'
 import EditRoot from './EditRoot'
 import AddStem from './AddStem'
 import EditStem from './EditStem'
-import { ApolloConsumer } from "react-apollo"
+import 'react-table/react-table.css'
+import 'semantic-ui-css/semantic.min.css';
+import '../stylesheets/NavBar.css';
+import '../stylesheets/Colrc.css';
+import '../stylesheets/AccordionTables.css';
 
-const loggedIn = () => {
-  const token = localStorage.getItem('TOKEN')
-  return token ? true : false
-}
+// const loggedIn = () => {
+//   const token = localStorage.getItem('TOKEN')
+//   return token ? true : false
+// }
 
 class App extends Component {
   componentDidMount () {

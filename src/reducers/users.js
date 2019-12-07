@@ -1,4 +1,4 @@
-import { LOGIN_USER, ADD_USER, RECEIVE_USERS, LOGOUT_USER, USER_INFO } from '../actions/users'
+import { LOGIN_USER, ADD_USER, LOGOUT_USER, USER_INFO } from '../actions/users'
 
 export default function users (state = {}, action) {
   switch (action.type) {
@@ -20,7 +20,10 @@ export default function users (state = {}, action) {
       }
     case LOGOUT_USER :
       localStorage.removeItem('TOKEN')
-      return state
+      let currentState = state
+      //delete currentState['currentUser']
+      //TODO: need to reinstate delete and modify user form to fire action
+      return currentState
     case ADD_USER :
       //let userData = state.data -- we'll need to add this when we handle admin users
       //userData.push(action.user)

@@ -2,7 +2,6 @@ import _ from "lodash";
 import React, { Component } from "react";
 import { NavLink, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { withApollo } from 'react-apollo'
 import {
   Container,
   Icon,
@@ -29,7 +28,6 @@ let rightMenuItems = (currentUser) => {
 
 const NavBarMobile = ({
   children,
-  //leftItems,
   onPusherClick,
   onToggle,
   rightItems,

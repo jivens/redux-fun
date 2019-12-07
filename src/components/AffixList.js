@@ -8,7 +8,6 @@ import { getAffixesQuery, deleteAffixMutation } from '../queries/queries'
 import { handleDeleteAffix, handleAffixPageChange,
   handleAffixPageSizeChange, handleAffixSortedChange,
   handleAffixFilteredChange, handleAffixResizedChange } from '../actions/affixes'
-import { hashToArray } from '../utils/helpers'
 import { loadState }  from '../utils/localStorage'
 
 class AffixList extends Component {

@@ -43,7 +43,7 @@ class EditStem extends Component {
       [name]: value
     }))
   }
-  
+
   isDisabled = () => {
     const { category, salish, nicodemus, reichard, doak, english, note, editnote } = this.state
 
@@ -62,7 +62,7 @@ class EditStem extends Component {
     this.props.dispatch(handleEditStem(this.props.client, this.state))
   }
   render() {
-    const { id, category, reichard, doak, salish, nicodemus, english, note, editnote } = this.state
+    const { category, reichard, doak, salish, nicodemus, english, note, editnote } = this.state
     return (
       <form className='edit-form' onSubmit={this.handleSubmit}>
         <h3 style={{marginBottom: 5}}>Update Stem</h3>
