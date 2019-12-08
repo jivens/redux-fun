@@ -52,11 +52,11 @@ export function handleLoginUser (client, user) {
   }
 }
 
-export function handleLogoutUser () {
+export function handleLogoutUser (client, user) {
   return (dispatch, getState) => {
     dispatch(showLoading())
-    return dispatch(loggedOut())
-    .then(() => dispatch(hideLoading()))
+    dispatch(loggedOut(user))
+    dispatch(hideLoading())
   }
 }
 

@@ -20,10 +20,7 @@ export default function users (state = {}, action) {
       }
     case LOGOUT_USER :
       localStorage.removeItem('TOKEN')
-      let currentState = state
-      //delete currentState['currentUser']
-      //TODO: need to reinstate delete and modify user form to fire action
-      return currentState
+      return {}
     case ADD_USER :
       //let userData = state.data -- we'll need to add this when we handle admin users
       //userData.push(action.user)

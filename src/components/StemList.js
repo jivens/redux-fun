@@ -72,10 +72,6 @@ class StemList extends Component {
     this.setState(currentState)
   }
 
-  async onEdit(id) {
-    this.props.history.push(`/editstem/${id}`)
-  }
-
   render() {
     const { stems } = this.state
     console.log('this is the loadState stems ', stems)

@@ -4,15 +4,12 @@ import { flowRight as compose } from 'lodash'
 import { Grid, Header, Segment, Button, Message } from 'semantic-ui-react';
 import { withApollo, graphql } from 'react-apollo';
 import { getUserToken, getUserFromToken } from '../../queries/queries';
-import { handleLogoutUser, handleSaveUser } from '../../actions/users'
-import { isLoggedIn } from '../../utils/helpers'
-
-//TODO:  connect this form to LOGOUT_USER action and update reducer
+import { handleLogoutUser } from '../../actions/users'
 
 class Users extends Component {
   constructor(props) {
     super(props);
-    this.userMessage = this.userMessage.bind(this)
+    //this.userMessage = this.userMessage.bind(this)
     this.state = {
       fields: {
         first: '',
@@ -51,26 +48,26 @@ class Users extends Component {
     }
   }
 
-  async componentWillUnmount() {
-    this._isMounted = false;
-    console.log("Users is unmounting")
-  }
+  // async componentWillUnmount() {
+  //   this._isMounted = false;
+  //   console.log("Users is unmounting")
+  // }
 
   handleClick(e) {
     console.log('this is:', this);
     this.props.history.push('/');
   }
 
-  userMessage = async () => {
-    await this.props.checkUserRole()
-    const user=this.props.getUserState()
-    console.log(user)
-    const username=user.username
-    console.log(username)
-    console.log(`You are currently logged in as <div style={{ color: 'blue' }}>${username}</div>  You can update your user profile, change your password, or log out.`)
-    //return `You are currently logged in as <div style={{ color: 'blue' }}>${username}</div>  You can update your user profile, change your password, or log out.`
-   return <div>`${username}`</div>
-  }
+  // userMessage = async () => {
+  //   await this.props.checkUserRole()
+  //   const user=this.props.getUserState()
+  //   console.log(user)
+  //   const username=user.username
+  //   console.log(username)
+  //   console.log(`You are currently logged in as <div style={{ color: 'blue' }}>${username}</div>  You can update your user profile, change your password, or log out.`)
+  //   //return `You are currently logged in as <div style={{ color: 'blue' }}>${username}</div>  You can update your user profile, change your password, or log out.`
+  //  return <div>`${username}`</div>
+  // }
 
 render() {
     return (
@@ -91,7 +88,7 @@ render() {
             </Button>
             <Button size='large' color='blue'
               onClick={(e) => {
-                localStorage.removeItem('TOKEN')
+                this.props.dispatch(handleLogoutUser(this.props.client, this.props.user))
                 this.props.history.push('/')
               }}>
               Logout

@@ -80,7 +80,6 @@ export function getInitialAppData (client) {
 }
 
 export function deleteAffix(client, id){
-  let variables = {}
   return client.mutate({
     mutation: deleteAffixMutation,
     variables: { id: id }
@@ -88,7 +87,6 @@ export function deleteAffix(client, id){
 }
 
 export function deleteRoot(client, id){
-  let variables = {}
   return client.mutate({
     mutation: deleteRootMutation,
     variables: { id: id }
@@ -96,7 +94,6 @@ export function deleteRoot(client, id){
 }
 
 export function deleteStem(client, id){
-  let variables = {}
   return client.mutate({
     mutation: deleteStemMutation,
     variables: { id: id }
@@ -114,7 +111,6 @@ export function loginUser(client, user){
 }
 
 export function getUserInfo(client, user){
-  let variables = {}
   return client.query({
     query: getUserFromToken,
     variables: {}
@@ -122,7 +118,6 @@ export function getUserInfo(client, user){
 }
 
 export function saveUser(client, user){
-  let variables = {}
   return client.mutate({
     mutation: addUserMutation,
     variables: {
@@ -137,7 +132,6 @@ export function saveUser(client, user){
 }
 
 export function saveAffix(client, affix){
-  let variables = {}
   return client.mutate({
     mutation: addAffixMutation,
     variables: {
@@ -153,7 +147,6 @@ export function saveAffix(client, affix){
 }
 
 export function saveRoot(client, root){
-  let variables = {}
   return client.mutate({
     mutation: addRootMutation,
     variables: {
@@ -174,7 +167,6 @@ export function saveRoot(client, root){
 }
 
 export function saveStem(client, stem){
-  let variables = {}
   return client.mutate({
     mutation: addStemMutation,
     variables: {

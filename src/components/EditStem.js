@@ -149,15 +149,12 @@ class EditStem extends Component {
 
 function mapStateToProps ({ stems }, { match }) {
   const { id } = match.params
-  let foundStem = stems.data.filter(function (stem) {
-    if (stem.id == id) {
-      if (stem.editnote == null) {
-        stem.editnote = ''
-      }
-      return stem
-    }
-  })
-  const stem = foundStem.length > 0 ? foundStem[0] : null
+  console.log("id: ", id)
+  console.log("stems data: ", stems.data)
+  let stem = stems.data.find(element => element.id === id)
+  if (stem && stem.editnote === null) {
+    stem.editnote = ''
+  }
 
   console.log("The stem in editstem is: ", stem)
 
@@ -165,7 +162,6 @@ function mapStateToProps ({ stems }, { match }) {
     stem
   }
 }
-
 export default compose(
   graphql(updateStemMutation, { name: 'updateStemMutation' })
 )(withApollo(connect(mapStateToProps)(EditStem)))
