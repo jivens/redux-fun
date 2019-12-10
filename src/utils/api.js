@@ -1,4 +1,4 @@
-import { getUserToken, getUserFromToken, getAffixesQuery, getRootsQuery, getStemsQuery, deleteAffixMutation, deleteRootMutation, deleteStemMutation, addAffixMutation , updateAffixMutation, addRootMutation, updateRootMutation, addStemMutation, updateStemMutation, addUserMutation} from '../queries/queries'
+import { getUserToken, getUserFromToken, getAffixesQuery, getRootsQuery, getStemsQuery, deleteAffixMutation, deleteRootMutation, deleteStemMutation, addAffixMutation , updateAffixMutation, addRootMutation, updateRootMutation, addStemMutation, updateStemMutation, addUserMutation, getTextsQuery } from '../queries/queries'
 
 export function getInitialAppData (client) {
   return Promise.all([
@@ -14,11 +14,11 @@ export function getInitialAppData (client) {
       query: getAffixesQuery,
       variables: {}
     }),
-    // client.query({
-    //   query: getUsersQuery,
-    //   variables: {}
-    // }),
-  ]).then(([stems, roots, affixes]) => ({
+    client.query({
+      query: getTextsQuery,
+      variables: {}
+    })
+  ]).then(([stems, roots, affixes, texts]) => ({
     stems: {
       data: stems.data.stems_Q,
       tableData: {
@@ -38,7 +38,7 @@ export function getInitialAppData (client) {
     roots: {
       data: roots.data.roots_Q,
       tableData: {
-        page: 2,
+        page: 0,
         pageSize: 10,
         sorted: [{
           id: 'root',
@@ -66,16 +66,17 @@ export function getInitialAppData (client) {
         filtered: [],
         resized: [],
       }
+    },
+    texts: {
+      data: texts.data.texts_Q,
+      tableData: {
+        page: 0,
+        pageSize: 10,
+        sorted: [],
+        filtered: [],
+        resized: [],
+      }
     }
-    // navbar: {
-    //   rightItems: [
-    //     { to: "/search", icon: 'search', content:"Search", key: 'rsearch'},
-    //     { to: "/register", icon: 'user outline', content:"Log In/Sign Up", key: 'rreg'}
-    //   ]
-    // }
-    // users: {
-    //   data: users.data.users_Q
-    // }
   }))
 }
 

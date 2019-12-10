@@ -17,11 +17,12 @@ import EditAffix from './EditAffix'
 import EditRoot from './EditRoot'
 import AddStem from './AddStem'
 import EditStem from './EditStem'
+import TextList from './TextList'
 import 'react-table/react-table.css'
-import 'semantic-ui-css/semantic.min.css';
-import '../stylesheets/NavBar.css';
-import '../stylesheets/Colrc.css';
-import '../stylesheets/AccordionTables.css';
+import 'semantic-ui-css/semantic.min.css'
+import '../stylesheets/NavBar.css'
+import '../stylesheets/Colrc.css'
+import '../stylesheets/AccordionTables.css'
 
 // const loggedIn = () => {
 //   const token = localStorage.getItem('TOKEN')
@@ -68,6 +69,7 @@ class App extends Component {
                     <Route path='/addaffix' component={AddAffix} />
                     <Route path='/addroot' component={AddRoot} />
                     <Route path='/editaffix/:id' component={EditAffix} />
+                    <Route path='/texts' component={TextList} />
                   </div>}
                 </NavBar>
                 <Footer />
