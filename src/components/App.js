@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { handleInitialAppData } from '../actions/shared'
+import { handleUserInfo } from '../actions/users'
 import LoadingBar from 'react-redux-loading'
 import Register from './users/Register'
 import Users from './users/Users'
@@ -29,8 +30,11 @@ import '../stylesheets/AccordionTables.css';
 
 class App extends Component {
   componentDidMount () {
-    //this.props.dispatch(handleInitialData())
     this.props.dispatch(handleInitialAppData(this.props.client))
+    const token = localStorage.getItem('TOKEN')
+    if (token) {
+      this.props.dispatch(handleUserInfo(this.props.client))
+    }
   }
 
 

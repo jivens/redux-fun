@@ -195,15 +195,10 @@ class EditRoot extends Component {
 
 function mapStateToProps ({ roots }, { match }) {
   const { id } = match.params
-  let foundRoot = roots.data.filter(function (root) {
-    if (root.id == id) {
-      if (root.editnote == null) {
-        root.editnote = ''
-      }
-      return root
-    }
-  })
-  const root = foundRoot.length > 0 ? foundRoot[0] : null
+  let root = roots.data.find(element => element.id === id)
+  if (root && root.editnote === null) {
+    root.editnote = ''
+  }
 
   console.log("The root in editroot is: ", root)
 

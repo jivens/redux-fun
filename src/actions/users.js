@@ -14,7 +14,7 @@ function addUser (user) {
     user,
   }
 }
-
+//sets the token
 function loggedIn (user) {
   return {
     type: LOGIN_USER,
@@ -22,12 +22,14 @@ function loggedIn (user) {
   }
 }
 
+//deletes the token
 function loggedOut (user) {
   return {
     type: LOGOUT_USER
   }
 }
 
+//sets userData
 function setUserInfo (user) {
   return {
     type: USER_INFO,
@@ -52,11 +54,11 @@ export function handleLoginUser (client, user) {
   }
 }
 
-export function handleLogoutUser () {
+export function handleLogoutUser (client, user) {
   return (dispatch, getState) => {
     dispatch(showLoading())
-    return dispatch(loggedOut())
-    .then(() => dispatch(hideLoading()))
+    dispatch(loggedOut(user))
+    dispatch(hideLoading())
   }
 }
 

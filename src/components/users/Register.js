@@ -37,9 +37,6 @@ class Register extends Component {
     console.log(setSubmitting)
     const { login } = this.state
     try {
-      let userData = {
-        data: values
-      }
       if (login) {
         this.props.history.push('/users')
         this.props.dispatch(handleLoginUser(this.props.client, values))
