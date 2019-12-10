@@ -110,7 +110,7 @@ export function loginUser(client, user){
   })
 }
 
-export function getUserInfo(client, user){
+export function getUserInfo(client){
   return client.query({
     query: getUserFromToken,
     variables: {}

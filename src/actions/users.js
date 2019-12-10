@@ -14,7 +14,7 @@ function addUser (user) {
     user,
   }
 }
-
+//sets the token
 function loggedIn (user) {
   return {
     type: LOGIN_USER,
@@ -22,12 +22,14 @@ function loggedIn (user) {
   }
 }
 
+//deletes the token
 function loggedOut (user) {
   return {
     type: LOGOUT_USER
   }
 }
 
+//sets userData
 function setUserInfo (user) {
   return {
     type: USER_INFO,
