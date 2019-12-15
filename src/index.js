@@ -85,6 +85,7 @@ const store = createStore(
 )
 
 store.subscribe(() => {
+  console.log('I am saving the state into localStorage')
   saveState(store.getState())
 })
 
