@@ -81,9 +81,9 @@ class App extends Component {
   }
 }
 
-function mapStateToProps ({ stems, roots, affixes, errors }) {
+function mapStateToProps ({ stems, roots, affixes, texts, errors }) {
   return {
-    loading: stems === null || roots === null || affixes === null,
+    loading: stems === null || roots === null || affixes === null || texts === null,
     errors: errors
   }
 }
