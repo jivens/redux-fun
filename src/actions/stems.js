@@ -1,5 +1,6 @@
 import { deleteStem, saveStem, editStem } from '../utils/api'
 import { showLoading, hideLoading } from 'react-redux-loading'
+import { receiveErrors } from '../actions/errors'
 
 export const RECEIVE_STEMS = 'RECEIVE_STEMS'
 export const DELETE_STEM = 'DELETE_STEM'
@@ -118,6 +119,14 @@ export function handleDeleteStem (client, id) {
     return deleteStem(client, id)
     .then((stemData) => dispatch(removeStem(stemData.data.deleteStem_M)))
     .then(() => dispatch(hideLoading()))
+    .catch((error) => {
+      console.error("ERROR =>", error.graphQLErrors.map(x => x.message))
+      const errors = {
+        errorsText: error.graphQLErrors.map(x => x.message)
+      }
+      dispatch(receiveErrors(errors))
+      dispatch(hideLoading())
+    })
   }
 }
 
@@ -127,6 +136,14 @@ export function handleAddStem (client, stem) {
     return saveStem(client, stem)
     .then((stemData) => dispatch(addStem(stemData.data.addStem_M)))
     .then(() => dispatch(hideLoading()))
+    .catch((error) => {
+      console.error("ERROR =>", error.graphQLErrors.map(x => x.message))
+      const errors = {
+        errorsText: error.graphQLErrors.map(x => x.message)
+      }
+      dispatch(receiveErrors(errors))
+      dispatch(hideLoading())
+    })
   }
 }
 
@@ -141,5 +158,13 @@ export function handleEditStem (client, stem) {
       return dispatch(updateStem(newStemData))// redux store change
     })
     .then(() => dispatch(hideLoading()))
+    .catch((error) => {
+      console.error("ERROR =>", error.graphQLErrors.map(x => x.message))
+      const errors = {
+        errorsText: error.graphQLErrors.map(x => x.message)
+      }
+      dispatch(receiveErrors(errors))
+      dispatch(hideLoading())
+    })
   }
 }

@@ -72,7 +72,10 @@ export function getInitialAppData (client) {
       tableData: {
         page: 0,
         pageSize: 10,
-        sorted: [],
+        sorted: [{
+          id: 'rnumber',
+          desc: false
+        }],
         filtered: [],
         resized: [],
       }

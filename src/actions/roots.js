@@ -1,5 +1,6 @@
 import { deleteRoot, saveRoot, editRoot } from '../utils/api'
 import { showLoading, hideLoading } from 'react-redux-loading'
+import { receiveErrors } from '../actions/errors'
 
 export const RECEIVE_ROOTS = 'RECEIVE_ROOTS'
 export const DELETE_ROOT = 'DELETE_ROOT'
@@ -118,6 +119,14 @@ export function handleDeleteRoot (client, id) {
     return deleteRoot(client, id)
     .then((rootData) => dispatch(removeRoot(rootData.data.deleteRoot_M)))
     .then(() => dispatch(hideLoading()))
+    .catch((error) => {
+      console.error("ERROR =>", error.graphQLErrors.map(x => x.message))
+      const errors = {
+        errorsText: error.graphQLErrors.map(x => x.message)
+      }
+      dispatch(receiveErrors(errors))
+      dispatch(hideLoading())
+    })
   }
 }
 
@@ -127,6 +136,14 @@ export function handleAddRoot (client, root) {
     return saveRoot(client, root)
     .then((rootData) => dispatch(addRoot(rootData.data.addRoot_M)))
     .then(() => dispatch(hideLoading()))
+    .catch((error) => {
+      console.error("ERROR =>", error.graphQLErrors.map(x => x.message))
+      const errors = {
+        errorsText: error.graphQLErrors.map(x => x.message)
+      }
+      dispatch(receiveErrors(errors))
+      dispatch(hideLoading())
+    })
   }
 }
 
@@ -143,5 +160,13 @@ export function handleEditRoot (client, root) {
       return dispatch(updateRoot(newRootData))// redux store change
     })
     .then(() => dispatch(hideLoading()))
+    .catch((error) => {
+      console.error("ERROR =>", error.graphQLErrors.map(x => x.message))
+      const errors = {
+        errorsText: error.graphQLErrors.map(x => x.message)
+      }
+      dispatch(receiveErrors(errors))
+      dispatch(hideLoading())
+    })
   }
 }

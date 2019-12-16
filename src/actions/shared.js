@@ -11,11 +11,27 @@ export function handleInitialAppData (client) {
   return (dispatch) => {
     dispatch(showLoading())
     return getInitialAppData(client)
-      .then(({ stems, roots, affixes, texts, errors }) => {
+      .then(({ stems, roots, affixes, texts }) => {
         dispatch(receiveStems(stems))
         dispatch(receiveRoots(roots))
         dispatch(receiveAffixes(affixes))
         dispatch(receiveTexts(texts))
+        dispatch(hideLoading())
+      })
+      .catch((error) => {
+        console.error('this is the error, ', error)
+        console.error("ERROR =>", error.graphQLErrors.map(x => x.message))
+        let errors = {
+          errorsText: []
+        }
+        if (error.graphQLErrors && error.graphQLErrors.length > 0) {
+          errors = {
+            errorsText: error.graphQLErrors.map(x => x.message)
+          }
+        }
+        else if (error.message) {
+          errors.errorsText.push(error.message)
+        }
         dispatch(receiveErrors(errors))
         dispatch(hideLoading())
       })
