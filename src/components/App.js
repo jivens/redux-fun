@@ -29,6 +29,7 @@ import '../stylesheets/AccordionTables.css'
 //   return token ? true : false
 // }
 
+
 class App extends Component {
   componentDidMount () {
     this.props.dispatch(handleInitialAppData(this.props.client))
@@ -50,10 +51,10 @@ class App extends Component {
               <LoadingBar />
               {this.props.errors && this.props.errors.errorsText &&
                 <div>Error:
-                  <ol>{this.props.errors.errorsText.map(err => (
+                  <ul>{this.props.errors.errorsText.map(err => (
                     <li key={err}>{err}</li>
                     ))}
-                  </ol>
+                  </ul>
                 </div>}
               {this.props.loading === true
                 ? null
