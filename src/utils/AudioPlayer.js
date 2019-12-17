@@ -9,7 +9,7 @@ class AudioPlayer extends Component {
      let directLink = "";
      for (let i = 0; i < sources.length; i++)
      {
-         children.push(<source src={sources[i].src} type={sources[i].type}></source>);
+         children.push(<source src={sources[i].src} type={sources[i].type} key={sources[i].key}></source>);
          if (sources[i].direct) {
            directLink = <a href={sources[i].src}>Access the files</a>;
          }
@@ -32,7 +32,7 @@ class AudioPlayer extends Component {
         : '')
 
     return (
-      <div>
+      <div key="audioPlayer">
       {title}
         <audio controls="controls" preload="none">
           {this.createAudioSources(this.props.sources)}

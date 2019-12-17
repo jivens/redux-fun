@@ -75,7 +75,8 @@ class RootList extends Component {
     const columns = [
       {
         Header: 'ID',
-        accessor: 'id'
+        accessor: 'id',
+        sortMethod: (a, b) => Number(a)-Number(b)
       },
       {
         Header: 'Root',
@@ -86,14 +87,13 @@ class RootList extends Component {
       },
       {
         Header: 'Number',
-        accessor: 'number'
+        accessor: 'number',
+        sortMethod: (a, b) => Number(a)-Number(b)
       },
       {
         Header: 'Sense',
         accessor: 'sense',
-        filterMethod: (filter, rows) =>
-          matchSorter(rows, filter.value, { keys: ["sense"], threshold: matchSorter.rankings.CONTAINS }),
-        filterAll: true,
+        sortMethod: (a, b) => Number(a)-Number(b)
       },
       {
         Header: 'Salish',

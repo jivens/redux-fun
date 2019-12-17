@@ -74,7 +74,8 @@ class AffixList extends Component {
     const columns = [
       {
         Header: 'ID',
-        accessor: 'id'
+        accessor: 'id',
+        sortMethod: (a, b) => Number(a)-Number(b)
       },
       {
         Header: 'Type',
