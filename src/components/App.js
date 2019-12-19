@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { ToastContainer, toast } from "react-toastify"
 import { handleInitialAppData } from '../actions/shared'
 import { handleUserInfo } from '../actions/users'
 import LoadingBar from 'react-redux-loading'
@@ -23,6 +24,7 @@ import 'semantic-ui-css/semantic.min.css'
 import '../stylesheets/NavBar.css'
 import '../stylesheets/Colrc.css'
 import '../stylesheets/AccordionTables.css'
+import "react-toastify/dist/ReactToastify.css"
 
 // const loggedIn = () => {
 //   const token = localStorage.getItem('TOKEN')
@@ -49,13 +51,6 @@ class App extends Component {
               <NavBar>
               <Banner />
               <LoadingBar />
-              {this.props.errors && this.props.errors.errorsText &&
-                <div>Error:
-                  <ul>{this.props.errors.errorsText.map(err => (
-                    <li key={err}>{err}</li>
-                    ))}
-                  </ul>
-                </div>}
               {this.props.loading === true
                 ? null
                 : <div>
@@ -73,6 +68,7 @@ class App extends Component {
                     <Route path='/texts' component={TextList} />
                   </div>}
                 </NavBar>
+                <ToastContainer autoClose={2000} />
                 <Footer />
             </div>
           </Fragment>
