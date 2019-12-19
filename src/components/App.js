@@ -17,16 +17,18 @@ import EditAffix from './EditAffix'
 import EditRoot from './EditRoot'
 import AddStem from './AddStem'
 import EditStem from './EditStem'
+import TextList from './TextList'
 import 'react-table/react-table.css'
-import 'semantic-ui-css/semantic.min.css';
-import '../stylesheets/NavBar.css';
-import '../stylesheets/Colrc.css';
-import '../stylesheets/AccordionTables.css';
+import 'semantic-ui-css/semantic.min.css'
+import '../stylesheets/NavBar.css'
+import '../stylesheets/Colrc.css'
+import '../stylesheets/AccordionTables.css'
 
 // const loggedIn = () => {
 //   const token = localStorage.getItem('TOKEN')
 //   return token ? true : false
 // }
+
 
 class App extends Component {
   componentDidMount () {
@@ -49,10 +51,10 @@ class App extends Component {
               <LoadingBar />
               {this.props.errors && this.props.errors.errorsText &&
                 <div>Error:
-                  <ol>{this.props.errors.errorsText.map(err => (
+                  <ul>{this.props.errors.errorsText.map(err => (
                     <li key={err}>{err}</li>
                     ))}
-                  </ol>
+                  </ul>
                 </div>}
               {this.props.loading === true
                 ? null
@@ -68,6 +70,7 @@ class App extends Component {
                     <Route path='/addaffix' component={AddAffix} />
                     <Route path='/addroot' component={AddRoot} />
                     <Route path='/editaffix/:id' component={EditAffix} />
+                    <Route path='/texts' component={TextList} />
                   </div>}
                 </NavBar>
                 <Footer />
@@ -79,9 +82,9 @@ class App extends Component {
   }
 }
 
-function mapStateToProps ({ stems, roots, affixes, errors }) {
+function mapStateToProps ({ stems, roots, affixes, texts, errors }) {
   return {
-    loading: stems === null || roots === null || affixes === null,
+    loading: stems === null || roots === null || affixes === null || texts === null,
     errors: errors
   }
 }

@@ -15,11 +15,11 @@ class Register extends Component {
     this.onFormSubmit = this.onFormSubmit.bind(this)
     this.state = {
       login: false,  //set default appearance to register rather than login
-      first: '',
-      last: '',
-      username: '',
-      email: '',
-      password: '',
+      // first: '',
+      // last: '',
+      // username: '',
+      // email: '',
+      // password: '',
     }
   }
 
@@ -45,8 +45,8 @@ class Register extends Component {
         this.props.dispatch(handleSaveUser(this.props.client, values))
       }
       setSubmitting(false)
-    } catch (result) {
-      console.log(result)
+    } catch (error) {
+      console.error(error)
       setSubmitting(false)
     }
   }

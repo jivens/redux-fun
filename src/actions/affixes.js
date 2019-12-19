@@ -119,6 +119,14 @@ export function handleDeleteAffix (client, id) {
     return deleteAffix(client, id)
     .then((affixData) => dispatch(removeAffix(affixData.data.deleteAffix_M)))
     .then(() => dispatch(hideLoading()))
+    .catch((error) => {
+      console.error("ERROR =>", error.graphQLErrors.map(x => x.message))
+      const errors = {
+        errorsText: error.graphQLErrors.map(x => x.message)
+      }
+      dispatch(receiveErrors(errors))
+      dispatch(hideLoading())
+    })
   }
 }
 
@@ -128,6 +136,14 @@ export function handleAddAffix (client, affix) {
     return saveAffix(client, affix)
     .then((affixData) => dispatch(addAffix(affixData.data.addAffix_M)))
     .then(() => dispatch(hideLoading()))
+    .catch((error) => {
+      console.error("ERROR =>", error.graphQLErrors.map(x => x.message))
+      const errors = {
+        errorsText: error.graphQLErrors.map(x => x.message)
+      }
+      dispatch(receiveErrors(errors))
+      dispatch(hideLoading())
+    })
   }
 }
 
@@ -139,8 +155,6 @@ export function handleEditAffix (client, affix, errorCallback) {
       let newAffixData = {}
       newAffixData['newAffix'] = affixData.data.updateAffix_M
       newAffixData['originalAffix'] = affix.originalAffix
-      //console.log("handleEditAffix, new Affix: ", newAffixData['newAffix'])
-      //console.log("handleEditAffix, old Affix: ", newAffixData['originalAffix'])
       return dispatch(updateAffix(newAffixData))// redux store change
     })
     .then(() => dispatch(hideLoading()))

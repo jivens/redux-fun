@@ -18,6 +18,7 @@ import roots from './reducers/roots'
 import stems from './reducers/stems'
 import affixes from './reducers/affixes'
 import errors from './reducers/errors'
+import texts from './reducers/texts'
 import { loadingBarReducer } from 'react-redux-loading'
 
 //import {  getUserFromToken } from './queries/queries';
@@ -73,6 +74,7 @@ const store = createStore(
     stems,
     roots,
     affixes,
+    texts,
     errors,
     loadingBar: loadingBarReducer,
   }),
@@ -83,6 +85,7 @@ const store = createStore(
 )
 
 store.subscribe(() => {
+  console.log('I am saving the state into localStorage')
   saveState(store.getState())
 })
 
