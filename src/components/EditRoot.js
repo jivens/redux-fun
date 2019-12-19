@@ -9,6 +9,7 @@ class EditRoot extends Component {
   constructor(props, context){
     super(props, context)
     this.state = {
+      id: this.props.root.id,
       root: this.props.root.root,
       number: this.props.root.number,
       sense: this.props.root.sense,
@@ -24,6 +25,7 @@ class EditRoot extends Component {
       prevId: this.props.root.prevId,
       user: this.props.root.user,
       originalRoot: {
+        id: this.props.root.id,
         root: this.props.root.root,
         number: this.props.root.number,
         sense: this.props.root.sense,

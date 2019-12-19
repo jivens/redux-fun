@@ -1,5 +1,6 @@
 import { loginUser, saveUser, getUserInfo } from '../utils/api'
 import { showLoading, hideLoading } from 'react-redux-loading'
+import { receiveErrors } from '../actions/errors'
 
 //export const RECEIVE_USERS = 'RECEIVE_USERS'
 export const ADD_USER = 'ADD_USER'
@@ -51,6 +52,13 @@ export function handleLoginUser (client, user) {
     .then((userData) => dispatch(loggedIn(userData.data.loginUser_Q)))
     .then(() => dispatch(handleUserInfo(client)))
     .then(() => dispatch(hideLoading()))
+    .catch((error) => {
+      const errors = {
+        errorsText: error.graphQLErrors.map(x => x.message)
+      }
+      dispatch(receiveErrors(errors))
+      dispatch(hideLoading())
+    })
   }
 }
 
@@ -68,6 +76,14 @@ export function handleSaveUser (client, user) {
     return saveUser(client, user)
     .then((userData) => dispatch(addUser(userData.data.addUser_M)))
     .then(() => dispatch(hideLoading()))
+    .catch((error) => {
+      console.error("ERROR =>", error.graphQLErrors.map(x => x.message))
+      const errors = {
+        errorsText: error.graphQLErrors.map(x => x.message)
+      }
+      dispatch(receiveErrors(errors))
+      dispatch(hideLoading())
+    })
   }
 }
 
