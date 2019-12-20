@@ -1,4 +1,5 @@
 import { LOGIN_USER, ADD_USER, LOGOUT_USER, USER_INFO } from '../actions/users'
+import {toast} from "react-toastify"
 
 export default function users (state = {}, action) {
   switch (action.type) {
@@ -7,6 +8,7 @@ export default function users (state = {}, action) {
         const token = action.user[0].password
         localStorage.removeItem('TOKEN')
         localStorage.setItem('TOKEN', token)
+
       } else {
         console.log('bad login')
       }
@@ -14,6 +16,7 @@ export default function users (state = {}, action) {
     case USER_INFO :
       //set up user info that navbar can read
       console.log('action.user is: ', action.user)
+      toast.success(`Successfully logged in as: ${action.user.username}`)
       return {
         ...state,
         currentUser: action.user
