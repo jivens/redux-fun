@@ -1,5 +1,6 @@
 import { loginUser, saveUser, getUserInfo } from '../utils/api'
 import { showLoading, hideLoading } from 'react-redux-loading'
+import { browserHistory } from 'react-router'
 import { receiveErrors } from '../actions/errors'
 
 //export const RECEIVE_USERS = 'RECEIVE_USERS'
@@ -45,19 +46,21 @@ function setUserInfo (user) {
 //   }
 // }
 
-export function handleLoginUser (client, user) {
+export function handleLoginUser (client, history, user) {
   return (dispatch, getState) => {
     dispatch(showLoading())
     return loginUser(client, user)
     .then((userData) => dispatch(loggedIn(userData.data.loginUser_Q)))
     .then(() => dispatch(handleUserInfo(client)))
     .then(() => dispatch(hideLoading()))
+    .then(() => history.push('/users'))
     .catch((error) => {
       const errors = {
         errorsText: error.graphQLErrors.map(x => x.message)
       }
       dispatch(receiveErrors(errors))
       dispatch(hideLoading())
+      history.push('/register')
     })
   }
 }

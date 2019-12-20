@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { flowRight as compose } from 'lodash'
-import { Grid, Header, Segment, Button, Message } from 'semantic-ui-react';
+import { Grid, Header, Segment, Button } from 'semantic-ui-react';
 import { withApollo, graphql } from 'react-apollo';
 import { getUserToken, getUserFromToken } from '../../queries/queries';
 import { handleLogoutUser } from '../../actions/users'
@@ -9,7 +9,6 @@ import { handleLogoutUser } from '../../actions/users'
 class Users extends Component {
   constructor(props) {
     super(props);
-    //this.userMessage = this.userMessage.bind(this)
     this.state = {
       fields: {
         first: '',
@@ -76,9 +75,6 @@ render() {
           <Header as='h2'  textAlign='center'>
               User Actions
           </Header>
-          <Message>
-            There is no user message yet.
-          </Message>
           <Segment stacked textAlign='center'>
             <Button size='large' color='blue' onClick={(e) => this.props.history.push('/userprofile')}>
               Update Your Profile

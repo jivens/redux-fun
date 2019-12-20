@@ -88,7 +88,7 @@ function mapStateToProps ({ stems, roots, affixes, texts, errors }) {
 class Footer extends Component {
   render() {
     return (
-      <div className='centered'>
+      <div className='centered footer'>
         <p>coeur d'alene online language resource center copyright 2009</p>
         <p>project supported by the national science foundation awards BCS-1160627 and BCS-1160394 and the national endowment for the humanities award PD-261031-18.</p>
       </div>
