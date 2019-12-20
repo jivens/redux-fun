@@ -68,7 +68,7 @@ class App extends Component {
                     <Route path='/texts' component={TextList} />
                   </div>}
                 </NavBar>
-                <ToastContainer autoClose={2000} />
+                <ToastContainer autoClose={5000} />
                 <Footer />
             </div>
           </Fragment>
