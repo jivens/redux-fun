@@ -18,6 +18,7 @@ import throttle from 'lodash/throttle'
 import users from './reducers/users'
 import roots from './reducers/roots'
 import stems from './reducers/stems'
+import bibliography from './reducers/bibliography'
 import affixes from './reducers/affixes'
 import navbar from './reducers/navbar'
 import errors from './reducers/errors'
@@ -75,6 +76,7 @@ const store = createStore(
     users,
     stems,
     roots,
+    bibliography,
     affixes,
     errors,
     loadingBar: loadingBarReducer,
