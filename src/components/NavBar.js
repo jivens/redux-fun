@@ -2,7 +2,6 @@ import _ from "lodash";
 import React, { Component } from "react";
 import { NavLink, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { withApollo } from 'react-apollo'
 import {
   Container,
   Icon,
@@ -13,14 +12,22 @@ import {
 } from "semantic-ui-react";
 import 'semantic-ui-css/semantic.min.css';
 
-const rightItems = ([
-    { to: "/search", icon: 'search', content:"Search", key: 'rsearch'},
-    { to: "/register", icon: 'user outline', content:"Log In/Sign Up", key: 'rreg'}
-  ])
+let rightMenuItems = (currentUser) => {
+  const rightItems = [
+    {to: "/search", icon: 'search', content:"Search", key: 'rsearch'},
+    ]
+    if (currentUser){
+      rightItems.push({ to: "/users", icon: 'user', content:"User Profile", key: 'ruser'})
+    }
+    else {
+      rightItems.push({ to: "/register", icon: 'user outline', content:"Log In/Sign Up", key: 'rreg'})
+    }
+    return rightItems
+  }
+
 
 const NavBarMobile = ({
   children,
-  //leftItems,
   onPusherClick,
   onToggle,
   rightItems,
@@ -161,14 +168,14 @@ class NavBar extends Component {
           <NavBarMobile
             onPusherClick={this.handlePusher}
             onToggle={this.handleToggle}
-            //rightItems={this.props.navbar.rightItems}
+            rightItems={rightMenuItems(this.props.users.currentUser)}
             visible={visible}
           >
             <NavBarChildren>{children}</NavBarChildren>
           </NavBarMobile>
         </Responsive>
         <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-          <NavBarDesktop rightItems={rightItems} />
+          <NavBarDesktop rightItems={rightMenuItems(this.props.users.currentUser)} />
           <NavBarChildren>{children}</NavBarChildren>
         </Responsive>
       </div>
@@ -176,11 +183,14 @@ class NavBar extends Component {
   }
 }
 
-// function mapStateToProps (state) {
-//   const {navbar} = state
-//   console.log('the navbar is ', navbar)
-//   return {
-//     navbar
-//   }
-// }
-export default ( withApollo (NavBar))
+  function mapStateToProps (state, ownProps) {
+    console.log('ownProps is ', ownProps)
+    const {users} = state
+     return {
+       users,
+       ...ownProps
+     }
+  }
+
+//export default ( withApollo(connect(mapStateToProps)(NavBar)))
+export default (withRouter (connect(mapStateToProps)(NavBar)))

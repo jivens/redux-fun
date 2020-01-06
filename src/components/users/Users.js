@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { flowRight as compose } from 'lodash'
-import { Grid, Header, Segment, Button, Message, Input } from 'semantic-ui-react';
-import { withRouter } from 'react-router-dom';
+import { Grid, Header, Segment, Button } from 'semantic-ui-react';
 import { withApollo, graphql } from 'react-apollo';
 import { getUserToken, getUserFromToken } from '../../queries/queries';
-import { hashToArray, isLoggedIn } from '../../utils/helpers'
+import { handleLogoutUser } from '../../actions/users'
 
 class Users extends Component {
   constructor(props) {
     super(props);
-    this.userMessage = this.userMessage.bind(this)
     this.state = {
       fields: {
         first: '',
@@ -49,26 +47,26 @@ class Users extends Component {
     }
   }
 
-  async componentWillUnmount() {
-    this._isMounted = false;
-    console.log("Users is unmounting")
-  }
+  // async componentWillUnmount() {
+  //   this._isMounted = false;
+  //   console.log("Users is unmounting")
+  // }
 
   handleClick(e) {
     console.log('this is:', this);
     this.props.history.push('/');
   }
 
-  userMessage = async () => {
-    await this.props.checkUserRole()
-    const user=this.props.getUserState()
-    console.log(user)
-    const username=user.username
-    console.log(username)
-    console.log(`You are currently logged in as <div style={{ color: 'blue' }}>${username}</div>  You can update your user profile, change your password, or log out.`)
-    //return `You are currently logged in as <div style={{ color: 'blue' }}>${username}</div>  You can update your user profile, change your password, or log out.`
-   return <div>`${username}`</div>
-  }
+  // userMessage = async () => {
+  //   await this.props.checkUserRole()
+  //   const user=this.props.getUserState()
+  //   console.log(user)
+  //   const username=user.username
+  //   console.log(username)
+  //   console.log(`You are currently logged in as <div style={{ color: 'blue' }}>${username}</div>  You can update your user profile, change your password, or log out.`)
+  //   //return `You are currently logged in as <div style={{ color: 'blue' }}>${username}</div>  You can update your user profile, change your password, or log out.`
+  //  return <div>`${username}`</div>
+  // }
 
 render() {
     return (
@@ -77,9 +75,6 @@ render() {
           <Header as='h2'  textAlign='center'>
               User Actions
           </Header>
-          <Message>
-            There is no user message yet.
-          </Message>
           <Segment stacked textAlign='center'>
             <Button size='large' color='blue' onClick={(e) => this.props.history.push('/userprofile')}>
               Update Your Profile
@@ -89,7 +84,7 @@ render() {
             </Button>
             <Button size='large' color='blue'
               onClick={(e) => {
-                localStorage.removeItem('TOKEN')
+                this.props.dispatch(handleLogoutUser(this.props.client, this.props.user))
                 this.props.history.push('/')
               }}>
               Logout
@@ -101,8 +96,14 @@ render() {
   }
 }
 
+function mapStateToProps (state) {
+  const {user} = state
+  return {
+    user
+  }
+}
 export default compose(
   withApollo,
   graphql(getUserToken, { name: "getUserToken"}),
   graphql(getUserFromToken, { name: "getUserFromToken"})
-)(withRouter(Users));
+)(withApollo(connect(mapStateToProps)(Users)))

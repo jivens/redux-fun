@@ -1,7 +1,8 @@
 import { receiveErrors } from '../actions/errors'
 
 export function isLoggedIn () {
-  localStorage.getItem('TOKEN') ? true : false
+  const loggedIn = localStorage.getItem('TOKEN') ? true : false
+  return loggedIn
 }
 
 export function isObject (item) {

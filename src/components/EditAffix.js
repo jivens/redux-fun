@@ -60,7 +60,7 @@ class EditAffix extends Component {
     this.props.dispatch(handleEditAffix(this.props.client, this.state, errorCallback))
   }
   render() {
-    const { id, type, salish, nicodemus, english, link, page, editnote } = this.state
+    const { type, salish, nicodemus, english, link, page, editnote } = this.state
     return (
       <form className='edit-form' onSubmit={this.handleSubmit}>
         <h3 style={{marginBottom: 5}}>Update Affix</h3>
@@ -140,15 +140,10 @@ function mapStateToProps ({ affixes }, { match }) {
   const { id } = match.params
   console.log("id: ", id)
   console.log("affixes data: ", affixes.data)
-  let foundAffix = affixes.data.filter(function (affix) {
-    if (affix.id == id) {
-      if (affix.editnote == null) {
-        affix.editnote = ''
-      }
-      return affix
-    }
-  })
-  const affix = foundAffix.length > 0 ? foundAffix[0] : null
+  let affix = affixes.data.find(element => element.id === id)
+  if (affix && affix.editnote === null) {
+    affix.editnote = ''
+  }
 
   console.log("The affix in editaffix is: ", affix)
 

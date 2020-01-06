@@ -7,8 +7,6 @@ import { Button, Grid, Header, Message, Segment, Input } from 'semantic-ui-react
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { handleLoginUser, handleSaveUser } from '../../actions/users'
-import { hashToArray, isLoggedIn } from '../../utils/helpers'
-import { withRouter } from 'react-router-dom';
 
 
 class Register extends Component {
@@ -17,11 +15,11 @@ class Register extends Component {
     this.onFormSubmit = this.onFormSubmit.bind(this)
     this.state = {
       login: false,  //set default appearance to register rather than login
-      first: '',
-      last: '',
-      username: '',
-      email: '',
-      password: '',
+      // first: '',
+      // last: '',
+      // username: '',
+      // email: '',
+      // password: '',
     }
   }
 
@@ -39,19 +37,15 @@ class Register extends Component {
     console.log(setSubmitting)
     const { login } = this.state
     try {
-      let userData = {
-        data: values
-      }
       if (login) {
-        this.props.history.push('/users')
-        this.props.dispatch(handleLoginUser(this.props.client, values))
+        this.props.dispatch(handleLoginUser(this.props.client, this.props.history, values))
       } else {
         this.props.history.push('/users')
         this.props.dispatch(handleSaveUser(this.props.client, values))
       }
       setSubmitting(false)
-    } catch (result) {
-      console.log(result)
+    } catch (error) {
+      console.error(error)
       setSubmitting(false)
     }
   }

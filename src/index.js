@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
 import App from './components/App'
 import { Provider } from 'react-redux'
 import { createHttpLink } from 'apollo-link-http';
@@ -14,16 +13,15 @@ import logger from './middleware/logger'
 import thunk from 'redux-thunk'
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
 import { loadState, saveState } from './utils/localStorage'
-import throttle from 'lodash/throttle'
 import users from './reducers/users'
 import roots from './reducers/roots'
 import stems from './reducers/stems'
 import bibliography from './reducers/bibliography'
 import affixes from './reducers/affixes'
-import navbar from './reducers/navbar'
 import errors from './reducers/errors'
+import texts from './reducers/texts'
 import { loadingBarReducer } from 'react-redux-loading'
-import 'react-table/react-table.css'
+
 //import {  getUserFromToken } from './queries/queries';
 
 const httpLink = createHttpLink({
@@ -78,6 +76,7 @@ const store = createStore(
     roots,
     bibliography,
     affixes,
+    texts,
     errors,
     loadingBar: loadingBarReducer,
   }),
@@ -88,6 +87,7 @@ const store = createStore(
 )
 
 store.subscribe(() => {
+  console.log('I am saving the state into localStorage')
   saveState(store.getState())
 })
 

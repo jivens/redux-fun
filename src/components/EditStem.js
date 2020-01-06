@@ -43,7 +43,7 @@ class EditStem extends Component {
       [name]: value
     }))
   }
-  
+
   isDisabled = () => {
     const { category, salish, nicodemus, reichard, doak, english, note, editnote } = this.state
 
@@ -62,7 +62,7 @@ class EditStem extends Component {
     this.props.dispatch(handleEditStem(this.props.client, this.state))
   }
   render() {
-    const { id, category, reichard, doak, salish, nicodemus, english, note, editnote } = this.state
+    const { category, reichard, doak, salish, nicodemus, english, note, editnote } = this.state
     return (
       <form className='edit-form' onSubmit={this.handleSubmit}>
         <h3 style={{marginBottom: 5}}>Update Stem</h3>
@@ -149,15 +149,12 @@ class EditStem extends Component {
 
 function mapStateToProps ({ stems }, { match }) {
   const { id } = match.params
-  let foundStem = stems.data.filter(function (stem) {
-    if (stem.id == id) {
-      if (stem.editnote == null) {
-        stem.editnote = ''
-      }
-      return stem
-    }
-  })
-  const stem = foundStem.length > 0 ? foundStem[0] : null
+  console.log("id: ", id)
+  console.log("stems data: ", stems.data)
+  let stem = stems.data.find(element => element.id === id)
+  if (stem && stem.editnote === null) {
+    stem.editnote = ''
+  }
 
   console.log("The stem in editstem is: ", stem)
 
@@ -165,7 +162,6 @@ function mapStateToProps ({ stems }, { match }) {
     stem
   }
 }
-
 export default compose(
   graphql(updateStemMutation, { name: 'updateStemMutation' })
 )(withApollo(connect(mapStateToProps)(EditStem)))

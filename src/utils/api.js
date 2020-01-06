@@ -1,5 +1,4 @@
-import { getUsersQuery, getUserToken, getUserFromToken, getAffixesQuery, getRootsQuery, getStemsQuery, getBibliographyQuery, getBibliographiesQuery, deleteAffixMutation, deleteRootMutation, deleteStemMutation, deleteBibliographyMutation, addAffixMutation, updateAffixMutation, addRootMutation, addBibliographyMutation, updateRootMutation, addStemMutation, updateStemMutation, addUserMutation, updateBibliographyMutation} from '../queries/queries'
-import { isObject, hashToArray } from './helpers'
+import { getUserToken, getUserFromToken, getAffixesQuery, getRootsQuery, getStemsQuery, deleteAffixMutation, deleteRootMutation, deleteStemMutation, addAffixMutation , updateAffixMutation, addRootMutation, updateRootMutation, addStemMutation, updateStemMutation, addUserMutation, getTextsQuery } from '../queries/queries'
 
 export function getInitialAppData (client) {
   return Promise.all([
@@ -19,12 +18,11 @@ export function getInitialAppData (client) {
       query: getAffixesQuery,
       variables: {}
     }),
-    
-    // client.query({
-    //   query: getUsersQuery,
-    //   variables: {}
-    // }),
-  ]).then(([stems, roots, bibliographies, affixes]) => ({
+    client.query({
+      query: getTextsQuery,
+      variables: {}
+    })
+  ]).then(([stems, roots, affixes, texts]) => ({
     stems: {
       data: stems.data.stems_Q,
       tableData: {
@@ -44,7 +42,7 @@ export function getInitialAppData (client) {
     roots: {
       data: roots.data.roots_Q,
       tableData: {
-        page: 2,
+        page: 0,
         pageSize: 10,
         sorted: [{
           id: 'root',
@@ -88,21 +86,24 @@ export function getInitialAppData (client) {
         filtered: [],
         resized: [],
       }
+    },
+    texts: {
+      data: texts.data.texts_Q,
+      tableData: {
+        page: 0,
+        pageSize: 10,
+        sorted: [{
+          id: 'rnumber',
+          desc: false
+        }],
+        filtered: [],
+        resized: [],
+      }
     }
-    // navbar: {
-    //   rightItems: [
-    //     { to: "/search", icon: 'search', content:"Search", key: 'rsearch'},
-    //     { to: "/register", icon: 'user outline', content:"Log In/Sign Up", key: 'rreg'}
-    //   ]
-    // }
-    // users: {
-    //   data: users.data.users_Q
-    // }
   }))
 }
 
 export function deleteAffix(client, id){
-  let variables = {}
   return client.mutate({
     mutation: deleteAffixMutation,
     variables: { id: id }
@@ -118,7 +119,6 @@ export function deleteBibliography(client, id){
 }
 
 export function deleteRoot(client, id){
-  let variables = {}
   return client.mutate({
     mutation: deleteRootMutation,
     variables: { id: id }
@@ -126,7 +126,6 @@ export function deleteRoot(client, id){
 }
 
 export function deleteStem(client, id){
-  let variables = {}
   return client.mutate({
     mutation: deleteStemMutation,
     variables: { id: id }
@@ -143,8 +142,14 @@ export function loginUser(client, user){
   })
 }
 
+export function getUserInfo(client){
+  return client.query({
+    query: getUserFromToken,
+    variables: {}
+  })
+}
+
 export function saveUser(client, user){
-  let variables = {}
   return client.mutate({
     mutation: addUserMutation,
     variables: {
@@ -158,16 +163,7 @@ export function saveUser(client, user){
   })
 }
 
-export function getUserInfo(client, user){
-  let variables = {}
-  return client.query({
-    query: getUserFromToken,
-    variables: {}
-  })
-}
-
 export function saveAffix(client, affix){
-  let variables = {}
   return client.mutate({
     mutation: addAffixMutation,
     variables: {
@@ -198,7 +194,6 @@ export function saveBibliography(client, bibliography){
 }
 
 export function saveRoot(client, root){
-  let variables = {}
   return client.mutate({
     mutation: addRootMutation,
     variables: {
@@ -219,7 +214,6 @@ export function saveRoot(client, root){
 }
 
 export function saveStem(client, stem){
-  let variables = {}
   return client.mutate({
     mutation: addStemMutation,
     variables: {
@@ -304,3 +298,4 @@ export function editStem(client, stem){
     }
   })
 }
+

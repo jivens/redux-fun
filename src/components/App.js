@@ -1,11 +1,10 @@
 import React, { Component, Fragment } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { handleInitialData, handleInitialAppData } from '../actions/shared'
+import { ToastContainer, toast } from "react-toastify"
+import { handleInitialAppData } from '../actions/shared'
+import { handleUserInfo } from '../actions/users'
 import LoadingBar from 'react-redux-loading'
-import { isLoggedIn } from '../utils/helpers'
-import { Grid } from 'semantic-ui-react'
-//import UserList from './users/UserList'
 import Register from './users/Register'
 import Users from './users/Users'
 import Banner from './Banner'
@@ -19,17 +18,27 @@ import EditAffix from './EditAffix'
 import EditRoot from './EditRoot'
 import AddStem from './AddStem'
 import EditStem from './EditStem'
-import { ApolloConsumer } from "react-apollo"
+import TextList from './TextList'
+import 'react-table/react-table.css'
+import 'semantic-ui-css/semantic.min.css'
+import '../stylesheets/NavBar.css'
+import '../stylesheets/Colrc.css'
+import '../stylesheets/AccordionTables.css'
+import "react-toastify/dist/ReactToastify.css"
 
-const loggedIn = () => {
-  const token = localStorage.getItem('TOKEN')
-  return token ? true : false
-}
+// const loggedIn = () => {
+//   const token = localStorage.getItem('TOKEN')
+//   return token ? true : false
+// }
+
 
 class App extends Component {
   componentDidMount () {
-    //this.props.dispatch(handleInitialData())
     this.props.dispatch(handleInitialAppData(this.props.client))
+    const token = localStorage.getItem('TOKEN')
+    if (token) {
+      this.props.dispatch(handleUserInfo(this.props.client))
+    }
   }
 
 
@@ -41,13 +50,6 @@ class App extends Component {
               <NavBar>
               <Banner />
               <LoadingBar />
-              {this.props.errors && this.props.errors.errorsText &&
-                <div>Error:
-                  <ol>{this.props.errors.errorsText.map(err => (
-                    <li key={err}>{err}</li>
-                    ))}
-                  </ol>
-                </div>}
               {this.props.loading === true
                 ? null
                 : <div>
@@ -62,9 +64,10 @@ class App extends Component {
                     <Route path='/addaffix' component={AddAffix} />
                     <Route path='/addroot' component={AddRoot} />
                     <Route path='/editaffix/:id' component={EditAffix} />
+                    <Route path='/texts' component={TextList} />
                   </div>}
                 </NavBar>
-                <LoadingBar />
+                <ToastContainer autoClose={5000} />
                 <Footer />
             </div>
           </Fragment>
@@ -73,9 +76,9 @@ class App extends Component {
   }
 }
 
-function mapStateToProps ({ stems, roots, affixes, errors }) {
+function mapStateToProps ({ stems, roots, affixes, texts, errors }) {
   return {
-    loading: stems === null || roots === null || affixes === null,
+    loading: stems === null || roots === null || affixes === null || texts === null,
     errors: errors
   }
 }
@@ -83,7 +86,7 @@ function mapStateToProps ({ stems, roots, affixes, errors }) {
 class Footer extends Component {
   render() {
     return (
-      <div className='centered'>
+      <div className='centered footer'>
         <p>coeur d'alene online language resource center copyright 2009</p>
         <p>project supported by the national science foundation awards BCS-1160627 and BCS-1160394 and the national endowment for the humanities award PD-261031-18.</p>
       </div>

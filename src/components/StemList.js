@@ -8,7 +8,6 @@ import { getStemsQuery, deleteStemMutation } from '../queries/queries'
 import { handleDeleteStem, handleStemPageChange,
   handleStemPageSizeChange, handleStemSortedChange,
   handleStemFilteredChange, handleStemResizedChange } from '../actions/stems'
-import { hashToArray } from '../utils/helpers'
 import { loadState }  from '../utils/localStorage'
 
 class StemList extends Component {
@@ -73,10 +72,6 @@ class StemList extends Component {
     this.setState(currentState)
   }
 
-  async onEdit(id) {
-    this.props.history.push(`/editstem/${id}`)
-  }
-
   render() {
     const { stems } = this.state
     console.log('this is the loadState stems ', stems)
@@ -84,7 +79,8 @@ class StemList extends Component {
     const columns = [
       {
         Header: 'ID',
-        accessor: 'id'
+        accessor: 'id',
+        sortMethod: (a, b) => Number(a)-Number(b)
       },
       {
         Header: 'Category',
