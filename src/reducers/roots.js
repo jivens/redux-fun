@@ -1,6 +1,7 @@
 import { RECEIVE_ROOTS, DELETE_ROOT, ADD_ROOT, EDIT_ROOT,
   SET_ROOT_PAGE_SIZE, SET_ROOT_PAGE,
   SET_ROOT_FILTERED, SET_ROOT_SORTED, SET_ROOT_RESIZED } from '../actions/roots'
+import {toast} from "react-toastify"
 
 export default function roots (state = {}, action) {
   switch (action.type) {
@@ -10,7 +11,7 @@ export default function roots (state = {}, action) {
         ...action.roots,
       }
     case ADD_ROOT :
-      let rootData = state.data
+      let rootData = Object.assign({}, state.data)
       rootData.push(action.root)
       return {
         ...state,
@@ -37,6 +38,7 @@ export default function roots (state = {}, action) {
         }
       })
       newData.push(action.root)
+      toast.success(`Deleted root ID ${action.root.id}: ${action.root.nicodemus}, ${action.root.english}`)
       return {
         ...state,
         data: newData

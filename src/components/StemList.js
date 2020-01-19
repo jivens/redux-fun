@@ -9,6 +9,7 @@ import { handleDeleteStem, handleStemPageChange,
   handleStemPageSizeChange, handleStemSortedChange,
   handleStemFilteredChange, handleStemResizedChange } from '../actions/stems'
 import { loadState }  from '../utils/localStorage'
+import DecoratedTextSpan from '../utils/DecoratedTextSpan';
 
 class StemList extends Component {
 
@@ -21,10 +22,19 @@ class StemList extends Component {
     this.onSortedChange = this.onSortedChange.bind(this)
     this.onFilteredChange = this.onFilteredChange.bind(this)
     this.onResizedChange = this.onResizedChange.bind(this)
+    this.stemDropdown = this.stemDropdown.bind(this);
     const serializedState = loadState()
-    console.log('here is my stems.tableData state from constructor ', serializedState.stems.tableData)
     this.state = {stems: serializedState.stems}
   }
+
+  // componentWillMount() {
+  //   if (this.props.stems) {
+  //     this.setState({stems: this.props.stems})
+  //   } else {
+  //     const serializedState = loadState()
+  //     this.setState({stems: serializedState.stems})
+  //   }
+  // }
 
   async onDelete(id) {
     console.log("In stem deletion");
@@ -72,6 +82,16 @@ class StemList extends Component {
     this.setState(currentState)
   }
 
+  stemDropdown(original) {
+    if (original === 'v') {
+      original = original.replace('v', 'verb')
+    } else if (original === 'n') {
+      original = original.replace('n', 'noun')
+    } else if (original === 'aci') {
+      original = original.replace('aci', 'other')
+    }
+    return(<span>{original}</span>)
+  }
   render() {
     const { stems } = this.state
     console.log('this is the loadState stems ', stems)
@@ -84,7 +104,23 @@ class StemList extends Component {
       },
       {
         Header: 'Category',
-        accessor: 'category'
+        accessor: 'category',
+        filterMethod: (filter, row) => {
+          if (filter.value === "all") {
+            return true;
+          }
+          return row[filter.id] === filter.value;
+        },
+        Filter: ({filter, onChange}) =>
+          <select onChange = { event => onChange(event.target.value)}
+            style = {{ width: "100%"}}
+            value = {filter ? filter.value : "all"} >
+          <option value = "all" > Show All </option>
+          <option value = "v" > Verbs </option>
+          <option value = "n" > Nouns </option>
+          <option value = "aci" > Other </option>
+          </select>,
+        Cell: ({row, original}) => ( this.stemDropdown(original.category) )
       },
       {
         Header: 'Reichard',
@@ -92,6 +128,7 @@ class StemList extends Component {
         filterMethod: (filter, rows) =>
           matchSorter(rows, filter.value, { keys: ["reichard"], threshold: matchSorter.rankings.CONTAINS }),
         filterAll: true,
+        Cell: row => ( <DecoratedTextSpan str={row.value} />),
       },
       {
         Header: 'Doak',
@@ -113,6 +150,7 @@ class StemList extends Component {
         filterMethod: (filter, rows) =>
           matchSorter(rows, filter.value, { keys: ["nicodemus"], threshold: matchSorter.rankings.CONTAINS }),
         filterAll: true,
+        Cell: row => ( <DecoratedTextSpan str={row.value} />),
       },
       {
         Header: 'English',
@@ -186,7 +224,8 @@ class StemList extends Component {
 function mapStateToProps (state) {
   const serializedState = loadState()
   console.log('here is my stems.tableData state ', serializedState.stems.tableData)
-  const {stems} = serializedState
+  //const {stems} = serializedState
+  const {stems} = state
   return {
     stems
   }

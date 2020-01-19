@@ -21,11 +21,13 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "1.1.1",
     "react-table": "^6.10.3",
+    "react-table7": "npm:react-table@^7.0.0-rc.15",
     "react-toastify": "^5.4.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.1",
+    "styled-components": "^5.0.0",
     "yup": "^0.27.0"
   },
   "scripts": {

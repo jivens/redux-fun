@@ -1,6 +1,7 @@
 import { RECEIVE_STEMS, DELETE_STEM, ADD_STEM, EDIT_STEM,
   SET_STEM_PAGE_SIZE, SET_STEM_PAGE,
   SET_STEM_FILTERED, SET_STEM_SORTED, SET_STEM_RESIZED} from '../actions/stems'
+import {toast} from "react-toastify"
 
 export default function stems (state = {}, action) {
   switch (action.type) {
@@ -10,7 +11,7 @@ export default function stems (state = {}, action) {
         ...action.stems,
       }
     case ADD_STEM :
-      let stemData = state.data
+      let stemData = Object.assign({}, state.data)
       stemData.push(action.stem)
       return {
         ...state,
@@ -37,6 +38,7 @@ export default function stems (state = {}, action) {
         }
       })
       newData.push(action.stem)
+      toast.success(`Deleted stem ID: ${action.stem.id}: ${action.stem.nicodemus}, ${action.stem.english}`)
       return {
         ...state,
         data: newData

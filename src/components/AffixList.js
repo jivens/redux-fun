@@ -9,11 +9,14 @@ import { handleDeleteAffix, handleAffixPageChange,
   handleAffixPageSizeChange, handleAffixSortedChange,
   handleAffixFilteredChange, handleAffixResizedChange } from '../actions/affixes'
 import { loadState }  from '../utils/localStorage'
+import AffixListTwo from './AffixListTwo'
 
 class AffixList extends Component {
 
   constructor(props) {
     super(props)
+    this.affixDropdown = this.affixDropdown.bind(this)
+    this.weblink = this.weblink.bind(this)
     this.onDelete = this.onDelete.bind(this)
     this.onEdit = this.onEdit.bind(this)
     this.onPageChange = this.onPageChange.bind(this)
@@ -69,17 +72,57 @@ class AffixList extends Component {
     this.setState(currentState)
   }
 
+  weblink(link, page) {
+    return (
+      link === '' ? page : <a href={link} target="_blank" rel="noopener noreferrer">{page}</a>
+    );
+  }
+
+  affixDropdown(original) {
+    if (original === 'd') {
+      original = original.replace('d', 'directional')
+    } else if (original === 'l') {
+      original = original.replace('l', 'locative')
+    } else if (original === 'ls') {
+      original = original.replace('ls', 'lexical suffix')
+    } else if (original === 'lp') {
+      original = original.replace('lp', 'lexical prefix')
+    }
+    return(<span>{original}</span>)
+  }
   render() {
     const { affixes } = this.state
     const columns = [
       {
         Header: 'ID',
         accessor: 'id',
+        width: 75,
         sortMethod: (a, b) => Number(a)-Number(b)
       },
       {
         Header: 'Type',
-        accessor: 'type'
+        accessor: 'type',
+        width: 100,
+        //setup the dropdown menu for 'type'.
+        filterMethod: (filter, row) => {
+          if (filter.value === "all") {
+            return true;
+          }
+          return row[filter.id] === filter.value;
+        },
+        Filter: ({ filter, onChange }) =>
+          <select
+            onChange={event => onChange(event.target.value)}
+            style={{ width: "100%" }}
+            value={filter ? filter.value : "all"}
+          >
+            <option value="all">Show All</option>
+            <option value="d">Directional</option>
+            <option value="l">Locative</option>
+            <option value="lp">Lexical Prefixes</option>
+            <option value="ls">Lexical Suffixes</option>
+          </select>,
+        Cell: ({row, original}) => ( this.affixDropdown(original.type) )
       },
       {
         Header: 'Nicodemus',
@@ -94,6 +137,11 @@ class AffixList extends Component {
         filterMethod: (filter, rows) =>
           matchSorter(rows, filter.value, { keys: ["english"], threshold: matchSorter.rankings.CONTAINS }),
         filterAll: true,
+      },
+      {
+        Header: 'Link',
+        accessor: 'link',
+        Cell: ({row, original}) => ( this.weblink(original.link, original.page) )
       },
       {
         Header: 'Username',
@@ -146,6 +194,7 @@ class AffixList extends Component {
 
     return (
       <React.Fragment>
+        <AffixListTwo affixData={affixes.data} />
         {table}
       </React.Fragment>
     )

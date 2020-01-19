@@ -1,6 +1,7 @@
 import { RECEIVE_AFFIXES, DELETE_AFFIX, ADD_AFFIX, EDIT_AFFIX,
   SET_AFFIX_PAGE_SIZE, SET_AFFIX_PAGE,
   SET_AFFIX_FILTERED, SET_AFFIX_SORTED, SET_AFFIX_RESIZED } from '../actions/affixes'
+import {toast} from "react-toastify"
 
 export default function affixes (state = {}, action) {
   switch (action.type) {
@@ -10,7 +11,7 @@ export default function affixes (state = {}, action) {
         ...action.affixes,
       }
     case ADD_AFFIX :
-      let affixData = state.data
+      let affixData = Object.assign({}, state.data)
       affixData.push(action.affix)
       return {
         ...state,
@@ -37,6 +38,7 @@ export default function affixes (state = {}, action) {
         }
       })
       newData.push(action.affix)
+      toast.success(`Deleted affix ID: ${action.affix.id}: ${action.affix.nicodemus}, ${action.affix.english}`)
       return {
         ...state,
         data: newData
