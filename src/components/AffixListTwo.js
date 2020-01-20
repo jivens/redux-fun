@@ -1,13 +1,18 @@
 import React, { Component } from 'react'
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter } from 'react-table7'
 import styled from 'styled-components'
+import { Button } from 'semantic-ui-react'
 import matchSorter from 'match-sorter'
 
 const Styles = styled.div`
   padding: 1rem;
+
   table {
+    width: 100%;
     border-spacing: 0;
-    border: 1px solid black;
+    border: 1px solid #ddd;
+    box-sizing:border-box;
+    box-shadow:0 2px 15px 0 rgba(0,0,0,0.15);
     tr {
       :last-child {
         td {
@@ -15,12 +20,19 @@ const Styles = styled.div`
         }
       }
     }
-    th,
+    thead {
+      background: #fafafa;
+    }
+    th {
+      background: #fafafa;
+      padding: 5px;
+      border: 1px solid #ddd;
+    },
     td {
       margin: 0;
       padding: 0.5rem;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
+      border-bottom: 1px solid #ddd;
+      border-right: 1px solid #ddd;
       :last-child {
         border-right: 0;
       }
@@ -28,13 +40,23 @@ const Styles = styled.div`
         font-size: 1rem;
         padding: 0;
         margin: 0;
-        border: 0;
+        border: 1px solid #ddd;
       }
     }
   }
   .pagination {
     padding: 0.5rem;
   }
+  ul {
+      list-style:none;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+  }
+  li {
+    padding: 10px;
+  }
+
 `
 
 const IndeterminateCheckbox = React.forwardRef(
@@ -49,6 +71,7 @@ const IndeterminateCheckbox = React.forwardRef(
     return <input type="checkbox" ref={resolvedRef} {...rest} />
   }
 )
+
 // Define a default UI for filtering
 function GlobalFilter({
   preGlobalFilteredRows,
@@ -155,7 +178,7 @@ function SliderColumnFilter({
           setFilter(parseInt(e.target.value, 10))
         }}
       />
-      <button onClick={() => setFilter(undefined)}>Off</button>
+      <Button onClick={() => setFilter(undefined)}>Off</Button>
     </React.Fragment>
   )
 }
@@ -220,10 +243,13 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
 // Let the table remove the filter if the string is empty
 fuzzyTextFilterFn.autoRemove = val => !val
 
-function Table({ columns, data }) {
-  // For this example, we're using pagination to illustrate how to stop
-  // the current page from resetting when our data changes
-  const filterTypes = React.useMemo(
+function Table({
+  columns,
+  data,
+  fetchData,
+  loading,
+  pageCount: controlledPageCount })
+  { const filterTypes = React.useMemo(
     () => ({
       // Add a new fuzzyTextFilterFn filter type.
       fuzzyText: fuzzyTextFilterFn,
@@ -270,6 +296,7 @@ function Table({ columns, data }) {
     previousPage,
     setPageSize,
     getToggleHideAllColumnsProps,
+    setHiddenColumns,
     state: { pageIndex, pageSize },
   } = useTable(
     {
@@ -277,30 +304,51 @@ function Table({ columns, data }) {
       data,
       defaultColumn,
       filterTypes,
+      hiddenColumns: columns.filter(column => !column.show).map(column => column.id),
+      initialState: { pageIndex: 0 }, // Pass our hoisted table state
+      manualPagination: true, // Tell the usePagination
+      // hook that we'll handle our own data fetching
+      // This means we'll also have to provide our own
+      // pageCount.
+      pageCount: controlledPageCount,
     },
     useFilters,
     useGlobalFilter,
     useSortBy,
     usePagination
   )
+  // Listen for changes in pagination and use the state to fetch our new data
+React.useEffect(() => {
+  fetchData({ pageIndex, pageSize })
+}, [fetchData, pageIndex, pageSize])
+
+React.useEffect(() => {
+const hiddenColumns = flatColumns.filter((column: any) => !column.show).map((column: any)=> column.id);
+setHiddenColumns(hiddenColumns); }, []);
 
   // Render the UI for your table
   return (
     <React.Fragment>
       <div>
-        <div>
-          <IndeterminateCheckbox {...getToggleHideAllColumnsProps()} /> Toggle
-          All
-        </div>
+        <ul>
+        <li>
+          <span>Show/Hide Columns:   </span>
+        </li>
+        <li>
+          <IndeterminateCheckbox {...getToggleHideAllColumnsProps()} />
+          Toggle All
+        </li>
         {flatColumns.map(column => (
-          <div key={column.id}>
+          <div>
+            <li key={column.id}>
             <label>
               <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
-              {column.id}
+              {column.Header}
             </label>
+            </li>
           </div>
         ))}
-        <br />
+        </ul>
       </div>
       <table {...getTableProps()}>
         <thead>
@@ -348,6 +396,17 @@ function Table({ columns, data }) {
               </tr>
             )
           })}
+          <tr>
+            {loading ? (
+              // Use our custom loading state to show a loading indicator
+              <td colSpan="10000">Loading...</td>
+            ) : (
+              <td colSpan="10000">
+                Showing {page.length} of ~{controlledPageCount * pageSize}{' '}
+                results
+              </td>
+            )}
+          </tr>
         </tbody>
       </table>
       <div className="pagination">
@@ -419,11 +478,6 @@ filterGreaterThan.autoRemove = val => typeof val !== 'number'
 
 
 function AffixListTwo({affixData}) {
-  let weblink = function(link, page) {
-    return (
-      link === '' ? page : <a href={link} target="_blank" rel="noopener noreferrer">{page}</a>
-    );
-  }
   const columns = React.useMemo(
     () => [
       {
@@ -431,52 +485,60 @@ function AffixListTwo({affixData}) {
         accessor: 'id',
         Filter: NumberRangeColumnFilter,
         filter: 'between',
+        show: false,
       },
       {
         Header: 'Type',
         accessor: 'type',
         Filter: SelectColumnFilter,
         filter: 'includes',
+        show: true,
       },
       {
         Header: 'Nicodemus',
         accessor: 'nicodemus',
         filter: 'fuzzyText',
+        show: true,
       },
       {
         Header: 'English',
         accessor: 'english',
         filter: 'fuzzyText',
+        show: true,
       },
       {
         Header: 'Link',
         accessor: 'link',
-        //Cell: ({row, original}) => ( weblink(original.link, original.page) )
+        Cell: ({ row }) => <a href={row.original.link} target="_blank" rel="noopener noreferrer">{row.original.page}</a>,
+        show: true,
       },
       {
         Header: 'Username',
         accessor: 'user.username',
         Filter: SelectColumnFilter,
         filter: 'includes',
+        show: false,
       },
       {
         Header: 'Active',
         accessor: 'active',
         filter: 'fuzzyText',
+        show: false,
       },
       {
         Header: 'Edit/Delete',
         filterable: false,
         sortable: false,
         width: 100,
+        show: false,
         Cell: ({row, original}) => (
           <div>
-            <button>
+            <Button>
                 !E
-            </button>
-            <button>
+            </Button>
+            <Button>
                 !X
-            </button>
+            </Button>
           </div>
         )
       },
@@ -485,16 +547,46 @@ function AffixListTwo({affixData}) {
 
   const [data, setData] = React.useState(() => affixData)
   const [originalData] = React.useState(data)
-  const [skipPageReset, setSkipPageReset] = React.useState(false)
+  const [loading, setLoading] = React.useState(false)
+  const [pageCount, setPageCount] = React.useState(0)
+  const fetchIdRef = React.useRef(0)
 
-  // We need to keep the table from resetting the pageIndex when we
-  // Update data. So we can keep track of that flag with a ref.
+  const fetchData = React.useCallback(({ pageSize, pageIndex }) => {
+    // This will get called when the table needs new data
+    // You could fetch your data from literally anywhere,
+    // even a server. But for this example, we'll just fake it.
+
+    // Give this fetch an ID
+    const fetchId = ++fetchIdRef.current
+
+    // Set the loading state
+    setLoading(true)
+
+    // We'll even set a delay to simulate a server here
+    setTimeout(() => {
+      // Only update the data if this is the latest fetch
+      if (fetchId === fetchIdRef.current) {
+        const startRow = pageSize * pageIndex
+        const endRow = startRow + pageSize
+        setData(data.slice(startRow, endRow))
+
+        // Your server could send back total page count.
+        // For now we'll just fake it, too
+        setPageCount(Math.ceil(data.length / pageSize))
+
+        setLoading(false)
+      }
+    }, 1000)
+  }, [])
 
   return (
     <Styles>
       <Table
         columns={columns}
         data={data}
+        fetchData={fetchData}
+        loading={loading}
+        pageCount={pageCount}
       />
     </Styles>
   )

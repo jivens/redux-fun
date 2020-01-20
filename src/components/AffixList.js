@@ -10,6 +10,7 @@ import { handleDeleteAffix, handleAffixPageChange,
   handleAffixFilteredChange, handleAffixResizedChange } from '../actions/affixes'
 import { loadState }  from '../utils/localStorage'
 import AffixListTwo from './AffixListTwo'
+import '../stylesheets/tables.css'
 
 class AffixList extends Component {
 
