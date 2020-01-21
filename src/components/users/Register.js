@@ -38,8 +38,7 @@ class Register extends Component {
     const { login } = this.state
     try {
       if (login) {
-        this.props.history.push('/users')
-        this.props.dispatch(handleLoginUser(this.props.client, values))
+        this.props.dispatch(handleLoginUser(this.props.client, this.props.history, values))
       } else {
         this.props.history.push('/users')
         this.props.dispatch(handleSaveUser(this.props.client, values))

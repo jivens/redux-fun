@@ -38,7 +38,7 @@ function sourcefiles(jsonData) {
             json[i]["textfiles"][j]["imagequerystring"] = json[i]["textfiles"][j]["imagequerystring"] + '&images=' + json[i]["textfiles"][j]["textimages"][l]["src"];
             l++;
           }
-          console.log(json[i]["textfiles"][j]["imagequerystring"]);
+          //console.log(json[i]["textfiles"][j]["imagequerystring"]);
         json[i]["sourcefiles"].push(
             {
               src: json[i]["textfiles"][j]["imagequerystring"],
