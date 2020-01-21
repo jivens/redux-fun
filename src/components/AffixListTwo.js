@@ -237,7 +237,7 @@ function NumberRangeColumnFilter({
 }
 
 function fuzzyTextFilterFn(rows, id, filterValue) {
-  return matchSorter(rows, filterValue, { keys: [row => row.values[id]] })
+  return matchSorter(rows, filterValue, { keys: [row => row.values[id]], threshold: matchSorter.rankings.CONTAINS})
 }
 
 // Let the table remove the filter if the string is empty
@@ -246,9 +246,10 @@ fuzzyTextFilterFn.autoRemove = val => !val
 function Table({
   columns,
   data,
-  fetchData,
+  //fetchData,
   loading,
-  pageCount: controlledPageCount })
+  //pageCount: controlledPageCount
+   })
   { const filterTypes = React.useMemo(
     () => ({
       // Add a new fuzzyTextFilterFn filter type.
@@ -306,21 +307,21 @@ function Table({
       filterTypes,
       hiddenColumns: columns.filter(column => !column.show).map(column => column.id),
       initialState: { pageIndex: 0 }, // Pass our hoisted table state
-      manualPagination: true, // Tell the usePagination
+      manualPagination: false, // Tell the usePagination
       // hook that we'll handle our own data fetching
       // This means we'll also have to provide our own
       // pageCount.
-      pageCount: controlledPageCount,
+      //pageCount: controlledPageCount,
     },
-    useFilters,
     useGlobalFilter,
+    useFilters,
     useSortBy,
     usePagination
   )
   // Listen for changes in pagination and use the state to fetch our new data
-React.useEffect(() => {
-  fetchData({ pageIndex, pageSize })
-}, [fetchData, pageIndex, pageSize])
+// React.useEffect(() => {
+//   fetchData({ pageIndex, pageSize })
+// }, [fetchData, pageIndex, pageSize])
 
 React.useEffect(() => {
 const hiddenColumns = flatColumns.filter((column: any) => !column.show).map((column: any)=> column.id);
@@ -402,7 +403,7 @@ setHiddenColumns(hiddenColumns); }, []);
               <td colSpan="10000">Loading...</td>
             ) : (
               <td colSpan="10000">
-                Showing {page.length} of ~{controlledPageCount * pageSize}{' '}
+                Showing {page.length} of ~{pageCount * pageSize}{' '}
                 results
               </td>
             )}
@@ -584,7 +585,7 @@ function AffixListTwo({affixData}) {
       <Table
         columns={columns}
         data={data}
-        fetchData={fetchData}
+        // fetchData={fetchData}
         loading={loading}
         pageCount={pageCount}
       />
