@@ -27,9 +27,6 @@ export function getInitialAppData (client) {
         sorted: [{
           id: 'category',
           desc: false
-        },{
-          id: 'nicodemus',
-          desc: false
         }],
         filtered: [],
         resized: [],
