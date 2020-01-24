@@ -101,7 +101,7 @@ export function handleBibliographyFilteredChange(filtered, column) {
 
 export function handleBibliographyResizedChange(resized, event) {
   return (dispatch, getState) => {
-    dispatch(setAffixResized(resized, event))
+    dispatch(setBibliographyResized(resized, event))
   }
 }
 
