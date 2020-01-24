@@ -1,4 +1,4 @@
-import { getUserToken, getUserFromToken, getAffixesQuery, getRootsQuery, getStemsQuery, deleteAffixMutation, deleteRootMutation, deleteStemMutation, addAffixMutation , updateAffixMutation, addRootMutation, updateRootMutation, addStemMutation, updateStemMutation, addUserMutation, getTextsQuery } from '../queries/queries'
+import { getUserToken, getUserFromToken, getAffixesQuery, getRootsQuery, getStemsQuery, deleteAffixMutation, deleteRootMutation, deleteStemMutation, addAffixMutation , updateAffixMutation, addRootMutation, updateRootMutation, addStemMutation, updateStemMutation, addBibliographyMutation, updateBibliographyMutation, getBibliographiesQuery, deleteBibliographyMutation,addUserMutation, getTextsQuery } from '../queries/queries'
 
 export function getInitialAppData (client) {
   return Promise.all([
@@ -22,7 +22,7 @@ export function getInitialAppData (client) {
       query: getTextsQuery,
       variables: {}
     })
-  ]).then(([stems, roots, affixes, texts]) => ({
+  ]).then(([stems, roots, bibliographies, affixes, texts]) => ({
     stems: {
       data: stems.data.stems_Q,
       tableData: {

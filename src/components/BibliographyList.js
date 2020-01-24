@@ -4,19 +4,16 @@ import { withApollo, graphql } from 'react-apollo'
 import { flowRight as compose } from 'lodash'
 import ReactTable from 'react-table'
 import matchSorter from 'match-sorter'
-import { getBibliographyQuery, deleteBibliographyMutation } from '../queries/queries'
+import { getBibliographiesQuery, deleteBibliographyMutation } from '../queries/queries'
 import { handleDeleteBibliography, handleBibliographyPageChange,
   handleBibliographyPageSizeChange, handleBibliographySortedChange,
-  handleBibliographyFilteredChange, handleBibliographyResizedChange } from '../actions/Bibliography'
+  handleBibliographyFilteredChange, handleBibliographyResizedChange } from '../actions/bibliography'
 import { loadState }  from '../utils/localStorage'
-import '../stylesheets/tables.css'
-import { render } from 'react-dom'
 
 class BibliographyList extends Component {
   
   constructor(props) {
     super(props)
-    this.bibliographyDropdown = this.bibliographyDropdown.bind(this)
     this.weblink = this.weblink.bind(this)
     this.onDelete = this.onDelete.bind(this)
     this.onEdit = this.onEdit.bind(this)
@@ -34,42 +31,42 @@ class BibliographyList extends Component {
   }
 
   async onEdit(id) {
-    this.props.history.push(`/editBibliography/${id}`)
+    this.props.history.push(`/editbibliography/${id}`)
   }
 
   async onPageChange(page) {
     await this.props.dispatch(handleBibliographyPageChange(page))
     let currentState = this.state
-    currentState.Bibliography.tableData.page = page
+    currentState.bibliography.tableData.page = page
     this.setState(currentState)
   }
 
   async onPageSizeChange(pageSize, page) {
     await this.props.dispatch(handleBibliographyPageSizeChange(pageSize, page))
     let currentState = this.state
-    currentState.Bibliography.tableData.page = page
-    currentState.Bibliography.tableData.pageSize = pageSize
+    currentState.bibliography.tableData.page = page
+    currentState.bibliography.tableData.pageSize = pageSize
     this.setState(currentState)
   }
 
   async onSortedChange(newSorted, column, shiftKey) {
     await this.props.dispatch(handleBibliographySortedChange(newSorted, column, shiftKey))
     let currentState = this.state
-    currentState.Bibliography.tableData.sorted = newSorted
+    currentState.bibliography.tableData.sorted = newSorted
     this.setState(currentState)
   }
 
   async onFilteredChange(filtered, column) {
     await this.props.dispatch(handleBibliographyFilteredChange(filtered, column))
     let currentState = this.state
-    currentState.Bibliography.tableData.filtered = filtered
+    currentState.bibliography.tableData.filtered = filtered
     this.setState(currentState)
   }
 
   async onResizedChange(newResized, event) {
     await this.props.dispatch(handleBibliographyResizedChange(newResized, event))
     let currentState = this.state
-    currentState.Bibliography.tableData.resized = newResized
+    currentState.bibliography.tableData.resized = newResized
     this.setState(currentState)
   }
 
@@ -81,6 +78,7 @@ class BibliographyList extends Component {
 
   render() {
     const { bibliography } = this.state
+    console.log('this is the loadState bib ', bibliography)
     const columns = [
       {
         Header: 'ID',
@@ -159,6 +157,7 @@ class BibliographyList extends Component {
     const table =
     <ReactTable
       data={bibliography.data}
+      columns={columns}
       page={bibliography.tableData.page}
       pageSize={bibliography.tableData.pageSize}
       filtered={bibliography.tableData.filtered}
@@ -170,12 +169,10 @@ class BibliographyList extends Component {
       onSortedChange={(newSorted,column,shiftKey) => this.onSortedChange(newSorted,column,shiftKey)}
       onResizedChange={(newResized, event) => this.onResizedChange(newResized, event)}
       onFilteredChange={(filtered, column) => this.onFilteredChange(filtered,column)}
-      columns={columns}
     />
 
     return (
       <React.Fragment>
-        <BibliographyList bibliographyData={bibliography.data} />
         {table}
       </React.Fragment>
     )
@@ -191,6 +188,6 @@ function mapStateToProps (state) {
 }
 
 export default compose(
-  graphql(getBibliographyQuery, { name: 'getBibliographyQuery' }),
+  graphql(getBibliographiesQuery, { name: 'getBibliographiesQuery' }),
   graphql(deleteBibliographyMutation, { name: 'deleteBibliographyMutation' })
 )(withApollo(connect(mapStateToProps)(BibliographyList)))

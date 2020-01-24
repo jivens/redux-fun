@@ -12,8 +12,11 @@ import NavBar from './NavBar'
 import StemList from './StemList'
 import RootList from './RootList'
 import AffixList from './AffixList'
+import BibliographyList from './BibliographyList'
 import AddAffix from './AddAffix'
+import AddBibliography from './AddBibliography'
 import AddRoot from './AddRoot'
+import EditBibliography from './AddBibliography'
 import EditAffix from './EditAffix'
 import EditRoot from './EditRoot'
 import AddStem from './AddStem'
@@ -61,9 +64,12 @@ class App extends Component {
                     <Route path='/editroot/:id' component={EditRoot} />
                     <Route path='/roots' component={RootList} />
                     <Route path='/affixes' component={AffixList} />
+                    <Route Path='/bibliography' component={BibliographyList} />
                     <Route path='/addaffix' component={AddAffix} />
                     <Route path='/addroot' component={AddRoot} />
+                    <Route path='addbibliography' component={AddBibliography} />
                     <Route path='/editaffix/:id' component={EditAffix} />
+                    <Route path='/editbibliography/:id' component={EditBibliography} />
                     <Route path='/texts' component={TextList} />
                   </div>}
                 </NavBar>
@@ -76,9 +82,9 @@ class App extends Component {
   }
 }
 
-function mapStateToProps ({ stems, roots, affixes, texts, errors }) {
+function mapStateToProps ({ stems, roots, affixes, bibliography, texts, errors }) {
   return {
-    loading: stems === null || roots === null || affixes === null || texts === null,
+    loading: stems === null || roots === null || affixes === null || bibliography === null || texts === null,
     errors: errors
   }
 }
