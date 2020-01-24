@@ -16,7 +16,7 @@ import { loadState, saveState } from './utils/localStorage'
 import users from './reducers/users'
 import roots from './reducers/roots'
 import stems from './reducers/stems'
-import bibliography from './reducers/bibliography'
+import bibliographies from './reducers/bibliography'
 import affixes from './reducers/affixes'
 import errors from './reducers/errors'
 import texts from './reducers/texts'
@@ -74,7 +74,7 @@ const store = createStore(
     users,
     stems,
     roots,
-    bibliography,
+    bibliographies,
     affixes,
     texts,
     errors,
