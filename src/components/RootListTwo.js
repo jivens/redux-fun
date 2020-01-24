@@ -421,61 +421,82 @@ function filterGreaterThan(rows, id, filterValue) {
 filterGreaterThan.autoRemove = val => typeof val !== 'number'
 
 
-function AffixListTwo({affixData}) {
+function RootListTwo({rootData}) {
   const columns = React.useMemo(
     () => [
       {
         Header: 'ID',
         accessor: 'id',
-        Filter: NumberRangeColumnFilter,
-        filter: 'between',
-        show: false,
+        show: false
       },
       {
-        Header: 'Type',
-        accessor: 'type',
-        Filter: SelectColumnFilter,
-        filter: 'includes',
-        show: true,
+        Header: 'Root',
+        accessor: 'root',
+        show: true
+      },
+      {
+        Header: 'Number',
+        accessor: 'number',
+        show: false
+      },
+      {
+        Header: 'Sense',
+        accessor: 'sense',
+        show: false
+      },
+      {
+        Header: 'Salish',
+        accessor: 'salish',
+        show: false
       },
       {
         Header: 'Nicodemus',
         accessor: 'nicodemus',
-        filter: 'fuzzyText',
-        show: true,
+        show: true
+      },
+      {
+        Header: 'Symbol',
+        accessor: 'symbol',
+        show: false
       },
       {
         Header: 'English',
         accessor: 'english',
-        filter: 'fuzzyText',
-        show: true,
+        show: true
       },
       {
-        Header: 'Link',
-        accessor: 'link',
-        disableFilters: true,
-        Cell: ({ row }) => <a href={row.original.link} target="_blank" rel="noopener noreferrer">{row.original.page}</a>,
-        show: true,
+        Header: 'Grammar',
+        accessor: 'grammar',
+        show: false
+      },
+      {
+        Header: 'Crossref',
+        accessor: 'crossref',
+        show: false
+      },
+      {
+        Header: 'Variant',
+        accessor: 'variant',
+        show: false
+      },
+      {
+        Header: 'Cognate',
+        accessor: 'cognate',
+        show: false
       },
       {
         Header: 'Username',
         accessor: 'user.username',
-        Filter: SelectColumnFilter,
-        filter: 'includes',
-        show: false,
+        show: false
       },
       {
         Header: 'Active',
         accessor: 'active',
-        filter: 'fuzzyText',
-        show: false,
+        show: false
       },
       {
         Header: 'Edit/Delete',
         filterable: false,
-        sortable: false,
-        width: 100,
-        show: false,
         Cell: ({row, original}) => (
           <div>
             <Button>
@@ -486,11 +507,11 @@ function AffixListTwo({affixData}) {
             </Button>
           </div>
         )
-      },
+      }
     ]
   )
 
-  const [data, setData] = React.useState(() => affixData)
+  const [data, setData] = React.useState(() => rootData)
   const [originalData] = React.useState(data)
 
 
@@ -505,4 +526,4 @@ function AffixListTwo({affixData}) {
   )
 }
 
-export default AffixListTwo
+export default RootListTwo
