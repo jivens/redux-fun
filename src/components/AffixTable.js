@@ -1,192 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter } from 'react-table7'
 import { Button } from 'semantic-ui-react'
-import matchSorter from 'match-sorter'
 import TableStyles from '../stylesheets/table-styles'
-
-const IndeterminateCheckbox = React.forwardRef(
-  ({ indeterminate, ...rest }, ref) => {
-    const defaultRef = React.useRef()
-    const resolvedRef = ref || defaultRef
-
-    React.useEffect(() => {
-      resolvedRef.current.indeterminate = indeterminate
-    }, [resolvedRef, indeterminate])
-
-    return <input type="checkbox" ref={resolvedRef} {...rest} />
-  }
-)
-
-// Define a default UI for filtering
-function GlobalFilter({
-  preGlobalFilteredRows,
-  globalFilter,
-  setGlobalFilter,
-}) {
-  const count = preGlobalFilteredRows.length
-
-  return (
-    <span>
-      Search:{' '}
-      <input
-        value={globalFilter || ''}
-        onChange={e => {
-          setGlobalFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
-        }}
-        placeholder={`${count} records...`}
-        style={{
-          fontSize: '1.1rem',
-          border: '0',
-        }}
-      />
-    </span>
-  )
-}
-
-// Define a default UI for filtering
-function DefaultColumnFilter({
-  column: { filterValue, preFilteredRows, setFilter },
-}) {
-  const count = preFilteredRows.length
-
-  return (
-    <input
-      value={filterValue || ''}
-      onChange={e => {
-        setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
-      }}
-      placeholder={`Search ${count} records...`}
-    />
-  )
-}
-
-// This is a custom filter UI for selecting
-// a unique option from a list
-function SelectColumnFilter({
-  column: { filterValue, setFilter, preFilteredRows, id },
-}) {
-  // Calculate the options for filtering
-  // using the preFilteredRows
-  const options = React.useMemo(() => {
-    const options = new Set()
-    preFilteredRows.forEach(row => {
-      options.add(row.values[id])
-    })
-    return [...options.values()]
-  }, [id, preFilteredRows])
-
-  // Render a multi-select box
-  return (
-    <select
-      value={filterValue}
-      onChange={e => {
-        setFilter(e.target.value || undefined)
-      }}
-    >
-      <option value="">All</option>
-      {options.map((option, i) => (
-        <option key={i} value={option}>
-          {option}
-        </option>
-      ))}
-    </select>
-  )
-}
-
-// This is a custom filter UI that uses a
-// slider to set the filter value between a column's
-// min and max values
-function SliderColumnFilter({
-  column: { filterValue, setFilter, preFilteredRows, id },
-}) {
-  // Calculate the min and max
-  // using the preFilteredRows
-
-  const [min, max] = React.useMemo(() => {
-    let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
-    let max = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
-    preFilteredRows.forEach(row => {
-      min = Math.min(row.values[id], min)
-      max = Math.max(row.values[id], max)
-    })
-    return [min, max]
-  }, [id, preFilteredRows])
-
-  return (
-    <React.Fragment>
-      <input
-        type="range"
-        min={min}
-        max={max}
-        value={filterValue || min}
-        onChange={e => {
-          setFilter(parseInt(e.target.value, 10))
-        }}
-      />
-      <Button onClick={() => setFilter(undefined)}>Off</Button>
-    </React.Fragment>
-  )
-}
-
-// This is a custom UI for our 'between' or number range
-// filter. It uses two number boxes and filters rows to
-// ones that have values between the two
-function NumberRangeColumnFilter({
-  column: { filterValue = [], preFilteredRows, setFilter, id },
-}) {
-  const [min, max] = React.useMemo(() => {
-    let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
-    let max = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
-    preFilteredRows.forEach(row => {
-      min = Math.min(row.values[id], min)
-      max = Math.max(row.values[id], max)
-    })
-    return [min, max]
-  }, [id, preFilteredRows])
-
-  return (
-    <div
-      style={{
-        display: 'flex',
-      }}
-    >
-      <input
-        value={filterValue[0] || ''}
-        type="number"
-        onChange={e => {
-          const val = e.target.value
-          setFilter((old = []) => [val ? parseInt(val, 10) : undefined, old[1]])
-        }}
-        placeholder={`Min (${min})`}
-        style={{
-          width: '70px',
-          marginRight: '0.5rem',
-        }}
-      />
-      to
-      <input
-        value={filterValue[1] || ''}
-        type="number"
-        onChange={e => {
-          const val = e.target.value
-          setFilter((old = []) => [old[0], val ? parseInt(val, 10) : undefined])
-        }}
-        placeholder={`Max (${max})`}
-        style={{
-          width: '70px',
-          marginLeft: '0.5rem',
-        }}
-      />
-    </div>
-  )
-}
-
-function fuzzyTextFilterFn(rows, id, filterValue) {
-  return matchSorter(rows, filterValue, { keys: [row => row.values[id]], threshold: matchSorter.rankings.CONTAINS})
-}
-
-// Let the table remove the filter if the string is empty
-fuzzyTextFilterFn.autoRemove = val => !val
+import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, SelectColumnFilter } from '../utils/Filters'
+import { IndeterminateCheckbox } from '../utils/Checkbox'
 
 function Table({
   columns,
@@ -224,7 +41,6 @@ function Table({
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
     prepareRow,
     page,
     state,
@@ -406,97 +222,59 @@ setHiddenColumns(hiddenColumns); }, []);
   )
 }
 
-// Define a custom filter filter function!
-function filterGreaterThan(rows, id, filterValue) {
-  return rows.filter(row => {
-    const rowValue = row.values[id]
-    return rowValue >= filterValue
-  })
-}
-
-// This is an autoRemove method on the filter function that
-// when given the new filter value and returns true, the filter
-// will be automatically removed. Normally this is just an undefined
-// check, but here, we want to remove the filter if it's not a number
-filterGreaterThan.autoRemove = val => typeof val !== 'number'
-
-
-function RootListTwo({rootData}) {
+function AffixTable({affixData}) {
   const columns = React.useMemo(
     () => [
       {
         Header: 'ID',
         accessor: 'id',
-        show: false
+        show: false,
       },
       {
-        Header: 'Root',
-        accessor: 'root',
-        show: true
-      },
-      {
-        Header: 'Number',
-        accessor: 'number',
-        show: false
-      },
-      {
-        Header: 'Sense',
-        accessor: 'sense',
-        show: false
-      },
-      {
-        Header: 'Salish',
-        accessor: 'salish',
-        show: false
+        Header: 'Type',
+        accessor: 'type',
+        Filter: SelectColumnFilter,
+        filter: 'includes',
+        show: true,
       },
       {
         Header: 'Nicodemus',
         accessor: 'nicodemus',
-        show: true
-      },
-      {
-        Header: 'Symbol',
-        accessor: 'symbol',
-        show: false
+        filter: 'fuzzyText',
+        show: true,
       },
       {
         Header: 'English',
         accessor: 'english',
-        show: true
+        filter: 'fuzzyText',
+        show: true,
       },
       {
-        Header: 'Grammar',
-        accessor: 'grammar',
-        show: false
-      },
-      {
-        Header: 'Crossref',
-        accessor: 'crossref',
-        show: false
-      },
-      {
-        Header: 'Variant',
-        accessor: 'variant',
-        show: false
-      },
-      {
-        Header: 'Cognate',
-        accessor: 'cognate',
-        show: false
+        Header: 'Link',
+        accessor: 'link',
+        disableFilters: true,
+        Cell: ({ row }) => <a href={row.original.link} target="_blank" rel="noopener noreferrer">{row.original.page}</a>,
+        show: true,
       },
       {
         Header: 'Username',
         accessor: 'user.username',
-        show: false
+        Filter: SelectColumnFilter,
+        filter: 'includes',
+        show: false,
       },
       {
         Header: 'Active',
         accessor: 'active',
-        show: false
+        filter: 'fuzzyText',
+        show: false,
       },
       {
         Header: 'Edit/Delete',
         filterable: false,
+        sortable: false,
+        width: 100,
+        show: false,
         Cell: ({row, original}) => (
           <div>
             <Button>
@@ -507,14 +285,11 @@ function RootListTwo({rootData}) {
             </Button>
           </div>
         )
-      }
+      },
     ]
   )
 
-  const [data, setData] = React.useState(() => rootData)
-  const [originalData] = React.useState(data)
-
-
+  const [data] = React.useState(() => affixData)
 
   return (
     <TableStyles>
@@ -526,4 +301,4 @@ function RootListTwo({rootData}) {
   )
 }
 
-export default RootListTwo
+export default AffixTable
