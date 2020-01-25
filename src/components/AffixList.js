@@ -9,7 +9,7 @@ import { handleDeleteAffix, handleAffixPageChange,
   handleAffixPageSizeChange, handleAffixSortedChange,
   handleAffixFilteredChange, handleAffixResizedChange } from '../actions/affixes'
 import { loadState }  from '../utils/localStorage'
-import AffixListTwo from './AffixListTwo'
+import AffixTable from './AffixTable'
 
 class AffixList extends Component {
 
@@ -194,7 +194,7 @@ class AffixList extends Component {
 
     return (
       <React.Fragment>
-        <AffixListTwo affixData={affixes.data} />
+        <AffixTable affixData={affixes.data} />
         {table}
       </React.Fragment>
     )
