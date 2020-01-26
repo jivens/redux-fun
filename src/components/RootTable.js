@@ -1,9 +1,22 @@
 import React from 'react'
-import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter } from 'react-table7'
+import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter, useFlexLayout, useResizeColumns } from 'react-table7'
 import { Button } from 'semantic-ui-react'
 import TableStyles from '../stylesheets/table-styles'
-import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from '../utils/Filters'
+import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, SelectColumnFilter } from '../utils/Filters'
 import { IndeterminateCheckbox } from '../utils/Checkbox'
+
+const headerProps = (props, { column }) => getStyles(props, column.align)
+const cellProps = (props, { cell }) => getStyles(props, cell.column.align)
+const getStyles = (props, align = 'left') => [
+  props,
+  {
+    style: {
+      justifyContent: align === 'right' ? 'flex-end' : 'flex-start',
+      alignItems: 'flex-start',
+      display: 'flex',
+    },
+  },
+]
 
 function Table({
   columns,
@@ -12,10 +25,7 @@ function Table({
    })
   { const filterTypes = React.useMemo(
     () => ({
-      // Add a new fuzzyTextFilterFn filter type.
       fuzzyText: fuzzyTextFilterFn,
-      // Or, override the default text filter to use
-      // "startWith"
       text: (rows, id, filterValue) => {
         return rows.filter(row => {
           const rowValue = row.values[id]
@@ -32,8 +42,10 @@ function Table({
 
   const defaultColumn = React.useMemo(
     () => ({
-      // Let's set up our default Filter UI
-      Filter: DefaultColumnFilter,
+      Filter: DefaultColumnFilter,       // Let's set up our default Filter UI
+      minWidth: 25, // minWidth is only used as a limit for resizing
+      width: 50, // width is used for both the flex-basis and flex-grow
+      maxWidth: 500, // maxWidth is only used as a limit for resizing
     }),
     []
   )
@@ -42,6 +54,7 @@ function Table({
     getTableBodyProps,
     headerGroups,
     prepareRow,
+    rows,
     page,
     state,
     flatColumns,
@@ -65,13 +78,9 @@ function Table({
       defaultColumn,
       filterTypes,
       hiddenColumns: columns.filter(column => !column.show).map(column => column.id),
-      //initialState: { pageIndex: 0 }, // Pass our hoisted table state
-      //manualPagination: false, // Tell the usePagination
-      // hook that we'll handle our own data fetching
-      // This means we'll also have to provide our own
-      // pageCount.
-      //pageCount: controlledPageCount,
     },
+    useResizeColumns,
+    useFlexLayout,
     useGlobalFilter,
     useFilters,
     useSortBy,
@@ -85,49 +94,30 @@ setHiddenColumns(hiddenColumns); }, []);
   // Render the UI for your table
   return (
     <React.Fragment>
-      <div>
+      <div className="columnToggle">
         <ul>
-        <li>
-          <span>Show/Hide Columns:   </span>
-        </li>
-        <li>
-          <IndeterminateCheckbox {...getToggleHideAllColumnsProps()} />
-          Toggle All
-        </li>
-        {flatColumns.map(column => (
-          <div>
-            <li key={column.id}>
-            <label>
-              <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
-              {column.Header}
-            </label>
-            </li>
-          </div>
-        ))}
+          <li>
+            <span>Show/Hide Columns:   </span>
+          </li>
+          <li>
+            <IndeterminateCheckbox {...getToggleHideAllColumnsProps()} />
+            Toggle All
+          </li>
+            {flatColumns.map(column => (
+              <div>
+                <li key={column.id}>
+                <label>
+                  <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
+                  {column.Header}
+                </label>
+                </li>
+              </div>
+            ))}
         </ul>
       </div>
       <table {...getTableProps()}>
-        <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps(column.getSortByToggleProps())}>{column.render('Header')}
-                  {/* Add a sort direction indicator */}
-                  <span>
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? ' 🔽'
-                        : ' 🔼'
-                      : ''}
-                  </span>
-                  {/* Render the columns filter UI */}
-                  <div>{column.canFilter ? column.render('Filter') : null}</div>
-                </th>
-              ))}
-            </tr>
-          ))}
-          <tr>
-            <th
+        <tr>
+          <th
               colSpan={flatColumns.length}
               style={{
                 textAlign: 'left',
@@ -138,9 +128,38 @@ setHiddenColumns(hiddenColumns); }, []);
                 globalFilter={state.globalFilter}
                 setGlobalFilter={setGlobalFilter}
               />
-            </th>
-          </tr>
-        </thead>
+          </th>
+        </tr>
+
+          {headerGroups.map(headerGroup => (
+            <tr {...headerGroup.getHeaderGroupProps({
+              style: { padding: '15px' },
+              })} >
+              {headerGroup.headers.map(column => (
+                <th {...column.getHeaderProps(column.getSortByToggleProps(), headerProps)} >{column.render('Header')}
+                  {/* Use column.getResizerProps to hook up the events correctly */}
+                  {column.canResize && (
+                    <div
+                      {...column.getResizerProps()}
+                      className={`resizer ${
+                        column.isResizing ? 'isResizing' : ''
+                      }`}
+                    />
+                  )}
+                  {/* Add a sort direction indicator */}
+                  <span>
+                    {column.isSorted
+                      ? column.isSortedDesc
+                        ? ' 🔽'
+                        : ' 🔼'
+                      : ''}
+                  </span>
+                  {/* Render the columns filter UI */}
+                  <tr>{column.canFilter ? column.render('Filter') : null}</tr>
+                </th>
+              ))}
+            </tr>
+          ))}
         <tbody {...getTableBodyProps()}>
           {page.map((row, i) => {
             prepareRow(row);
@@ -157,7 +176,7 @@ setHiddenColumns(hiddenColumns); }, []);
               // Use our custom loading state to show a loading indicator
               <td colSpan="10000">Loading...</td>
             ) : (
-              <td colSpan="10000">
+              <td  colSpan="10000">
                 Showing {page.length} of ~{pageCount * pageSize}{' '}
                 results
               </td>
@@ -165,6 +184,7 @@ setHiddenColumns(hiddenColumns); }, []);
           </tr>
         </tbody>
       </table>
+
       <div className="pagination">
         <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
           {'<<'}
@@ -224,22 +244,26 @@ function RootTable({rootData}) {
       {
         Header: 'ID',
         accessor: 'id',
-        show: false
+        show: false,
+        width: 50,
       },
       {
         Header: 'Root',
         accessor: 'root',
-        show: true
+        show: true,
+        width: 50,
       },
       {
         Header: 'Number',
         accessor: 'number',
-        show: false
+        show: false,
+        width: 50,
       },
       {
         Header: 'Sense',
         accessor: 'sense',
-        show: false
+        show: false,
+        width: 50,
       },
       {
         Header: 'Salish',
@@ -249,22 +273,24 @@ function RootTable({rootData}) {
       {
         Header: 'Nicodemus',
         accessor: 'nicodemus',
-        show: true
+        show: true,
       },
       {
         Header: 'Symbol',
         accessor: 'symbol',
-        show: false
+        show: false,
+        width: 50,
       },
       {
         Header: 'English',
         accessor: 'english',
-        show: true
+        show: true,
       },
       {
         Header: 'Grammar',
         accessor: 'grammar',
-        show: false
+        show: false,
+        width: 50,
       },
       {
         Header: 'Crossref',
@@ -284,12 +310,17 @@ function RootTable({rootData}) {
       {
         Header: 'Username',
         accessor: 'user.username',
-        show: false
+        show: false,
+        Filter: SelectColumnFilter,
+        filter: 'includes',
       },
       {
         Header: 'Active',
         accessor: 'active',
-        show: false
+        show: false,
+        width: 50,
+        Filter: SelectColumnFilter,
+        filter: 'includes',
       },
       {
         Header: 'Edit/Delete',
