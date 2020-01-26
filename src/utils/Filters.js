@@ -37,10 +37,15 @@ export function DefaultColumnFilter({
   return (
     <input
       value={filterValue || ''}
+      display='flex'
       onChange={e => {
         setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
       }}
       placeholder={`Search ${count} records...`}
+      style={{
+        fontSize: '1rem',
+        border: '0',
+      }}
     />
   )
 }
