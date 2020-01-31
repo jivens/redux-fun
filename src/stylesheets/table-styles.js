@@ -7,6 +7,10 @@ const TableStyles = styled.div`
     display: block;
     width: 100%;
     ${'' /* These styles are required for a horizontaly scrollable table overflow */}
+    thead {
+      display: block;
+      width: 100%;
+    }
     tbody {
       display: block;
       width: 100%;
@@ -64,6 +68,9 @@ const TableStyles = styled.div`
         }
       }
     }
+  }
+  globalFilter: {
+    padding: 50px 10px 20px 30px;
   }
   .columnToggle {
     background: #fafafa;
