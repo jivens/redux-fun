@@ -1,5 +1,6 @@
 import { deleteBibliography, saveBibliography, editBibliography } from '../utils/api'
 import { showLoading, hideLoading } from 'react-redux-loading'
+import { receiveErrors } from '../actions/errors'
 
 export const RECEIVE_BIBLIOGRAPHIES = 'RECEIVE_BIBLIOGRAPHIES'
 export const DELETE_BIBLIOGRAPHY = 'DELETE_BIBLIOGRAPHY'
@@ -118,6 +119,14 @@ export function handleDeleteBibliography (client, id) {
    return deleteBibliography(client, id)
    .then((bibliographyData) => dispatch(removeBibliography(bibliographyData.data.deleteBibliography_M)))
    .then(() => dispatch(hideLoading()))
+   .catch((error) => {
+    console.error("ERROR =>", error.graphQLErrors.map(x => x.message))
+    const errors = {
+      errorsText: error.graphQLErrors.map(x => x.message)
+    }
+    dispatch(receiveErrors(errors))
+    dispatch(hideLoading())
+  })
  } 
 }
 
@@ -127,6 +136,14 @@ export function handleAddBibliography(client, bibliography) {
     return saveBibliography(client, bibliography)
     .then((bibliographyData) => dispatch(addBibliography(bibliographyData.data.addBibliography_M)))
     .then(() => dispatch(hideLoading()))
+    .catch((error) => {
+      console.error("ERROR =>", error.graphQLErrors.map(x => x.message))
+      const errors = {
+        errorsText: error.graphQLErrors.map(x => x.message)
+      }
+      dispatch(receiveErrors(errors))
+      dispatch(hideLoading())
+    })
   }
 }
 
@@ -141,5 +158,13 @@ export function handleEditBibliography (client, bibliography) {
       return dispatch(updateBibliography(newBibliographyData))
     })
     .then(() => dispatch(hideLoading()))
+    .catch((error) => {
+      console.error("ERROR =>", error.graphQLErrors.map(x => x.message))
+      const errors = {
+        errorsText: error.graphQLErrors.map(x => x.message)
+      }
+      dispatch(receiveErrors(errors))
+      dispatch(hideLoading())
+    })  
   }
 }

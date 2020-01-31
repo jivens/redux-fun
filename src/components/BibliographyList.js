@@ -70,9 +70,9 @@ class BibliographyList extends Component {
     this.setState(currentState)
   }
 
-  weblink(link, title) {
+  weblink(title, link) {
     return (
-      link === '' ? title : <a href={link} target="_blank" rel="noopener noreferrer">{title}</a>
+      title === '' ? link : <a href={title} target="_blank" rel="noopener noreferrer">{link}</a>
     );
   }
 
@@ -106,7 +106,7 @@ class BibliographyList extends Component {
         Header: 'Title',
         accessor: 'title',
         // style: { 'whiteSpace': 'unset'},
-        Cell: ({row, original}) => ( this.weblink(original.link, original.title) ),
+        Cell: ({row, original}) => ( this.weblink(original.title, original.link) ),
         filterMethod: (filter, rows) =>
             matchSorter(rows, filter.value, { keys: ["title"], threshold: matchSorter.rankings.CONTAINS }),
               filterAll: true,

@@ -128,9 +128,6 @@ function mapStateToProps ({ bibliography }, { match }) {
   console.log("id: ", id)
   console.log("bibliography data: ", bibliography.data)
   let bibliography = bibliography.data.find(element => element.id === id)
-  if (bibliography && bibliography.link === null) {
-    bibliography.link = ''
-  }
 
   console.log("The bibliography in editBibliography is: ", bibliography)
 
