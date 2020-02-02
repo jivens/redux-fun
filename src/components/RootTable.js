@@ -96,7 +96,7 @@ setHiddenColumns(hiddenColumns); }, []);
   return (
     <React.Fragment>
       <div className="columnToggle">
-        <ul compact>
+        <ul>
           <li>
             <span>Show/Hide Columns:   </span>
           </li>
