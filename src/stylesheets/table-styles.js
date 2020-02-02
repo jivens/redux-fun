@@ -3,10 +3,8 @@ import styled from 'styled-components'
 const TableStyles = styled.div`
   padding: 1rem;
    table {
-    ${'' /* These styles are suggested for the table fill all available space in its containing element */}
     display: block;
     width: 100%;
-    ${'' /* These styles are required for a horizontaly scrollable table overflow */}
     thead {
       display: block;
       width: 100%;
@@ -14,7 +12,6 @@ const TableStyles = styled.div`
     tbody {
       display: block;
       width: 100%;
-      border: 1px solid #ddd;
       box-sizing:border-box;
       box-shadow:0 2px 15px 0 rgba(0,0,0,0.15);
       overflow: auto;
@@ -37,9 +34,10 @@ const TableStyles = styled.div`
       margin: 0;
       padding: 0.5rem;
       word-wrap: break-word;
-      border-right: 1px solid #ddd;
-      ${'' /* In this example we use an absolutely position resizer,
-       so this is required. */}
+      border-left: 1px solid #ddd;
+      :first-child {
+        border-left: 0;
+        }
       position: relative;
       :last-child {
         border-right: 0;
@@ -52,7 +50,6 @@ const TableStyles = styled.div`
         position: absolute;
         top: 0;
         z-index: 1;
-        ${'' /* prevents from scrolling while dragging on touch devices */}
         touch-action:none;
         &.isResizing {
           background: #ddd;
@@ -62,8 +59,6 @@ const TableStyles = styled.div`
     th {
       &:last-of-type {
         resizer {
-          ${'' /* note that the 15 is the scroll width and if also referenced in the getHeaderGroupProps for the header row below */}
-          ${'' /* todo: resolve this value dynamicaly from element.scrollWidth to account for OS/Browser differences  */}
           right: -2px;
         }
       }
@@ -72,15 +67,14 @@ const TableStyles = styled.div`
   globalFilter: {
     padding: 50px 10px 20px 30px;
   }
-  .columnToggle {
-    background: #fafafa;
-    border: 1px solid #ddd;
-  }
   ul {
-      list-style: none;
-      display: flex;
-      flex-wrap: wrap;
-      flex-direction: row;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    line-height: -1em;
+    margin: 0px;
+    padding: 0px;
   }
   li {
     padding: 1rem;

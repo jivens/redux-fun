@@ -95,7 +95,7 @@ setHiddenColumns(hiddenColumns); }, []);
   return (
     <React.Fragment>
       <div className="columnToggle">
-        <ul>
+        <ul compact>
           <li>
             <span>Show/Hide Columns:</span>
           </li>
@@ -127,9 +127,7 @@ setHiddenColumns(hiddenColumns); }, []);
       <table {...getTableProps()}>
         <thead>
             {headerGroups.map(headerGroup => (
-              <th {...headerGroup.getHeaderGroupProps({
-                style: { padding: '15px' },
-                })} >
+              <tr {...headerGroup.getHeaderGroupProps()} >
                 {headerGroup.headers.map(column => (
                   <th {...column.getHeaderProps(column.getSortByToggleProps(), headerProps)}>{column.render('Header')}
                     {column.canResize && (
@@ -140,17 +138,17 @@ setHiddenColumns(hiddenColumns); }, []);
                         }`}
                       />
                     )}
-                    <span>
-                      {column.isSorted
-                        ? column.isSortedDesc
-                          ? ' 🔽'
-                          : ' 🔼'
-                        : ''}
-                    </span>
-                    <tr>{column.canFilter ? column.render('Filter') : null}</tr>
+                    {column.isSorted
+                      ? column.isSortedDesc
+                        ? ' 🔽'
+                        : ' 🔼'
+                      : ''}
+                      <div>
+                      {column.canFilter ? column.render('Filter') : null}
+                      </div>
                   </th>
                 ))}
-              </th>
+              </tr>
             ))}
           </thead>
         <tbody {...getTableBodyProps()}>
@@ -167,9 +165,9 @@ setHiddenColumns(hiddenColumns); }, []);
           <tr>
             {loading ? (
               // Use our custom loading state to show a loading indicator
-              <td colSpan="10000">Loading...</td>
+              <td colSpan="10">Loading...</td>
             ) : (
-              <td colSpan="10000">
+              <td colSpan="10">
                 Showing {page.length} of ~{pageCount * pageSize}{' '}
                 results
               </td>
@@ -222,14 +220,10 @@ setHiddenColumns(hiddenColumns); }, []);
           ))}
         </select>
       </div>
-      <div>
-        <pre>
-          <code>{JSON.stringify(state.filters, null, 2)}</code>
-        </pre>
-      </div>
     </React.Fragment>
   )
 }
+
 
 function AffixTable({affixData}) {
   const columns = React.useMemo(
@@ -243,7 +237,6 @@ function AffixTable({affixData}) {
         Header: 'Type',
         accessor: 'type',
         Filter: SelectColumnFilter,
-        filter: 'includes',
         show: true,
       },
       {
