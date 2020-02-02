@@ -1,9 +1,10 @@
 import React from 'react'
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter, useFlexLayout, useResizeColumns } from 'react-table7'
-import { Button, Segment } from 'semantic-ui-react'
+import { Segment } from 'semantic-ui-react'
 import TableStyles from '../stylesheets/table-styles'
-import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, SelectColumnFilter } from '../utils/Filters'
+import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, } from '../utils/Filters'
 import { IndeterminateCheckbox } from '../utils/Checkbox'
+import AudioPlayer from '../utils/AudioPlayer'
 
 const headerProps = (props, { column }) => getStyles(props, column.align)
 const cellProps = (props, { cell }) => getStyles(props, cell.column.align)
@@ -224,74 +225,28 @@ setHiddenColumns(hiddenColumns); }, []);
   )
 }
 
-
-function AffixTable({affixData}) {
+function AudioTable({audioData}) {
   const columns = React.useMemo(
     () => [
-      {
-        Header: 'ID',
-        accessor: 'id',
-        show: false,
-      },
-      {
-        Header: 'Type',
-        accessor: 'type',
-        Filter: SelectColumnFilter,
-        show: true,
-      },
-      {
-        Header: 'Nicodemus',
-        accessor: 'nicodemus',
-        filter: 'fuzzyText',
-        show: true,
-      },
-      {
-        Header: 'English',
-        accessor: 'english',
-        filter: 'fuzzyText',
-        show: true,
-      },
-      {
-        Header: 'Link',
-        accessor: 'link',
-        disableFilters: true,
-        Cell: ({ row }) => <a href={row.original.link} target="_blank" rel="noopener noreferrer">{row.original.page}</a>,
-        show: true,
-      },
-      {
-        Header: 'Username',
-        accessor: 'user.username',
-        Filter: SelectColumnFilter,
-        filter: 'includes',
-        show: false,
-      },
-      {
-        Header: 'Active',
-        accessor: 'active',
-        filter: 'fuzzyText',
-        show: false,
-      },
-      {
-        Header: 'Edit/Delete',
-        filterable: false,
-        sortable: false,
-        width: 100,
-        show: false,
-        Cell: ({row, original}) => (
-          <div>
-            <Button>
-                !E
-            </Button>
-            <Button>
-                !X
-            </Button>
-          </div>
-        )
-      },
-    ]
-  )
+    {
+      Header: 'Title',
+      accessor: 'title',
+      show: true,
+    },
+    {
+      Header: 'Speaker',
+      accessor: 'speaker',
+      show: true,
+    },
+    {
+      Header: 'Audio',
+      accessor: 'audio',
+      show: true,
+      Cell: ({row}) => ( <AudioPlayer key={row.original.id} title='' sources={row.original.audiofiles} />),
+    }
+    ])
 
-  const [data] = React.useState(() => affixData)
+  const [data] = React.useState(() => audioData)
 
   return (
     <TableStyles>
@@ -303,4 +258,4 @@ function AffixTable({affixData}) {
   )
 }
 
-export default AffixTable
+export default AudioTable

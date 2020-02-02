@@ -5,6 +5,7 @@ import roots from './roots'
 import stems from './stems'
 import errors from './errors'
 import texts from './texts'
+import audios from './audios'
 import { loadingBarReducer } from 'react-redux-loading'
 
 export default combineReducers({
@@ -12,6 +13,7 @@ export default combineReducers({
   roots,
   affixes,
   texts,
+  audios,
   users,
   errors,
   loadingBar: loadingBarReducer

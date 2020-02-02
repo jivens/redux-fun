@@ -5,17 +5,19 @@ import { receiveAffixes } from '../actions/affixes'
 import { receiveRoots } from '../actions/roots'
 import { receiveErrors } from '../actions/errors'
 import { receiveTexts } from '../actions/texts'
+import { receiveAudios } from '../actions/audios'
 import { showLoading, hideLoading } from 'react-redux-loading'
 
 export function handleInitialAppData (client) {
   return (dispatch) => {
     dispatch(showLoading())
     return getInitialAppData(client)
-      .then(({ stems, roots, affixes, texts }) => {
+      .then(({ stems, roots, affixes, texts, audios }) => {
         dispatch(receiveStems(stems))
         dispatch(receiveRoots(roots))
         dispatch(receiveAffixes(affixes))
         dispatch(receiveTexts(texts))
+        dispatch(receiveAudios(audios))
         dispatch(hideLoading())
       })
       .catch((error) => {
