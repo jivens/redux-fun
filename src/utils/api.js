@@ -1,4 +1,4 @@
-import { getUserToken, getUserFromToken, getAffixesQuery, getRootsQuery, getStemsQuery, deleteAffixMutation, deleteRootMutation, deleteStemMutation, addAffixMutation , updateAffixMutation, addRootMutation, updateRootMutation, addStemMutation, updateStemMutation, addUserMutation, getTextsQuery } from '../queries/queries'
+import { getUserToken, getUserFromToken, getAffixesQuery, getRootsQuery, getStemsQuery, deleteAffixMutation, deleteRootMutation, deleteStemMutation, addAffixMutation , updateAffixMutation, addRootMutation, updateRootMutation, addStemMutation, updateStemMutation, addUserMutation, getTextsQuery, getAudioSetsQuery } from '../queries/queries'
 
 export function getInitialAppData (client) {
   return Promise.all([
@@ -17,8 +17,12 @@ export function getInitialAppData (client) {
     client.query({
       query: getTextsQuery,
       variables: {}
+    }),
+    client.query({
+      query: getAudioSetsQuery,
+      variables: {}
     })
-  ]).then(([stems, roots, affixes, texts]) => ({
+  ]).then(([stems, roots, affixes, texts, audios]) => ({
     stems: {
       data: stems.data.stems_Q,
       tableData: {
@@ -73,6 +77,16 @@ export function getInitialAppData (client) {
           id: 'rnumber',
           desc: false
         }],
+        filtered: [],
+        resized: [],
+      }
+    },
+    audios: {
+      data: audios.data.audiosets_Q,
+      tableData: {
+        page: 0,
+        pageSize: 10,
+        sorted: [],
         filtered: [],
         resized: [],
       }
