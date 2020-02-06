@@ -9,6 +9,7 @@ import { handleDeleteRoot, handleRootPageChange,
   handleRootPageSizeChange, handleRootSortedChange,
   handleRootFilteredChange, handleRootResizedChange } from '../actions/roots'
 import { loadState }  from '../utils/localStorage'
+import RootTable from './RootTable'
 
 class RootList extends Component {
 
@@ -202,6 +203,7 @@ class RootList extends Component {
 
     return (
       <React.Fragment>
+        <RootTable rootData={roots.data} />
         {table}
       </React.Fragment>
     )

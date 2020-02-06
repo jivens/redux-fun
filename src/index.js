@@ -20,6 +20,7 @@ import bibliographies from './reducers/bibliography'
 import affixes from './reducers/affixes'
 import errors from './reducers/errors'
 import texts from './reducers/texts'
+import audios from './reducers/audios'
 import { loadingBarReducer } from 'react-redux-loading'
 
 //import {  getUserFromToken } from './queries/queries';
@@ -77,6 +78,7 @@ const store = createStore(
     bibliographies,
     affixes,
     texts,
+    audios,
     errors,
     loadingBar: loadingBarReducer,
   }),

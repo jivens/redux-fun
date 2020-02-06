@@ -9,14 +9,12 @@ import { handleDeleteAffix, handleAffixPageChange,
   handleAffixPageSizeChange, handleAffixSortedChange,
   handleAffixFilteredChange, handleAffixResizedChange } from '../actions/affixes'
 import { loadState }  from '../utils/localStorage'
-import AffixListTwo from './AffixListTwo'
-import '../stylesheets/Tables.css'
+import AffixTable from './AffixTable'
 
 class AffixList extends Component {
 
   constructor(props) {
     super(props)
-    this.affixDropdown = this.affixDropdown.bind(this)
     this.weblink = this.weblink.bind(this)
     this.onDelete = this.onDelete.bind(this)
     this.onEdit = this.onEdit.bind(this)
@@ -79,18 +77,6 @@ class AffixList extends Component {
     );
   }
 
-  affixDropdown(original) {
-    if (original === 'd') {
-      original = original.replace('d', 'directional')
-    } else if (original === 'l') {
-      original = original.replace('l', 'locative')
-    } else if (original === 'ls') {
-      original = original.replace('ls', 'lexical suffix')
-    } else if (original === 'lp') {
-      original = original.replace('lp', 'lexical prefix')
-    }
-    return(<span>{original}</span>)
-  }
   render() {
     const { affixes } = this.state
     const columns = [
@@ -118,12 +104,11 @@ class AffixList extends Component {
             value={filter ? filter.value : "all"}
           >
             <option value="all">Show All</option>
-            <option value="d">Directional</option>
-            <option value="l">Locative</option>
-            <option value="lp">Lexical Prefixes</option>
-            <option value="ls">Lexical Suffixes</option>
+            <option value="directional">Directional</option>
+            <option value="locative">Locative</option>
+            <option value="lexical prefix">Lexical Prefixes</option>
+            <option value="lexical suffix">Lexical Suffixes</option>
           </select>,
-        Cell: ({row, original}) => ( this.affixDropdown(original.type) )
       },
       {
         Header: 'Nicodemus',
@@ -195,7 +180,7 @@ class AffixList extends Component {
 
     return (
       <React.Fragment>
-        <AffixListTwo affixData={affixes.data} />
+        <AffixTable affixData={affixes.data} />
         {table}
       </React.Fragment>
     )

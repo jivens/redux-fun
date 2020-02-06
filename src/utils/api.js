@@ -1,4 +1,4 @@
-import { getUserToken, getUserFromToken, getAffixesQuery, getRootsQuery, getStemsQuery, deleteAffixMutation, deleteRootMutation, deleteStemMutation, addAffixMutation , updateAffixMutation, addRootMutation, updateRootMutation, addStemMutation, updateStemMutation, addBibliographyMutation, updateBibliographyMutation, getBibliographiesQuery, deleteBibliographyMutation,addUserMutation, getTextsQuery } from '../queries/queries'
+import { getUserToken, getUserFromToken, getAffixesQuery, getRootsQuery, getStemsQuery, deleteAffixMutation, deleteRootMutation, deleteStemMutation, addAffixMutation , updateAffixMutation, addRootMutation, updateRootMutation, addStemMutation, updateStemMutation, addUserMutation, getTextsQuery, getAudioSetsQuery, addBibliographyMutation, updateBibliographyMutation, getBibliographiesQuery, deleteBibliographyMutation, } from '../queries/queries'
 
 export function getInitialAppData (client) {
   return Promise.all([
@@ -21,8 +21,12 @@ export function getInitialAppData (client) {
     client.query({
       query: getTextsQuery,
       variables: {}
+    }),
+    client.query({
+      query: getAudioSetsQuery,
+      variables: {}
     })
-  ]).then(([stems, roots, bibliographies, affixes, texts]) => ({
+  ]).then(([stems, roots, affixes, texts, audios, bibliographies]) => ({
     stems: {
       data: stems.data.stems_Q,
       tableData: {
@@ -50,22 +54,6 @@ export function getInitialAppData (client) {
         }],
         filtered: [],
         resized: []
-      },
-    },
-    bibliographies: {
-      data: bibliographies.data.bibliographies_Q,
-      tableData: {
-        page: 0,
-        pageSize: 10,
-        sorted: [{
-          id: 'title',
-          desc: false
-        },{
-          id: 'year',
-          desc: false
-        }],
-        filtered: [],
-        resized: [],
       },
     },
     affixes: {
@@ -96,6 +84,32 @@ export function getInitialAppData (client) {
         filtered: [],
         resized: [],
       }
+    },
+    audios: {
+      data: audios.data.audiosets_Q,
+      tableData: {
+        page: 0,
+        pageSize: 10,
+        sorted: [],
+        filtered: [],
+        resized: [],
+      }
+    },
+    bibliographies: {
+      data: bibliographies.data.bibliographies_Q,
+      tableData: {
+        page: 0,
+        pageSize: 10,
+        sorted: [{
+          id: 'title',
+          desc: false
+        },{
+          id: 'year',
+          desc: false
+        }],
+        filtered: [],
+        resized: [],
+      },
     }
   }))
 }

@@ -22,6 +22,7 @@ import EditRoot from './EditRoot'
 import AddStem from './AddStem'
 import EditStem from './EditStem'
 import TextList from './TextList'
+import AudioList from './AudioList'
 import 'react-table/react-table.css'
 import 'semantic-ui-css/semantic.min.css'
 import '../stylesheets/NavBar.css'
@@ -71,6 +72,7 @@ class App extends Component {
                     <Route path='/editaffix/:id' component={EditAffix} />
                     <Route path='/editbibliography/:id' component={EditBibliography} />
                     <Route path='/texts' component={TextList} />
+                    <Route path='/audio' component={AudioList}/>
                   </div>}
                 </NavBar>
                 <ToastContainer autoClose={5000} />
@@ -82,9 +84,9 @@ class App extends Component {
   }
 }
 
-function mapStateToProps ({ stems, roots, affixes, bibliography, texts, errors }) {
+function mapStateToProps ({ stems, roots, affixes, bibliography, texts, audiosets, errors }) {
   return {
-    loading: stems === null || roots === null || affixes === null || bibliography === null || texts === null,
+    loading: stems === null || roots === null || affixes === null || bibliography === null || texts === null || audiosets === null,
     errors: errors
   }
 }

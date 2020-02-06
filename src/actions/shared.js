@@ -5,20 +5,22 @@ import { receiveAffixes } from '../actions/affixes'
 import { receiveRoots } from '../actions/roots'
 import { receiveErrors } from '../actions/errors'
 import { receiveTexts } from '../actions/texts'
-import { receiveBibliographies } from '../actions/bibliography'
+import { receiveAudios } from '../actions/audios'
 import { showLoading, hideLoading } from 'react-redux-loading'
+import { receiveBibliographies } from '../actions/bibliography'
 
 
 export function handleInitialAppData (client) {
   return (dispatch) => {
     dispatch(showLoading())
     return getInitialAppData(client)
-      .then(({ stems, roots, bibliographies, affixes, texts }) => {
+      .then(({ stems, roots, affixes, texts, audios, bibliographies }) => {
         dispatch(receiveStems(stems))
         dispatch(receiveRoots(roots))
-        dispatch(receiveBibliographies(bibliographies))
         dispatch(receiveAffixes(affixes))
         dispatch(receiveTexts(texts))
+        dispatch(receiveAudios(audios))
+        dispatch(receiveBibliographies(bibliographies))
         dispatch(hideLoading())
       })
       .catch((error) => {
