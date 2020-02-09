@@ -231,24 +231,28 @@ function AffixTable({affixData}) {
       {
         Header: 'ID',
         accessor: 'id',
+        tableName: 'AffixTable',
         show: false,
       },
       {
         Header: 'Type',
         accessor: 'type',
         Filter: SelectColumnFilter,
+        tableName: 'AffixTable',
         show: true,
       },
       {
         Header: 'Nicodemus',
         accessor: 'nicodemus',
         filter: 'fuzzyText',
+        tableName: 'AffixTable',
         show: true,
       },
       {
         Header: 'English',
         accessor: 'english',
         filter: 'fuzzyText',
+        tableName: 'AffixTable',
         show: true,
       },
       {
@@ -256,6 +260,7 @@ function AffixTable({affixData}) {
         accessor: 'link',
         disableFilters: true,
         Cell: ({ row }) => <a href={row.original.link} target="_blank" rel="noopener noreferrer">{row.original.page}</a>,
+        tableName: 'AffixTable',
         show: true,
       },
       {
@@ -263,12 +268,14 @@ function AffixTable({affixData}) {
         accessor: 'user.username',
         Filter: SelectColumnFilter,
         filter: 'includes',
+        tableName: 'AffixTable',
         show: false,
       },
       {
         Header: 'Active',
         accessor: 'active',
         filter: 'fuzzyText',
+        tableName: 'AffixTable',
         show: false,
       },
       {
@@ -277,6 +284,7 @@ function AffixTable({affixData}) {
         sortable: false,
         width: 100,
         show: false,
+        tableName: 'AffixTable',
         Cell: ({row, original}) => (
           <div>
             <Button>
