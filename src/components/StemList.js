@@ -10,7 +10,7 @@ import { handleDeleteStem, handleStemPageChange,
   handleStemFilteredChange, handleStemResizedChange } from '../actions/stems'
 import { loadState }  from '../utils/localStorage'
 import DecoratedTextSpan from '../utils/DecoratedTextSpan';
-
+import StemTable from './StemTable'
 class StemList extends Component {
 
   constructor(props) {
@@ -212,9 +212,11 @@ class StemList extends Component {
       onSortedChange={(newSorted,column,shiftKey) => this.onSortedChange(newSorted,column,shiftKey)}
       onResizedChange={(newResized, event) => this.onResizedChange(newResized, event)}
       onFilteredChange={(filtered, column) => this.onFilteredChange(filtered,column)}
+      columns={columns}
     />
     return (
       <React.Fragment>
+        <StemTable stemData={stems.data} />
         {table}
       </React.Fragment>
     )
