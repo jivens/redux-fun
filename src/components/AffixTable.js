@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter, useFlexLayout, useResizeColumns } from 'react-table7'
-import { Button } from 'semantic-ui-react'
+import { Button, Segment } from 'semantic-ui-react'
 import TableStyles from '../stylesheets/table-styles'
 import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, SelectColumnFilter } from '../utils/Filters'
 import { IndeterminateCheckbox } from '../utils/Checkbox'
@@ -97,17 +97,17 @@ setHiddenColumns(hiddenColumns); }, []);
       <div className="columnToggle">
         <ul>
           <li>
-            <span>Show/Hide Columns:   </span>
+            <span>Show/Hide Columns:</span>
           </li>
           <li>
-            <IndeterminateCheckbox {...getToggleHideAllColumnsProps()} />
+            <IndeterminateCheckbox {...getToggleHideAllColumnsProps()}/>
             Toggle All
           </li>
             {flatColumns.map(column => (
               <div>
                 <li key={column.id}>
                 <label>
-                  <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
+                  <input type="checkbox" {...column.getToggleHiddenProps()}/>{' '}
                   {column.Header}
                 </label>
                 </li>
@@ -115,52 +115,42 @@ setHiddenColumns(hiddenColumns); }, []);
             ))}
         </ul>
       </div>
-      <table {...getTableProps()}>
-        <tr>
-          <th
-              colSpan={flatColumns.length}
-              style={{
-                textAlign: 'left',
-              }}
-            >
-              <GlobalFilter
-                preGlobalFilteredRows={preGlobalFilteredRows}
-                globalFilter={state.globalFilter}
-                setGlobalFilter={setGlobalFilter}
-              />
-          </th>
-        </tr>
 
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps({
-              style: { padding: '15px' },
-              })} >
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps(column.getSortByToggleProps(), headerProps)} >{column.render('Header')}
-                  {/* Use column.getResizerProps to hook up the events correctly */}
-                  {column.canResize && (
-                    <div
-                      {...column.getResizerProps()}
-                      className={`resizer ${
-                        column.isResizing ? 'isResizing' : ''
-                      }`}
-                    />
-                  )}
-                  {/* Add a sort direction indicator */}
-                  <span>
+      <Segment>
+        <GlobalFilter
+          preGlobalFilteredRows={preGlobalFilteredRows}
+          globalFilter={state.globalFilter}
+          setGlobalFilter={setGlobalFilter}
+          />
+      </Segment>
+
+      <table {...getTableProps()}>
+        <thead>
+            {headerGroups.map(headerGroup => (
+              <tr {...headerGroup.getHeaderGroupProps()} >
+                {headerGroup.headers.map(column => (
+                  <th {...column.getHeaderProps(column.getSortByToggleProps(), headerProps)}>{column.render('Header')}
+                    {column.canResize && (
+                      <div
+                        {...column.getResizerProps()}
+                        className={`resizer ${
+                          column.isResizing ? 'isResizing' : ''
+                        }`}
+                      />
+                    )}
                     {column.isSorted
                       ? column.isSortedDesc
                         ? ' 🔽'
                         : ' 🔼'
                       : ''}
-                  </span>
-                  {/* Render the columns filter UI */}
-                  <tr>{column.canFilter ? column.render('Filter') : null}</tr>
-                </th>
-              ))}
-            </tr>
-          ))}
-
+                      <div>
+                      {column.canFilter ? column.render('Filter') : null}
+                      </div>
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
         <tbody {...getTableBodyProps()}>
           {page.map((row, i) => {
             prepareRow(row);
@@ -175,9 +165,9 @@ setHiddenColumns(hiddenColumns); }, []);
           <tr>
             {loading ? (
               // Use our custom loading state to show a loading indicator
-              <td colSpan="10000">Loading...</td>
+              <td colSpan="10">Loading...</td>
             ) : (
-              <td colSpan="10000">
+              <td colSpan="10">
                 Showing {page.length} of ~{pageCount * pageSize}{' '}
                 results
               </td>
@@ -185,6 +175,7 @@ setHiddenColumns(hiddenColumns); }, []);
           </tr>
         </tbody>
       </table>
+
       <div className="pagination">
         <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
           {'<<'}
@@ -229,14 +220,10 @@ setHiddenColumns(hiddenColumns); }, []);
           ))}
         </select>
       </div>
-      <div>
-        <pre>
-          <code>{JSON.stringify(state.filters, null, 2)}</code>
-        </pre>
-      </div>
     </React.Fragment>
   )
 }
+
 
 function AffixTable({affixData}) {
   const columns = React.useMemo(
@@ -244,25 +231,28 @@ function AffixTable({affixData}) {
       {
         Header: 'ID',
         accessor: 'id',
+        tableName: 'AffixTable',
         show: false,
       },
       {
         Header: 'Type',
         accessor: 'type',
         Filter: SelectColumnFilter,
-        filter: 'includes',
+        tableName: 'AffixTable',
         show: true,
       },
       {
         Header: 'Nicodemus',
         accessor: 'nicodemus',
         filter: 'fuzzyText',
+        tableName: 'AffixTable',
         show: true,
       },
       {
         Header: 'English',
         accessor: 'english',
         filter: 'fuzzyText',
+        tableName: 'AffixTable',
         show: true,
       },
       {
@@ -270,6 +260,7 @@ function AffixTable({affixData}) {
         accessor: 'link',
         disableFilters: true,
         Cell: ({ row }) => <a href={row.original.link} target="_blank" rel="noopener noreferrer">{row.original.page}</a>,
+        tableName: 'AffixTable',
         show: true,
       },
       {
@@ -277,12 +268,14 @@ function AffixTable({affixData}) {
         accessor: 'user.username',
         Filter: SelectColumnFilter,
         filter: 'includes',
+        tableName: 'AffixTable',
         show: false,
       },
       {
         Header: 'Active',
         accessor: 'active',
         filter: 'fuzzyText',
+        tableName: 'AffixTable',
         show: false,
       },
       {
@@ -291,6 +284,7 @@ function AffixTable({affixData}) {
         sortable: false,
         width: 100,
         show: false,
+        tableName: 'AffixTable',
         Cell: ({row, original}) => (
           <div>
             <Button>

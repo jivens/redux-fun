@@ -11,6 +11,7 @@ import { handleTextPageChange,
   handleTextFilteredChange, handleTextResizedChange } from '../actions/texts'
 import { loadState }  from '../utils/localStorage'
 import AudioPlayer from '../utils/AudioPlayer'
+import TextTable from './TextTable'
 
 class TextsList extends Component {
   constructor(props) {
@@ -197,6 +198,7 @@ class TextsList extends Component {
     />
     return (
       <React.Fragment>
+        <TextTable textData={texts.data} />
         {table}
       </React.Fragment>
     )

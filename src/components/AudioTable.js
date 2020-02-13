@@ -1,9 +1,10 @@
 import React from 'react'
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter, useFlexLayout, useResizeColumns } from 'react-table7'
-import { Button, Segment } from 'semantic-ui-react'
+import { Segment } from 'semantic-ui-react'
 import TableStyles from '../stylesheets/table-styles'
-import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, SelectColumnFilter } from '../utils/Filters'
+import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, } from '../utils/Filters'
 import { IndeterminateCheckbox } from '../utils/Checkbox'
+import AudioPlayer from '../utils/AudioPlayer'
 
 const headerProps = (props, { column }) => getStyles(props, column.align)
 const cellProps = (props, { cell }) => getStyles(props, cell.column.align)
@@ -14,7 +15,6 @@ const getStyles = (props, align = 'left') => [
       justifyContent: align === 'right' ? 'flex-end' : 'flex-start',
       alignItems: 'flex-start',
       display: 'flex',
-      overflow: 'auto',
     },
   },
 ]
@@ -98,17 +98,17 @@ setHiddenColumns(hiddenColumns); }, []);
       <div className="columnToggle">
         <ul>
           <li>
-            <span>Show/Hide Columns:   </span>
+            <span>Show/Hide Columns:</span>
           </li>
           <li>
-            <IndeterminateCheckbox {...getToggleHideAllColumnsProps()} />
+            <IndeterminateCheckbox {...getToggleHideAllColumnsProps()}/>
             Toggle All
           </li>
             {flatColumns.map(column => (
               <div>
                 <li key={column.id}>
                 <label>
-                  <input type="checkbox" {...column.getToggleHiddenProps()} />{' '}
+                  <input type="checkbox" {...column.getToggleHiddenProps()}/>{' '}
                   {column.Header}
                 </label>
                 </li>
@@ -125,7 +125,7 @@ setHiddenColumns(hiddenColumns); }, []);
           />
       </Segment>
 
-       <table {...getTableProps()}>
+      <table {...getTableProps()}>
         <thead>
             {headerGroups.map(headerGroup => (
               <tr {...headerGroup.getHeaderGroupProps()} >
@@ -176,6 +176,7 @@ setHiddenColumns(hiddenColumns); }, []);
           </tr>
         </tbody>
       </table>
+
       <div className="pagination">
         <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
           {'<<'}
@@ -224,108 +225,28 @@ setHiddenColumns(hiddenColumns); }, []);
   )
 }
 
-function RootTable({rootData}) {
+function AudioTable({audioData}) {
   const columns = React.useMemo(
     () => [
-      {
-        Header: 'ID',
-        accessor: 'id',
-        show: false,
-        width: 50,
-      },
-      {
-        Header: 'Root',
-        accessor: 'root',
-        show: true,
-        width: 50,
-      },
-      {
-        Header: 'Number',
-        accessor: 'number',
-        show: false,
-        width: 50,
-      },
-      {
-        Header: 'Sense',
-        accessor: 'sense',
-        show: false,
-        width: 50,
-      },
-      {
-        Header: 'Salish',
-        accessor: 'salish',
-        show: false
-      },
-      {
-        Header: 'Nicodemus',
-        accessor: 'nicodemus',
-        show: true,
-      },
-      {
-        Header: 'Symbol',
-        accessor: 'symbol',
-        show: false,
-        width: 50,
-      },
-      {
-        Header: 'English',
-        accessor: 'english',
-        show: true,
-      },
-      {
-        Header: 'Grammar',
-        accessor: 'grammar',
-        show: false,
-        width: 50,
-      },
-      {
-        Header: 'Crossref',
-        accessor: 'crossref',
-        show: false
-      },
-      {
-        Header: 'Variant',
-        accessor: 'variant',
-        show: false
-      },
-      {
-        Header: 'Cognate',
-        accessor: 'cognate',
-        show: false
-      },
-      {
-        Header: 'Username',
-        accessor: 'user.username',
-        show: false,
-        Filter: SelectColumnFilter,
-        filter: 'includes',
-      },
-      {
-        Header: 'Active',
-        accessor: 'active',
-        show: false,
-        width: 50,
-        Filter: SelectColumnFilter,
-        filter: 'includes',
-      },
-      {
-        Header: 'Edit/Delete',
-        filterable: false,
-        Cell: ({row, original}) => (
-          <div>
-            <Button>
-                !E
-            </Button>
-            <Button>
-                !X
-            </Button>
-          </div>
-        )
-      }
-    ]
-  )
+    {
+      Header: 'Title',
+      accessor: 'title',
+      show: true,
+    },
+    {
+      Header: 'Speaker',
+      accessor: 'speaker',
+      show: true,
+    },
+    {
+      Header: 'Audio',
+      accessor: 'audio',
+      show: true,
+      Cell: ({row}) => ( <AudioPlayer key={row.original.id} title='' sources={row.original.audiofiles} />),
+    }
+    ])
 
-  const [data] = React.useState(() => rootData)
+  const [data] = React.useState(() => audioData)
 
   return (
     <TableStyles>
@@ -337,4 +258,4 @@ function RootTable({rootData}) {
   )
 }
 
-export default RootTable
+export default AudioTable

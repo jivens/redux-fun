@@ -30,7 +30,7 @@ export function GlobalFilter({
 
 // Define a default UI for filtering
 export function DefaultColumnFilter({
-  column: { filterValue, preFilteredRows, setFilter },
+  column: { id, tableName, filterValue, preFilteredRows, setFilter },
 }) {
   const count = preFilteredRows.length
 
@@ -40,8 +40,18 @@ export function DefaultColumnFilter({
       display='flex'
       onChange={e => {
         setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
+        //alert(e.target.value + " " + id + " " + tableName)
+        if (tableName == "AffixTable") {
+          let filtered = []
+          //if (filtered.contains)
+          filtered.push({
+            id: id,
+            value: e.target.value
+          })
+          console.log(filtered)
+        }
       }}
-      placeholder={`Search ${count} records...`}
+      placeholder={`${count} records...`}
       style={{
         fontSize: '1rem',
         border: '0',

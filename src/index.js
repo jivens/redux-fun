@@ -19,6 +19,7 @@ import stems from './reducers/stems'
 import affixes from './reducers/affixes'
 import errors from './reducers/errors'
 import texts from './reducers/texts'
+import audios from './reducers/audios'
 import { loadingBarReducer } from 'react-redux-loading'
 
 //import {  getUserFromToken } from './queries/queries';
@@ -75,6 +76,7 @@ const store = createStore(
     roots,
     affixes,
     texts,
+    audios,
     errors,
     loadingBar: loadingBarReducer,
   }),
