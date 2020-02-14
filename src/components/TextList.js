@@ -82,6 +82,7 @@ class TextsList extends Component {
       link === '' ? page : <a href={link} target="_blank" rel="noopener noreferrer">{page}</a>
     );
   }
+  
  render() {
   const { texts } = this.state
   const columns = [

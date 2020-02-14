@@ -290,15 +290,26 @@ function TextTable({ textData }) {
 
   const [data] = React.useState(() => textData);
 
+  function weblink(link, page) {
+    return (
+      link === '' ? page : <a href={link} target="_blank" rel="noopener noreferrer">{page}</a>
+    );
+  }
+
   const renderRowSubComponent = React.useCallback(
     ({ row }) => (
-      <pre
-        style={{
-          fontSize: '10px',
-        }}
-      >
-        <code>{JSON.stringify({ values: row.values }, null, 2)}</code>
-      </pre>
+      <div>
+        {weblink(data[row.index].sourcefiles.src, data[row.index].sourcefiles.title)} 
+        <pre
+          style={{
+            fontSize: '10px',
+          }}
+        >
+          <code>{JSON.stringify({ values: row.values }, null, 2)}</code>
+          <code>{JSON.stringify({ values: data[row.index].sourcefiles }, null, 2)}</code>       
+        </pre>
+    
+      </div> 
     ),
     []
   )
