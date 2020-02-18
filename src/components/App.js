@@ -20,6 +20,7 @@ import AddStem from './AddStem'
 import EditStem from './EditStem'
 import TextList from './TextList'
 import AudioList from './AudioList'
+import SubTable from './SubTable'
 import 'react-table/react-table.css'
 import 'semantic-ui-css/semantic.min.css'
 import '../stylesheets/NavBar.css'
@@ -68,6 +69,7 @@ class App extends Component {
                     <Route path='/editaffix/:id' component={EditAffix} />
                     <Route path='/texts' component={TextList} />
                     <Route path='/audio' component={AudioList}/>
+                    <Route path='/subtable' component={SubTable}/>
                   </div>}
                 </NavBar>
                 <ToastContainer autoClose={5000} />
