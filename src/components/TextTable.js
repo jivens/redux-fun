@@ -5,8 +5,6 @@ import {
   useSortBy,
   useFilters,
   useGlobalFilter,
-  useFlexLayout,
-  useResizeColumns,
   useExpanded
 } from "react-table7";
 import { Segment } from "semantic-ui-react";
@@ -14,18 +12,17 @@ import TableStyles from "../stylesheets/table-styles";
 import SubTable from "./SubTable";
 import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from "../utils/Filters";
 
-const headerProps = (props, { column }) => getStyles(props, column.align);
-const getStyles = (props, align = "left") => [
+const headerProps = (props, { column }) => getStyles(props, column.align)
+const getStyles = (props, align = 'left') => [
   props,
   {
     style: {
-      justifyContent: align === "right" ? "flex-end" : "flex-start",
-      alignItems: "flex-start",
-      display: "flex",
-      overflow: "auto"
-    }
-  }
-]; 
+      justifyContent: align === 'right' ? 'flex-end' : 'flex-start',
+      alignItems: 'flex-start',
+      display: 'flex',
+    },
+  },
+]
 
 function Table({ columns, data, renderRowSubComponent, loading }) {
   const filterTypes = React.useMemo(
@@ -48,9 +45,6 @@ function Table({ columns, data, renderRowSubComponent, loading }) {
   const defaultColumn = React.useMemo(
     () => ({
       Filter: DefaultColumnFilter, // Let's set up our default Filter UI
-      minWidth: 25, // minWidth is only used as a limit for resizing
-      width: 75, // width is used for both the flex-basis and flex-grow
-      maxWidth: 500 // maxWidth is only used as a limit for resizing
     }),
     []
   );
@@ -87,8 +81,6 @@ function Table({ columns, data, renderRowSubComponent, loading }) {
         .filter(column => !column.show)
         .map(column => column.id)
     },
-    useResizeColumns,
-    useFlexLayout,
     useGlobalFilter,
     useFilters,
     useSortBy,
@@ -113,31 +105,21 @@ function Table({ columns, data, renderRowSubComponent, loading }) {
           setGlobalFilter={setGlobalFilter}
         />
       </Segment>
+      <div className="tableWrap">
       <table {...getTableProps()}>
-        <thead>         
+        <thead>
           {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              
+            <tr {...headerGroup.getHeaderGroupProps()} >
               {headerGroup.headers.map(column => (
-                <th
-                  {...column.getHeaderProps(
-                    column.getSortByToggleProps(),
-                    headerProps
-                  )}
-                >
-                  {column.render("Header")}
-                  {column.canResize && (
-                    <div
-                      {...column.getResizerProps()}
-                      className={`resizer ${
-                        column.isResizing ? "isResizing" : ""
-                      }`}
-                    />
-                  )}
-                  {column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : ""}
-                  <div>                 
-                    {column.canFilter ? column.render("Filter") : null}
-                  </div>
+                <th {...column.getHeaderProps(column.getSortByToggleProps(), headerProps)}>{column.render('Header')}
+                  {column.isSorted
+                    ? column.isSortedDesc
+                      ? ' 🔽'
+                      : ' 🔼'
+                    : ''}
+                    <div>
+                    {column.canFilter ? column.render('Filter') : null}
+                    </div>
                 </th>
               ))}
             </tr>
@@ -169,17 +151,16 @@ function Table({ columns, data, renderRowSubComponent, loading }) {
           <tr>
             
             {loading ? (
-              // Use our custom loading state to show a loading indicator
               <td colSpan="10"> Loading... </td>
             ) : (
               <td colSpan="10">
-                Showing {page.length}
-                of~{pageCount * pageSize} results
+                Showing {page.length} of ~{pageCount * pageSize} results
               </td>
             )}
           </tr>
         </tbody>
       </table>
+      </div>
       <div className="pagination">
         <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
           
@@ -244,16 +225,18 @@ function TextTable({ textData }) {
         {row.isExpanded ? '▼' : '▶'}
       </span>        
       ),
-      width: 50,
       show: true,
+      minWidth: 50,
+      maxWidth: 100,
     },
     {
       Header: 'Pub #',
       id: 'rnumber',
       accessor: 'rnumber',
-      show: true,
       disableFilters: true,
-      width: 75,
+      show: true,
+      minWidth: 75,
+      maxWidth: 100,
     },
     {
       Header: 'Notes #',
@@ -261,25 +244,31 @@ function TextTable({ textData }) {
       accessor: 'tnumber',
       disableFilters: true,
       show: true,
-      width: 75,
+      minWidth: 75,
+      maxWidth: 100,
     },
     {
       Header: 'Title',
+      id: 'title',
       accessor: 'title',
       show: true,
-      width: 150,
+      minWidth: 100,
+      maxWidth: 200,
     },
     {
       Header: 'Narrator',
+      id: 'title',
       accessor: 'speaker',
       show: true,
-      width: 150,
+      minWidth: 100,
+      maxWidth: 200,
     },
     {
       Header: 'Cycle',
       accessor: 'cycle',
       show: true,
-      width: 150,
+      minWidth: 100,
+      maxWidth: 200,
     },
   ]);
 

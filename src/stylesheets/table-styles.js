@@ -1,10 +1,24 @@
 import styled from 'styled-components'
 
 const TableStyles = styled.div`
+display: block;
+
+max-width: 100%;
+
+  .tableWrap {
+    display: block;
+    max-width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    border-bottom: 1px solid black;
+  }
+
+
   padding: 1rem;
    table {
     display: block;
     width: 100%;
+    border-spacing: 0;
     thead {
       display: block;
       width: 100%;
