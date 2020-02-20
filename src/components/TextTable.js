@@ -11,10 +11,10 @@ import {
 } from "react-table7";
 import { Segment } from "semantic-ui-react";
 import TableStyles from "../stylesheets/table-styles";
+import SubTable from "./SubTable";
 import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn } from "../utils/Filters";
 
 const headerProps = (props, { column }) => getStyles(props, column.align);
-const cellProps = (props, { cell }) => getStyles(props, cell.column.align);
 const getStyles = (props, align = "left") => [
   props,
   {
@@ -25,7 +25,7 @@ const getStyles = (props, align = "left") => [
       overflow: "auto"
     }
   }
-];
+]; 
 
 function Table({ columns, data, renderRowSubComponent, loading }) {
   const filterTypes = React.useMemo(
@@ -59,7 +59,6 @@ function Table({ columns, data, renderRowSubComponent, loading }) {
     getTableBodyProps,
     headerGroups,
     prepareRow,
-    rows,
     page,
     state,
     flatColumns,
@@ -73,7 +72,6 @@ function Table({ columns, data, renderRowSubComponent, loading }) {
     nextPage,
     previousPage,
     setPageSize,
-    getToggleHideAllColumnsProps,
     setHiddenColumns,
     state: { pageIndex, pageSize, expanded }
   } = useTable(
@@ -108,9 +106,6 @@ function Table({ columns, data, renderRowSubComponent, loading }) {
   // Render the UI for your table
   return (
     <React.Fragment>
-      <pre>
-        <code>{JSON.stringify({ expanded: expanded }, null, 2)}</code>
-      </pre>
       <Segment>
         <GlobalFilter
           preGlobalFilteredRows={preGlobalFilteredRows}
@@ -150,7 +145,7 @@ function Table({ columns, data, renderRowSubComponent, loading }) {
         </thead>
         <tbody {...getTableBodyProps()}>
           
-          {page.map((row, i) => {
+          {page.map((row) => {
             prepareRow(row);
             return (
               <React.Fragment {...row.getRowProps()}>
@@ -292,17 +287,12 @@ function TextTable({ textData }) {
 
   const renderRowSubComponent = React.useCallback(
     ({ row }) => (
-      <pre
-        style={{
-          fontSize: '10px',
-        }}
-      >
-        <code>{JSON.stringify({ values: row.values }, null, 2)}</code>
-      </pre>
+      <div>
+        <SubTable subData={data[row.index].sourcefiles}/>    
+      </div> 
     ),
     []
-  )
-
+  ) 
 
   return (
     <TableStyles>
