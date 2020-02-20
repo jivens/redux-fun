@@ -4,6 +4,7 @@ import { Button } from 'semantic-ui-react'
 import TableStyles from '../stylesheets/table-styles'
 import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, SelectColumnFilter } from '../utils/Filters'
 import { IndeterminateCheckbox } from '../utils/Checkbox'
+import DecoratedTextSpan from '../utils/DecoratedTextSpan';
 
 const headerProps = (props, { column }) => getStyles(props, column.align)
 const cellProps = (props, { cell }) => getStyles(props, cell.column.align)
@@ -257,6 +258,7 @@ function StemTable({stemData}) {
         Header: 'Reichard',
         accessor: 'reichard',
         filter: 'fuzzyText',
+        Cell: ({ cell: { value } }) => (<DecoratedTextSpan str={value} />),
         show: false,
       },
       {
