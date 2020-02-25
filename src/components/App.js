@@ -27,6 +27,8 @@ import '../stylesheets/NavBar.css'
 import '../stylesheets/Colrc.css'
 import '../stylesheets/AccordionTables.css'
 import "react-toastify/dist/ReactToastify.css"
+import ImageViewer from '../utils/ImageViewer';
+import SplitView from '../utils/SplitView';
 
 // const loggedIn = () => {
 //   const token = localStorage.getItem('TOKEN')
@@ -68,6 +70,8 @@ class App extends Component {
                     <Route path='/addroot' component={AddRoot} />
                     <Route path='/editaffix/:id' component={EditAffix} />
                     <Route path='/texts' component={TextList} />
+                    <Route path="/imageviewer" component={ImageViewer} />
+                    <Route path="/splitview" component={SplitView} />
                     <Route path='/audio' component={AudioList}/>
                     <Route path='/subtable' component={SubTable}/>
                   </div>}

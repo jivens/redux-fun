@@ -4,7 +4,8 @@ import { withApollo, graphql } from 'react-apollo'
 import { Link } from 'react-router-dom';
 import { flowRight as compose } from 'lodash'
 import ReactTable from 'react-table'
-import matchSorter from 'match-sorter'
+import matchSorter from 'match-sorter';
+import SimpleKeyboard from "../utils/SimpleKeyboard";
 import { getTextsQuery } from '../queries/queries';
 import { handleTextPageChange,
   handleTextPageSizeChange, handleTextSortedChange,
@@ -26,18 +27,6 @@ class TextsList extends Component {
     this.state = {texts: serializedState.texts}
   }
 
-  //we call our main function, which includes all the helper functions.
-  // async componentDidMount() {
-  //   const getTextData = await this.props.client.query({
-  //     query: getTextsQuery,
-  //     variables: {
-  //     }
-  //   })
-  //   let tData = getTextData.data.texts_Q
-  //   console.log('here is my data in ComponentDidMount ', tData)
-  //   let newData = this.sourcefiles(tData)
-  //   console.log('here is my newData ', newData)
-  // }
 
   async onPageChange(page) {
     await this.props.dispatch(handleTextPageChange(page))
@@ -199,6 +188,7 @@ class TextsList extends Component {
     />
     return (
       <React.Fragment>
+        <SimpleKeyboard />
         <TextTable textData={texts.data} />
         {table}
       </React.Fragment>

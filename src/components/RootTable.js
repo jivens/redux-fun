@@ -98,7 +98,7 @@ setHiddenColumns(hiddenColumns); }, []);
       <div className="columnToggle">
         <ul>
           <li>
-            <span>Show/Hide Columns:   </span>
+            <span>Show/Hide Columns: </span>
           </li>
           <li>
             <IndeterminateCheckbox {...getToggleHideAllColumnsProps()} />
@@ -230,62 +230,72 @@ function RootTable({rootData}) {
       {
         Header: 'ID',
         accessor: 'id',
+        id: 'id',
         show: false,
         width: 50,
       },
       {
         Header: 'Root',
         accessor: 'root',
+        id: 'root',
         show: true,
         width: 50,
       },
       {
         Header: 'Number',
         accessor: 'number',
+        id: 'number',
         show: false,
         width: 50,
       },
       {
         Header: 'Sense',
         accessor: 'sense',
-        show: false,
+        id: 'sense',
         width: 50,
       },
       {
         Header: 'Salish',
         accessor: 'salish',
+        id: 'salish',
         show: false
       },
       {
         Header: 'Nicodemus',
         accessor: 'nicodemus',
+        id: 'nicodemus',
         show: true,
       },
       {
         Header: 'Symbol',
         accessor: 'symbol',
+        id: 'symbol',
         show: false,
         width: 50,
       },
       {
         Header: 'English',
         accessor: 'english',
+        id: 'english',
         show: true,
       },
       {
         Header: 'Grammar',
         accessor: 'grammar',
+        id: 'grammar',
         show: false,
         width: 50,
       },
       {
         Header: 'Crossref',
         accessor: 'crossref',
+        id: 'crossref',
         show: false
       },
       {
         Header: 'Variant',
         accessor: 'variant',
+        id: 'variant',
         show: false
       },
       {
@@ -303,6 +313,7 @@ function RootTable({rootData}) {
       {
         Header: 'Active',
         accessor: 'active',
+        id: 'active',
         show: false,
         width: 50,
         Filter: SelectColumnFilter,
@@ -310,6 +321,7 @@ function RootTable({rootData}) {
       },
       {
         Header: 'Edit/Delete',
+        id: 'edit',
         filterable: false,
         Cell: ({row, original}) => (
           <div>

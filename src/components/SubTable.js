@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+/* eslint-disable react/prop-types */
+/* eslint-disable react/display-name */
 import React from "react";
 import {
   useTable,
@@ -37,7 +40,7 @@ function Table({ columns, data }) {
           {rows.map((row, i) => {
             prepareRow(row)
             return (
-              <tr {...row.getRowProps()}>
+              <tr key={row.id} {...row.getRowProps()}>
                 {row.cells.map(cell => {
                   return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                 })}
@@ -64,7 +67,7 @@ function SubTable({ subData }) {
         ? <a href={row.original.src} target="_blank" rel="noopener noreferrer">{row.original.title}</a>
         : (row.original.type === "audio"
           ? <AudioPlayer key={row.original.key} title={row.original.title} speaker={row.original.speaker} sources={row.original.sources} />
-          : (row.type ==="textimages"
+          : (row.original.type ==="textimages"
             ? <Link to={{
                 pathname: '/imageviewer/',
                 search: '?key=' + row.original.key + row.original.src }}

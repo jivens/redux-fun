@@ -1,24 +1,11 @@
 import styled from 'styled-components'
 
 const TableStyles = styled.div`
-display: block;
-
-max-width: 100%;
-
-  .tableWrap {
-    display: block;
-    max-width: 100%;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    border-bottom: 1px solid black;
-  }
-
-
   padding: 1rem;
    table {
     display: block;
     width: 100%;
-    border-spacing: 0;
+    overflow: auto;
     thead {
       display: block;
       width: 100%;
@@ -40,9 +27,11 @@ max-width: 100%;
       border-bottom: 1px solid #ddd;
     }
     th {
+      display: block;
       border: 0px;
       background: #fafafa;
       padding: .5rem;
+      text-align: left;
     },
     td {
       margin: 0;
@@ -78,6 +67,11 @@ max-width: 100%;
       }
     }
   }
+
+  pagination: {
+    padding: 10px;
+  }
+
   globalFilter: {
     padding: 50px 10px 20px 30px;
   }
