@@ -2,6 +2,7 @@ import { LOGIN_USER, ADD_USER, LOGOUT_USER, USER_INFO } from '../actions/users'
 import {toast} from "react-toastify"
 
 export default function users (state = {}, action) {
+
   switch (action.type) {
     case LOGIN_USER :
       if (action.user) {
@@ -25,6 +26,9 @@ export default function users (state = {}, action) {
       localStorage.removeItem('TOKEN')
       return {}
     case ADD_USER :
+      // if (action.user) {
+      //
+      // }
       //let userData = state.data -- we'll need to add this when we handle admin users
       //userData.push(action.user)
       return state
