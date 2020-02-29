@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import { connect } from 'react-redux'
 import { withApollo, graphql } from 'react-apollo'
 import { flowRight as compose } from 'lodash'
@@ -7,41 +7,37 @@ import { Button, Grid, Header, Message, Segment, Input } from 'semantic-ui-react
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { handleLoginUser, handleSaveUser } from '../../actions/users'
+import { useMutation } from "@apollo/react-hooks"
+
+function Register () {
 
 
-class Register extends Component {
-  constructor(props) {
-    super(props)
-    this.onFormSubmit = this.onFormSubmit.bind(this)
-    this.state = {
-      login: false,  //set default appearance to register rather than login
-      // first: '',
-      // last: '',
-      // username: '',
-      // email: '',
-      // password: '',
-    }
-  }
+  // function handleInputChange (e) {
+  //   const { value, name } = e.target
 
-  handleInputChange = (e) => {
-    const { value, name } = e.target
+  //   this.setState(() => ({
+  //     [name]: value
+  //   }))
+  // }
 
-    this.setState(() => ({
-      [name]: value
-    }))
-  }
-
-  onFormSubmit = async (values, setSubmitting) => {
+  async function onFormSubmit (login, addUser, values, setSubmitting) {
     console.log("In add user submission")
     console.log(values)
     console.log(setSubmitting)
-    const { login } = this.state
+    //const { login } = this.state
     try {
       if (login) {
-        this.props.dispatch(handleLoginUser(this.props.client, this.props.history, values))
+        //this.props.dispatch(handleLoginUser(this.props.client, this.props.history, values))
       } else {
-        this.props.history.push('/users')
-        this.props.dispatch(handleSaveUser(this.props.client, values))
+        addUser({variables: {
+          first: values.first,
+          last: values.last,
+          username: values.username,
+          email: values.email,
+          password: values.password
+        }})
+        //this.props.history.push('/users')
+        //this.props.dispatch(handleSaveUser(this.props.client, values))
       }
       setSubmitting(false)
     } catch (error) {
@@ -50,8 +46,13 @@ class Register extends Component {
     }
   }
 
-render() {
-  const { login } = this.state
+  //const { login } = this.state
+  const [login, setLogin] = useState()
+  const [addUser, { loading: addUserLoading, error: addUserError}] = useMutation(addUserMutation)
+  if (login === undefined) {
+    setLogin(false)
+  }
+  let error = false
   const addUserSchema = Yup.object().shape({
     first: Yup.string()
       .required('Required'),
@@ -81,21 +82,24 @@ render() {
       .required('Required'),
     });
 
+    if (addUserLoading) return (<div>Loading</div>)
+    if (addUserError) return(<div>Error</div>)
+
     return (
       <Grid textAlign='center'  verticalAlign='top'>
         <Grid.Column style={{ maxWidth: 450 }}>
           <Header as='h2'  textAlign='center'>
               {login ? 'Log in to your account' : 'Create an account'}
           </Header>
-          {this.state.error && (
-           <Message className="error">Unsuccessful: {this.state.error}</Message>
+          {error && (
+           <Message className="error">Unsuccessful: {error}</Message>
           )}
           <Segment stacked>
             <Formik
               initialValues={{ first: '', last: '', username: '', email: '', password: '', passwordConfirmation: ''}}
               validationSchema={ !login ? addUserSchema : loginSchema }
               onSubmit={(values, { setSubmitting }) => {
-                this.onFormSubmit(values, setSubmitting);
+                onFormSubmit(login, addUser, values, setSubmitting);
               }}
             >
               {({ isSubmitting, values, errors, touched, handleChange, handleBlur }) => (
@@ -206,27 +210,28 @@ render() {
         </Formik>
       </Segment>
           <Message>
-            <Button color="black" onClick={() => this.setState({ login: !login })}>
+            <Button color="black" onClick={() => { setLogin(!login) } }>
                 {login ? 'need to create an account?' : 'already have one?'}
             </Button>
           </Message>
       </Grid.Column>
     </Grid>
    );
-  }
 }
 
 
 
-function mapStateToProps (state) {
-  const {user} = state
-  return {
-    user
-  }
-}
 
-export default compose(
-  graphql(getUserToken, { name: 'getUserToken' }),
-  graphql(addUserMutation, { name: 'addUserMutation' })
-)(withApollo(connect(mapStateToProps)(Register)))
+// function mapStateToProps (state) {
+//   const {user} = state
+//   return {
+//     user
+//   }
+// }
 
+// export default compose(
+//   graphql(getUserToken, { name: 'getUserToken' }),
+//   graphql(addUserMutation, { name: 'addUserMutation' })
+// )(withApollo(connect(mapStateToProps)(Register)))
+
+export default Register
