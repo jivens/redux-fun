@@ -1,4 +1,4 @@
-import { getUserToken, getUserFromToken, getAffixesQuery, getRootsQuery, getStemsQuery, deleteAffixMutation, deleteRootMutation, deleteStemMutation, addAffixMutation , updateAffixMutation, addRootMutation, updateRootMutation, addStemMutation, updateStemMutation, addUserMutation, getTextsQuery, getAudioSetsQuery } from '../queries/queries'
+import { getUserToken, getUserFromToken, getAffixesQuery, getRootsQuery, getStemsQuery, deleteAffixMutation, deleteRootMutation, deleteStemMutation, addAffixMutation, updateAffixMutation, addRootMutation, updateRootMutation, addStemMutation, updateStemMutation, addUserMutation, getTextsQuery, getAudioSetsQuery, getSpellingsQuery, getConsonantsQuery, getVowelsQuery } from '../queries/queries'
 
 export function getInitialAppData (client) {
   return Promise.all([
@@ -21,8 +21,20 @@ export function getInitialAppData (client) {
     client.query({
       query: getAudioSetsQuery,
       variables: {}
+    }),
+    client.query({
+      query: getSpellingsQuery,
+      variables: {}
+    }),
+    client.query({
+      query: getConsonantsQuery,
+      variables: {}
+    }),
+    client.query({
+      query: getVowelsQuery,
+      variables: {}
     })
-  ]).then(([stems, roots, affixes, texts, audios]) => ({
+  ]).then(([stems, roots, affixes, texts, audios, spellings, consonants, vowels]) => ({
     stems: {
       data: stems.data.stems_Q,
       tableData: {
@@ -90,6 +102,15 @@ export function getInitialAppData (client) {
         filtered: [],
         resized: [],
       }
+    },
+    spellings: {
+      data: spellings.data.spellings_Q
+    },
+    consonants: {
+      data: consonants.data.consonants_Q
+    },
+    vowels: {
+      data: vowels.data.vowels_Q
     }
   }))
 }

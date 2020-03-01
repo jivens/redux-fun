@@ -29,6 +29,7 @@ import '../stylesheets/AccordionTables.css'
 import "react-toastify/dist/ReactToastify.css"
 import ImageViewer from '../utils/ImageViewer';
 import SplitView from '../utils/SplitView';
+import Spellings from './Spellings'
 
 // const loggedIn = () => {
 //   const token = localStorage.getItem('TOKEN')
@@ -74,6 +75,7 @@ class App extends Component {
                     <Route path="/splitview" component={SplitView} />
                     <Route path='/audio' component={AudioList}/>
                     <Route path='/subtable' component={SubTable}/>
+                    <Route path='/spelling' component={Spellings}/>
                   </div>}
                 </NavBar>
                 <ToastContainer autoClose={5000} />
@@ -86,9 +88,9 @@ class App extends Component {
   }
 }
 
-function mapStateToProps ({ stems, roots, affixes, texts, audiosets, errors }) {
+function mapStateToProps ({ stems, roots, affixes, texts, audiosets, spellings, errors }) {
   return {
-    loading: stems === null || roots === null || affixes === null || texts === null || audiosets === null,
+    loading: stems === null || roots === null || affixes === null || texts === null || audiosets === null || spellings === null,
     errors: errors
   }
 }

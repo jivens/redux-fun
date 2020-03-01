@@ -6,18 +6,24 @@ import { receiveRoots } from '../actions/roots'
 import { receiveErrors } from '../actions/errors'
 import { receiveTexts } from '../actions/texts'
 import { receiveAudios } from '../actions/audios'
+import { receiveSpellings } from '../actions/spellings'
+import { receiveConsonants } from '../actions/consonants'
+import { receiveVowels } from '../actions/vowels'
 import { showLoading, hideLoading } from 'react-redux-loading'
 
 export function handleInitialAppData (client) {
   return (dispatch) => {
     dispatch(showLoading())
     return getInitialAppData(client)
-      .then(({ stems, roots, affixes, texts, audios }) => {
+      .then(({ stems, roots, affixes, texts, audios, spellings , consonants, vowels}) => {
         dispatch(receiveStems(stems))
         dispatch(receiveRoots(roots))
         dispatch(receiveAffixes(affixes))
         dispatch(receiveTexts(texts))
         dispatch(receiveAudios(audios))
+        dispatch(receiveSpellings(spellings))
+        dispatch(receiveConsonants(consonants))
+        dispatch(receiveVowels(vowels))
         dispatch(hideLoading())
       })
       .catch((error) => {

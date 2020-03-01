@@ -20,6 +20,9 @@ import affixes from './reducers/affixes'
 import errors from './reducers/errors'
 import texts from './reducers/texts'
 import audios from './reducers/audios'
+import spellings from './reducers/spellings'
+import consonants from './reducers/consonants'
+import vowels from './reducers/vowels'
 import { loadingBarReducer } from 'react-redux-loading'
 
 //import {  getUserFromToken } from './queries/queries';
@@ -77,6 +80,9 @@ const store = createStore(
     affixes,
     texts,
     audios,
+    spellings,
+    consonants,
+    vowels,
     errors,
     loadingBar: loadingBarReducer,
   }),
