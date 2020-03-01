@@ -239,7 +239,7 @@ function Table({
             Header: 'orthography',
             accessor: 'orthography',
             id: 'orthography',
-            filter: SelectColumnFilter,
+            Filter: SelectColumnFilter,  
             show: true,
         },
         {
