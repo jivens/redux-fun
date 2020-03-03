@@ -14,6 +14,7 @@ import { loadState }  from '../utils/localStorage'
 import AudioPlayer from '../utils/AudioPlayer'
 import TextTable from './TextTable'
 import TextsAccordion from './accordions/TextsAccordion'
+import { Divider } from 'semantic-ui-react'
 
 class TextsList extends Component {
   constructor(props) {
@@ -190,6 +191,7 @@ class TextsList extends Component {
     return (
       <React.Fragment>
         <TextsAccordion />
+        <Divider />
         <SimpleKeyboard />
         <TextTable textData={texts.data} />
         {table}
