@@ -8,10 +8,11 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { handleLoginUser, handleSaveUser } from '../../actions/users'
 import { useMutation } from "@apollo/react-hooks"
+import { useUser } from '../App'
 
 function Register () {
 
-
+  const [user, dispatch] = useUser();
   // function handleInputChange (e) {
   //   const { value, name } = e.target
 
@@ -27,6 +28,7 @@ function Register () {
     //const { login } = this.state
     try {
       if (login) {
+        dispatch()
         //this.props.dispatch(handleLoginUser(this.props.client, this.props.history, values))
       } else {
         addUser({variables: {
@@ -35,7 +37,7 @@ function Register () {
           username: values.username,
           email: values.email,
           password: values.password
-        }})
+        }}) 
         //this.props.history.push('/users')
         //this.props.dispatch(handleSaveUser(this.props.client, values))
       }

@@ -5,12 +5,17 @@ import SpellingList from './SpellingList'
 import ConsonantChart from './ConsonantChart'
 import VowelChart from './VowelChart'
 import { Label, Segment } from 'semantic-ui-react'
+import { useUser } from './App'
 
 function Spellings () {
 
     const { loading, error, data } = useQuery(getSpellingsQuery);
     const { loading: loadingConsonants, error: errorConsonants, data: dataConsonants } = useQuery(getConsonantsQuery);
-    const { loading: loadingVowels, error: errorVowels, data: dataVowels } = useQuery(getVowelsQuery); 
+    const { loading: loadingVowels, error: errorVowels, data: dataVowels } = useQuery(getVowelsQuery);
+    
+    const [user] = useUser();
+    console.log('user for Spellings is ', user )
+
     if (loading) return 'Loading List...';
     if (loadingConsonants) return 'Loading Consonants...';
     if (loadingVowels) return 'Loading Vowels ...';
