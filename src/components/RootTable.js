@@ -124,8 +124,7 @@ setHiddenColumns(hiddenColumns); }, []);
           setGlobalFilter={setGlobalFilter}
           />
       </Segment>
-
-       <table {...getTableProps()}>
+      <table {...getTableProps()}>
         <thead>
             {headerGroups.map(headerGroup => (
               <tr {...headerGroup.getHeaderGroupProps()} >
@@ -139,11 +138,7 @@ setHiddenColumns(hiddenColumns); }, []);
                         }`}
                       />
                     )}
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? ' 🔽'
-                        : ' 🔼'
-                      : ''}
+                    {column.isSorted ? (column.isSortedDesc ? "↑" : "↓") : ""}
                       <div>
                       {column.canFilter ? column.render('Filter') : null}
                       </div>
