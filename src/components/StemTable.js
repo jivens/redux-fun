@@ -117,51 +117,28 @@ setHiddenColumns(hiddenColumns); }, []);
         </ul>
       </div>
       <table {...getTableProps()}>
-        <tr>
-          <th
-              colSpan={flatColumns.length}
-              style={{
-                textAlign: 'left',
-              }}
-            >
-              <GlobalFilter
-                preGlobalFilteredRows={preGlobalFilteredRows}
-                globalFilter={state.globalFilter}
-                setGlobalFilter={setGlobalFilter}
-              />
-          </th>
-        </tr>
-
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps({
-              style: { padding: '15px' },
-              })} >
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps(column.getSortByToggleProps(), headerProps)} >{column.render('Header')}
-                  {/* Use column.getResizerProps to hook up the events correctly */}
-                  {column.canResize && (
-                    <div
-                      {...column.getResizerProps()}
-                      className={`resizer ${
-                        column.isResizing ? 'isResizing' : ''
-                      }`}
-                    />
-                  )}
-                  {/* Add a sort direction indicator */}
-                  <span>
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? ' 🔽'
-                        : ' 🔼'
-                      : ''}
-                  </span>
-                  {/* Render the columns filter UI */}
-                  <tr>{column.canFilter ? column.render('Filter') : null}</tr>
-                </th>
-              ))}
-            </tr>
-          ))}
-
+        <thead>
+            {headerGroups.map(headerGroup => (
+              <tr {...headerGroup.getHeaderGroupProps()} >
+                {headerGroup.headers.map(column => (
+                  <th {...column.getHeaderProps(column.getSortByToggleProps(), headerProps)}>{column.render('Header')}
+                    {column.canResize && (
+                      <div
+                        {...column.getResizerProps()}
+                        className={`resizer ${
+                          column.isResizing ? 'isResizing' : ''
+                        }`}
+                      />
+                    )}
+                    {column.isSorted ? (column.isSortedDesc ? "↑" : "↓") : ""}
+                      <div>
+                      {column.canFilter ? column.render('Filter') : null}
+                      </div>
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
         <tbody {...getTableBodyProps()}>
           {page.map((row, i) => {
             prepareRow(row);
@@ -176,9 +153,9 @@ setHiddenColumns(hiddenColumns); }, []);
           <tr>
             {loading ? (
               // Use our custom loading state to show a loading indicator
-              <td colSpan="10000">Loading...</td>
+              <td colSpan="10">Loading...</td>
             ) : (
-              <td colSpan="10000">
+              <td colSpan="10">
                 Showing {page.length} of ~{pageCount * pageSize}{' '}
                 results
               </td>
@@ -229,11 +206,6 @@ setHiddenColumns(hiddenColumns); }, []);
             </option>
           ))}
         </select>
-      </div>
-      <div>
-        <pre>
-          <code>{JSON.stringify(state.filters, null, 2)}</code>
-        </pre>
       </div>
     </React.Fragment>
   )

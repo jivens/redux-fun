@@ -101,11 +101,11 @@ closeKeyboard = () => {
 	        />
 	        <div className={`keyboardContainer ${!keyboardOpen ? "hidden" : ""}`}>
 		    <Keyboard
-		        ref={r => (this.keyboardRef = r)}
+		        // ref={r => (this.keyboardRef = r)}
 		        key="keyboard"
 		        layout={colrc}
 		        layoutName={this.state.layoutName}
-				preventMouseDownDefault={true}
+				    preventMouseDownDefault={true}
 		        onChange={input =>
 		          this.onChange(input)}
 		        onKeyPress={button =>

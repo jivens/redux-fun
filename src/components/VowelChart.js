@@ -3,6 +3,7 @@
 /* eslint-disable no-sparse-arrays */
 import React, { useState } from 'react'
 import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter, useFlexLayout, useResizeColumns } from 'react-table7'
+import { Segment } from 'semantic-ui-react'
 import TableStyles from '../stylesheets/table-styles'
 import { DefaultColumnFilter, GlobalFilter, fuzzyTextFilterFn, SelectColumnFilter } from '../utils/Filters'
 import { IndeterminateCheckbox } from '../utils/Checkbox'
@@ -118,29 +119,20 @@ function Table({
               ))}
           </ul>
         </div>
+        <Segment>
+          <GlobalFilter
+            preGlobalFilteredRows={preGlobalFilteredRows}
+            globalFilter={state.globalFilter}
+            setGlobalFilter={setGlobalFilter}
+          />
+        </Segment>
+
         <table {...getTableProps()}>
-          <tr>
-            <th
-                colSpan={flatColumns.length}
-                style={{
-                  textAlign: 'left',
-                }}
-              >
-                <GlobalFilter
-                  preGlobalFilteredRows={preGlobalFilteredRows}
-                  globalFilter={state.globalFilter}
-                  setGlobalFilter={setGlobalFilter}
-                />
-            </th>
-          </tr>
-  
+        <thead>
             {headerGroups.map(headerGroup => (
-              <tr {...headerGroup.getHeaderGroupProps({
-                style: { padding: '15px' },
-                })} >
+              <tr {...headerGroup.getHeaderGroupProps()} >
                 {headerGroup.headers.map(column => (
-                  <th {...column.getHeaderProps(column.getSortByToggleProps(), headerProps)} >{column.render('Header')}
-                    {/* Use column.getResizerProps to hook up the events correctly */}
+                  <th {...column.getHeaderProps(column.getSortByToggleProps(), headerProps)}>{column.render('Header')}
                     {column.canResize && (
                       <div
                         {...column.getResizerProps()}
@@ -149,41 +141,39 @@ function Table({
                         }`}
                       />
                     )}
-                    {/* Add a sort direction indicator */}
-                    <span>
                     {column.isSorted ? (column.isSortedDesc ? "↑" : "↓") : ""}
-                    </span>
-                    {/* Render the columns filter UI */}
-                    <tr>{column.canFilter ? column.render('Filter') : null}</tr>
+                      <div>
+                      {column.canFilter ? column.render('Filter') : null}
+                      </div>
                   </th>
                 ))}
               </tr>
             ))}
-  
-          <tbody {...getTableBodyProps()}>
-            {page.map((row, i) => {
-              prepareRow(row);
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map(cell => {
-                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                  })}
-                </tr>
-              )
-            })}
-            <tr>
-              {loading ? (
-                // Use our custom loading state to show a loading indicator
-                <td colSpan="10000">Loading...</td>
-              ) : (
-                <td colSpan="10000">
-                  Showing {page.length} of ~{pageCount * pageSize}{' '}
-                  results
-                </td>
-              )}
-            </tr>
-          </tbody>
-        </table>
+          </thead>
+        <tbody {...getTableBodyProps()}>
+          {page.map((row, i) => {
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()}>
+                {row.cells.map(cell => {
+                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                })}
+              </tr>
+            )
+          })}
+          <tr>
+            {loading ? (
+              // Use our custom loading state to show a loading indicator
+              <td colSpan="10">Loading...</td>
+            ) : (
+              <td colSpan="10">
+                Showing {page.length} of ~{pageCount * pageSize}{' '}
+                results
+              </td>
+            )}
+          </tr>
+        </tbody>
+      </table>
         <div className="pagination">
           <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
             {'<<'}
