@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment, useReducer, createContext, useContext } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { ToastContainer, toast } from "react-toastify"
@@ -35,28 +35,61 @@ import Spellings from './Spellings'
 //   const token = localStorage.getItem('TOKEN')
 //   return token ? true : false
 // }
+const UserContext = createContext();
 
+export const useUser = () => {
+  const contextValue = useContext(UserContext);
+  return contextValue;
+};
 
-class App extends Component {
-  componentDidMount () {
+function App (loading) {
+
+/*   componentDidMount () {
     this.props.dispatch(handleInitialAppData(this.props.client))
     const token = localStorage.getItem('TOKEN')
     if (token) {
       this.props.dispatch(handleUserInfo(this.props.client))
     }
+  } */
+  const initialState = {};
+  const reducer = (state, action) => {
+    const user = {
+      "id": "1",
+      "first": "Original",
+      "last": "Data",
+      "username": "original",
+      "email": "colrc@gmail.com",
+      "password": "colrc@gmail.com",
+      "roles": [
+        "admin"
+      ], 
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJjb2xyY0BnbWFpbC5jb20iLCJ1c2VybmFtZSI6Im9yaWdpbmFsIiwiaWF0IjoxNTgzNDQ3Mjk1LCJleHAiOjE1ODM3MDY0OTV9.ZS0RJlj3z44YtrvqoLIzxdWgzWYjpbtLrt-N88l7q7Q"
+    }
+    return user
   }
 
 
-  render() {
-    return (
 
+  const UserProvider = ({ children }) => {
+    const contextValue = useReducer(reducer, initialState);
+    return (
+      <UserContext.Provider value={contextValue}>
+        {children}
+      </UserContext.Provider>
+    );
+  };
+
+
+
+    return (
+      <UserProvider>
         <Router>
           <Fragment>
             <div className='container'>
               <NavBar>
               <Banner />
               <LoadingBar />
-              {this.props.loading === true
+              {loading === true
                 ? null
                 : <div>
                     <Route path='/register' component={Register} />
@@ -83,27 +116,25 @@ class App extends Component {
             </div>
           </Fragment>
         </Router>
-
+      </UserProvider>
     )
-  }
 }
 
-function mapStateToProps ({ stems, roots, affixes, texts, audiosets, spellings, errors }) {
+/* function mapStateToProps ({ stems, roots, affixes, texts, audiosets, spellings, errors }) {
   return {
     loading: stems === null || roots === null || affixes === null || texts === null || audiosets === null || spellings === null,
     errors: errors
   }
-}
+} */
 
-class Footer extends Component {
-  render() {
+function Footer () {
     return (
       <div className='centered footer'>
         <p>coeur d'alene online language resource center copyright 2009</p>
         <p>project supported by the national science foundation awards BCS-1160627 and BCS-1160394 and the national endowment for the humanities award PD-261031-18.</p>
       </div>
     );
-  }
 }
 
-export default connect(mapStateToProps)(App)
+//export default connect(mapStateToProps)(App)
+export default App
