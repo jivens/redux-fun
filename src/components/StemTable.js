@@ -252,6 +252,7 @@ function StemTable({stemData}) {
         accessor: 'category',
         Filter: SelectColumnFilter,
         filter: 'includes',
+        Cell: ({ cell: { value } }) => (<DecoratedTextSpan str={value} />),
         show: true,
       },
       {
@@ -265,26 +266,31 @@ function StemTable({stemData}) {
         Header: 'Doak',
         accessor: 'doak',
         filter: 'fuzzyText',
+        Cell: ({ cell: { value } }) => (<DecoratedTextSpan str={value} />),
         show: false,
       },
       {
         Header: 'Salish',
         accessor: 'salish',
+        Cell: ({ cell: { value } }) => (<DecoratedTextSpan str={value} />),
         show: false,
       },
       {
         Header: 'Nicodemus',
         accessor: 'nicodemus',
+        Cell: ({ cell: { value } }) => (<DecoratedTextSpan str={value} />),
         show: true,
       },
       {
         Header: 'English',
         accessor: 'english',
+        Cell: ({ cell: { value } }) => (<DecoratedTextSpan str={value} />),
         show: true,
       },
       {
         Header: 'Note',
         accessor: 'note',
+        Cell: ({ cell: { value } }) => (<DecoratedTextSpan str={value} />),
         show: false,
       },
       {
@@ -292,12 +298,14 @@ function StemTable({stemData}) {
         accessor: 'user.username',
         Filter: SelectColumnFilter,
         filter: 'includes',
+        Cell: ({ cell: { value } }) => (<DecoratedTextSpan str={value} />),
         show: false,
       },
       {
         Header: 'Active',
         accessor: 'active',
         filter: 'fuzzyText',
+        Cell: ({ cell: { value } }) => (<DecoratedTextSpan str={value} />),
         show: false,
       },
       {
@@ -305,6 +313,7 @@ function StemTable({stemData}) {
         filterable: false,
         sortable: false,
         width: 100,
+        Cell: ({ cell: { value } }) => (<DecoratedTextSpan str={value} />),
         show: false,
         Cell: ({row, original}) => (
           <div>
