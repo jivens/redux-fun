@@ -23,7 +23,7 @@
     "react-redux": "^5.1.2",
     "react-redux-loading": "^1.0.1",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "1.1.1",
+    "react-scripts": "5.0.1",
     "react-simple-keyboard": "^2.2.18",
     "react-table": "^6.10.3",
     "react-table7": "npm:react-table@^7.0.0-rc.15",
